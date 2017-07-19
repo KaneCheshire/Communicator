@@ -1,16 +1,16 @@
 //
-//  ViewController.swift
-//  Communicator
+//  InterfaceController.swift
+//  WatchExample Extension
 //
-//  Created by Kane Cheshire on 07/19/2017.
-//  Copyright (c) 2017 Kane Cheshire. All rights reserved.
+//  Created by Kane Cheshire on 19/07/2017.
+//  Copyright © 2017 CocoaPods. All rights reserved.
 //
 
-import UIKit
+import WatchKit
 import Communicator
 
-class ViewController: UIViewController {
-
+class InterfaceController: WKInterfaceController {
+    
     @IBAction func sendMessageTapped() {
         let message = Message(identifier: "message", content: ["hello" : "world"], replyHandler: { replyJSON in
             print("Received reply from message: \(replyJSON)")
@@ -40,5 +40,5 @@ class ViewController: UIViewController {
         }
     }
     
-}
 
+}

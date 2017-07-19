@@ -1,0 +1,16 @@
+PODS:
+  - Communicator (0.1.0)
+
+DEPENDENCIES:
+  - Communicator (from `../`)
+
+EXTERNAL SOURCES:
+  Communicator:
+    :path: ../
+
+SPEC CHECKSUMS:
+  Communicator: af7cfb04c130c523547ad0c4e848d7d7d0bdbc8a
+
+PODFILE CHECKSUM: dbebf98ec9cb648bbafbd21cd01103ffc2976969
+
+COCOAPODS: 1.2.1

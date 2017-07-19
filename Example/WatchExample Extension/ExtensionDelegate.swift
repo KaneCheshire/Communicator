@@ -1,31 +1,26 @@
 //
-//  AppDelegate.swift
-//  Communicator
+//  ExtensionDelegate.swift
+//  WatchExample Extension
 //
-//  Created by Kane Cheshire on 07/19/2017.
-//  Copyright (c) 2017 Kane Cheshire. All rights reserved.
+//  Created by Kane Cheshire on 19/07/2017.
+//  Copyright © 2017 CocoaPods. All rights reserved.
 //
 
-import UIKit
+import WatchKit
 import Communicator
 
-@UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class ExtensionDelegate: NSObject, WKExtensionDelegate {
 
-    var window: UIWindow?
-    
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func applicationDidFinishLaunching() {
         setupObservers()
-        return true
     }
 
 }
 
-private extension AppDelegate {
+private extension ExtensionDelegate {
     
     func setupObservers() {
         setupActivationStateChangedObservers()
-        setupWatchStateChangedObservers()
         setupReachabilityChangedObservers()
         setupMessageReceivedObservers()
         setupBlobReceivedObservers()
@@ -38,12 +33,6 @@ private extension AppDelegate {
         }
     }
     
-    private func setupWatchStateChangedObservers() {
-        Communicator.shared.watchStateUpdatedObservers.add { watchState in
-           print("Watch state changed: \(watchState)")
-        }
-    }
-    
     private func setupReachabilityChangedObservers() {
         Communicator.shared.reachabilityChangedObservers.add { isReachable in
             print("Reachability changed: \(isReachable ? "is" : "is not") reachable")
@@ -53,7 +42,7 @@ private extension AppDelegate {
     private func setupMessageReceivedObservers() {
         Communicator.shared.messageReceivedObservers.add { message in
             print("Received message: \(message)")
-            message.replyHandler?(["Reply" : "Message"])
+            message.replyHandler?(["Replied!" : "Message"])
         }
     }
     
@@ -67,8 +56,6 @@ private extension AppDelegate {
         Communicator.shared.contextUpdatedObservers.add { context in
             print("Received context: \(context)")
         }
-    
     }
     
 }
-

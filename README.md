@@ -1,6 +1,6 @@
 # Communicator
 
-[![CI Status](http://img.shields.io/travis/Kane Cheshire/Communicator.svg?style=flat)](https://travis-ci.org/Kane Cheshire/Communicator)
+[![CI Status](http://img.shields.io/travis/KaneCheshire/Communicator.svg?style=flat)](https://travis-ci.org/KaneCheshire/Communicator)
 [![Version](https://img.shields.io/cocoapods/v/Communicator.svg?style=flat)](http://cocoapods.org/pods/Communicator)
 [![License](https://img.shields.io/cocoapods/l/Communicator.svg?style=flat)](http://cocoapods.org/pods/Communicator)
 [![Platform](https://img.shields.io/cocoapods/p/Communicator.svg?style=flat)](http://cocoapods.org/pods/Communicator)
@@ -22,7 +22,7 @@ pod "Communicator"
 
 ## Author
 
-Kane Cheshire, kane.cheshire@googlemail.com
+Kane Cheshire, @kanecheshire
 
 ## License
 

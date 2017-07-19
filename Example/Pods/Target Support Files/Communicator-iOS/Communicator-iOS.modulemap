@@ -1,0 +1,6 @@
+framework module Communicator {
+  umbrella header "Communicator-iOS-umbrella.h"
+
+  export *
+  module * { export * }
+}

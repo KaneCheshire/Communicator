@@ -8,4 +8,10 @@ target 'Communicator_Example' do
 
     
   end
+  
+
+end
+
+target 'WatchExample Extension' do
+    pod 'Communicator', :path => '../'
 end
