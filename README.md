@@ -9,21 +9,19 @@
 
 Sending messages and data between watchOS and iOS apps
 is possible thanks to Apple's work on `WatchConnectivity`,
-however there are a lot of delegate callbacks to work with
+however there are a lot of delegate callbacks to work with,
 plus some of the API calls are similar and it's not really
 clear which is needed for what purpose.
 
-Communicator means you don't have to spend any time writing
-a cross-platform wrapper around this and is extremely easy
-to use.
+`Communicator` means you don't have to spend any time writing a cross-platform wrapper around `WatchConnectivity` and is extremely easy to use.
 
-Each app gets its own shared Communicator object:
+Each app gets its own shared `Communicator` object to use which handles all the underlying session stuff:
 
 ```swift
 Communicator.shared
 ```
 
-And usage between the two platforms is identical, so you can
+Usage between the two platforms is identical, so you can
 use it in a shared framework with no workarounds.
 
 Here's how you send a simple message with Communicator.
@@ -44,6 +42,8 @@ Communicator.shared.messageReceivedObservers.add { message in
     }
 }
 ```
+
+The great thing about using this style of observing means that you can observe these messages from anywhere in your app and filter out the ones you don't care about.
 
 `Communicator` can also transfer `Blob`s and sync `Context`s.
 
