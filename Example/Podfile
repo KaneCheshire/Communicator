@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'Communicator_Example' do
+  pod 'Communicator', :path => '../'
+
+  target 'Communicator_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
