@@ -61,7 +61,7 @@ changes to the console. They set up these observers early on in the app, which i
 observers of things that may have transferred while
 the app was terminated, like Blobs.
 
-Each app has some simple buttons which kick off sending a Message (with a reply handler), transferring a Blob and syncing a Context. Try running each target and seeing the output when you interact.
+Each app has some simple buttons which kick off sending a `Message` (with a reply handler), transferring a Blob and syncing a Context. Try running each target and seeing the output when you interact with the buttons.
 
 ## Requirements
 
