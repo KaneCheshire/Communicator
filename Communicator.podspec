@@ -23,7 +23,7 @@ are perfect for syncing settings between devices.
   s.author           = { 'Kane Cheshire' => 'kane.cheshire@googlemail.com' }
   s.source           = { :git => 'https://github.com/KaneCheshire/Communicator.git', :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/kanecheshire'
-  s.platforms = { :ios => "9.3", :watchos => "3.2" }
+  s.platforms = { :ios => "9.3", :watchos => "2.2" }
   s.source_files = 'Communicator/Classes/**/*'
   s.frameworks = 'WatchConnectivity'
 end
