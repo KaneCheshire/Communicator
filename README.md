@@ -66,7 +66,7 @@ Communicator.shared
 The APIs between iOS and watchOS are almost identical, so
 you can use `Communicator` anywhere, including in a shared iOS-watchOS framework.
 
-`Communicator` uses `ObserverSet`s to notify observers/listeners when events occur, like a Message being sent or the activation state of the underlying session changing.
+`Communicator` uses `ObserverSet`s to notify observers/listeners when events occur, like a `Message` being sent or the activation state of the underlying session changing.
 
 ### `Message`
 
@@ -140,7 +140,7 @@ Communicator.shared.blobReceivedObservers.add { blob in
 }
 ```
 
-You can also assign a completion handler when creating a blob, which will give you an error of an error was detected by the system.
+You can also assign a completion handler when creating a blob, which will give you an error if an error was detected by the system.
 
 ### `Context`
 
