@@ -112,6 +112,8 @@ try? Communicator.shared.send(guaranteedMessage: message)
 
 Because the messages are queued, they could be received in a stream on the receiving device when it's able to process them.
 
+On watchOS, receiving a "guaranteed" `Message` while in the background can cause the system to generate a `WKWatchConnectivityRefreshBackgroundTask` which you are responsible for handling in your `ExtensionDelegate`.
+
 ### `Blob`
 
 A `Blob` is very similar to a `Message` but is better suited to sending larger bits of data. A `Blob` is created with an `identifier` but instead of assigning a JSON dictionary as the content, you assign pure `Data` instead.
@@ -137,12 +139,14 @@ On the receiving device you listen for new `Blob`s. Because these `Blob`s can of
 Communicator.shared.blobReceivedObservers.add { blob in
     if blob.identifier == "JourneyHistory" {
       let JourneyHistoryData: Data = blob.content
-      // -- Do something with the data -- //
+      // ... do something with the data ... //
     }
 }
 ```
 
-You can also assign a completion handler when creating a blob, which will give you an error if an error was detected by the system.
+You can also assign a completion handler when creating a `Blob`, which will give you an error if an error was detected by the system.
+
+On watchOS, receiving a `Blob` while in the background can cause the system to generate a `WKWatchConnectivityRefreshBackgroundTask` which you are responsible for handling in your `ExtensionDelegate`.
 
 ### `Context`
 
@@ -165,6 +169,8 @@ Communicator.shared.contextUpdatedObservers.add { context in
   }
 }
 ```
+
+On watchOS, receiving a `Context` while in the background can cause the system to generate a `WKWatchConnectivityRefreshBackgroundTask` which you are responsible for handling in your `ExtensionDelegate`.
 
 ### `WatchState`
 
@@ -204,10 +210,10 @@ Whether the currently paired watch has one of your complications enabled:
 watchState.isComplicationEnabled
 ```
 
-The number of complication transfers available today:
+The number of complication info transfers available today:
 
 ```swift
-watchState.numberOfComplicationUserInfoTransfersAvailable // This will be -1 on anything older than iOS 10
+watchState.numberOfComplicationInfoTransfersAvailable // This will be -1 on anything older than iOS 10
 ```
 
 And also, you can query a URL which points to a directory on the iOS device specific to the currently paired watch.
@@ -217,16 +223,47 @@ You can use this directory to store things specific to that watch, which you don
 watchState.watchSpecificDirectoryURL
 ```
 
+### `ComplicationInfo`
+
+A `ComplicationInfo` can only be sent from an iOS device, and can only be received on a watchOS device.
+Its purpose is to wake the watchOS to process the data and update its complication. At the time of writing
+your iOS can do this 50 times a day, and you can query the `currentWatchState` of the shared `Communicator` object
+on iOS to find out how many remaining updates you have left.
+
+Just like a `Context`, a `ComplicationInfo` has no identifier and its content is a JSON dictionary:
+
+```swift
+let json: JSONDictionary = ["NumberOfStepsWalked" : 1000]
+let complicationInfo = ComplicationInfo(content: json)
+```
+
+And you send it from the iOS app like this:
+
+```swift
+try? Communicator.shared.transfer(complicationInfo: complicationInfo)
+```
+
+On the watchOS side you observe new `ComplicationInfo`s being received. Just like other transfers that may happen
+in the background, it's a good idea to observe these early on, like in the `ExtensionDelegate`:
+
+```swift
+Communicator.shared.complicationInfoReceivedObservers.add { complicationInfo in
+    print("Received complication info: \(complicationInfo)")
+    // ... update your complications ... //
+}
+```
+
+You are responsible for handling and completing any `WKWatchConnectivityRefreshBackgroundTask` handed to your `ExtensionDelegate` as a result of transferring a `ComplicationInfo`, which is why observing these updates in the `ExtensionDelegate` is recommended.
+
 ## Example
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
-The watchOS and iOS example apps set up observers for new messages, blobs, reachability changes etc and prints out any
+The watchOS and iOS example apps set up observers for new `Message`s, `Blob`s, reachability changes etc and prints out any
 changes to the console. They set up these observers early on in the app, which is recommended for state changes and
-observers of things that may have transferred while
-the app was terminated, like Blobs.
+observers of things that may have transferred while the app was terminated, like `Blob`s.
 
-Each app has some simple buttons which kick off sending a `Message` (with a reply handler), transferring a Blob and syncing a Context. Try running each target and seeing the output when you interact with the buttons.
+Each app has some simple buttons which kick off sending a `Message` (with a reply handler), transferring a `Blob` and syncing a `Context`. Try running each target and seeing the output when you interact with the buttons.
 
 ## Requirements
 

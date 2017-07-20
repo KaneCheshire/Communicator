@@ -21,7 +21,7 @@ public struct WatchState {
     public let isComplicationEnabled: Bool
     /// The amount of complication updates you can make from your iOS app.
     /// On iOS versions before iOS 10 this will be -1.
-    public let numberOfComplicationUserInfoTransfersAvailable: Int
+    public let numberOfComplicationInfoTransfersAvailable: Int
     /// Represents a system-defined URL pointing to a directory on the
     /// user's iPhone which you can write items to specific to a
     /// particular watch. When the user switches watches, this URL will change,
