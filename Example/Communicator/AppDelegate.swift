@@ -34,7 +34,7 @@ private extension AppDelegate {
     
     private func setupActivationStateChangedObservers() {
         Communicator.shared.activationStateChangedObservers.add { state in
-            print("Activation state changed: \(state.rawValue)")
+            print("Activation state changed: \(state)")
         }
     }
     

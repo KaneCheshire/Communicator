@@ -21,37 +21,68 @@ public final class Communicator: NSObject {
         case sessionIsNotActive
     }
     
+    /// Represents the current state of the communcation session.
+    ///
+    /// - notActivated: The communication has not been activated yet.
+    /// - inactive: The communication has been activated but is currently inactive.
+    /// - activated: The communication session is activated and usable.
+    public enum State {
+        case notActivated
+        case inactive
+        case activated
+    }
+    
     /// The shared communicaator object.
     public static let shared = Communicator()
     
     // MARK: - Properties -
     // MARK: Public
     
+    public var currentState: State {
+        return session.activationState.equivalentCommunicatorState
+    }
+    
     /// Observers are notified when the communication session state changes.
     /// This may not be called on the main queue.
-    public let activationStateChangedObservers = ObserverSet<WCSessionActivationState>()
+    public let activationStateChangedObservers = ObserverSet<State>()
+    
     /// Observers are notified when the counterpart app becomes reachable or unreachable.
     /// This may not be called on the main queue.
     public let reachabilityChangedObservers = ObserverSet<Bool>()
+    
     /// Observers are notified when a new Message is received.
     /// This may not be called on the main queue.
     public let messageReceivedObservers = ObserverSet<Message>()
+    
     /// Observers are notified when a new Blob is received.
     /// This may not be called on the main queue.
     public let blobReceivedObservers = ObserverSet<Blob>()
+    
     /// Observers are notified when a new Context is received.
     /// This may not be called on the main queue.
     public let contextUpdatedObservers = ObserverSet<Context>()
+    
     /// This can be queried for the latest Context that has been received on this device.
     /// The Context may have empty content if no Context has been received from 
     /// the counterpart.
     public var mostRecentlyReceievedContext: Context {
         return Context(content: session.receivedApplicationContext)
     }
+    
     /// This can be queried for the latest Context that has been sent by this device.
     /// The Context may have empty content if no Context has been sent from this device.
     public var mostRecentlySentContext: Context {
         return Context(content: session.applicationContext)
+    }
+    
+    /// Whether the underlying session still has data to send you.
+    /// This always returns `false` on anything older than iOS 10.
+    public var hasPendingDataToBeReceived: Bool {
+        if #available(iOS 10.0, *), #available(watchOS 3.0, *) {
+            return session.hasContentPending
+        } else {
+            return false
+        }
     }
     
     #if os(iOS)
@@ -59,6 +90,8 @@ public final class Communicator: NSObject {
     /// Observers are notified when the communication session detects a WatchState change.
     /// This can mean the user has enabled a complication or installed the watch app, for example.
     public let watchStateUpdatedObservers = ObserverSet<WatchState>()
+    
+    /// Can be queried to return the current watch state, i.e. whether it's paired etc.
     public var currentWatchState: WatchState {
         if #available(iOS 10.0, *) {
             return WatchState(isPaired: session.isPaired, isWatchAppInstalled: session.isWatchAppInstalled, isComplicationEnabled: session.isComplicationEnabled, numberOfComplicationUserInfoTransfersAvailable: session.remainingComplicationUserInfoTransfers, watchSpecificDirectoryURL: session.watchDirectoryURL)
@@ -66,6 +99,13 @@ public final class Communicator: NSObject {
             return WatchState(isPaired: session.isPaired, isWatchAppInstalled: session.isWatchAppInstalled, isComplicationEnabled: session.isComplicationEnabled, numberOfComplicationUserInfoTransfersAvailable: -1, watchSpecificDirectoryURL: session.watchDirectoryURL)
         }
     }
+    
+    #endif
+    
+    #if os(watchOS)
+    
+    /// Observers are notified when a new ComplicationInfo has been received.
+    public let complicationInfoReceivedObservers = ObserverSet<ComplicationInfo>()
     
     #endif
     
@@ -101,7 +141,7 @@ public final class Communicator: NSObject {
     /// - Parameter immediateMessage: The Message to send immediately to the counterpart app.
     /// - Throws: ErrorType
     public func send(immediateMessage: Message) throws {
-        guard session.activationState == .activated else { throw ErrorType.sessionIsNotActive }
+        guard currentState == .activated else { throw ErrorType.sessionIsNotActive }
         session.sendMessage(immediateMessage.jsonRepresentation(), replyHandler: immediateMessage.replyHandler, errorHandler: immediateMessage.errorHandler)
     }
     
@@ -114,7 +154,7 @@ public final class Communicator: NSObject {
     /// - Parameter guaranteedMessage: The Message to queue and send to the counterpart app.
     /// - Throws: ErrorType
     public func transfer(guaranteedMessage: Message) throws {
-        guard session.activationState == .activated else { throw ErrorType.sessionIsNotActive }
+        guard currentState == .activated else { throw ErrorType.sessionIsNotActive }
         session.transferUserInfo(guaranteedMessage.jsonRepresentation())
     }
     
@@ -124,10 +164,10 @@ public final class Communicator: NSObject {
     /// necessary. The system can throttle Blob transfers if needed, so transfer speeds
     /// are not guaranteed.
     ///
-    /// - Parameter blob: <#blob description#>
-    /// - Throws: <#throws value description#>
+    /// - Parameter blob: The Blob to transfer.
+    /// - Throws: ErrorType
     public func transfer(blob: Blob) throws {
-        guard session.activationState == .activated else { throw ErrorType.sessionIsNotActive }
+        guard currentState == .activated else { throw ErrorType.sessionIsNotActive }
         let documentsDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
         let urlString = documentsDirectory.appending("/blob.data")
         let fileURL = URL(fileURLWithPath: urlString)
@@ -145,11 +185,34 @@ public final class Communicator: NSObject {
     /// - Parameter context: The Context to sync with the counterpart app.
     /// - Throws: ErrorType
     public func sync(context: Context) throws {
-        guard session.activationState == .activated else { throw ErrorType.sessionIsNotActive }
+        guard currentState == .activated else { throw ErrorType.sessionIsNotActive }
         try session.updateApplicationContext(context.content)
     }
     
+    #if os(iOS)
+    
+    /// Starts the transfer of a ComplicationInfo to a watchOS app. If the watchOS app is reachable
+    /// and the per-day limit of sending ComplicationInfo has not been reached, this method wakes
+    /// up your watchOS app in the background to process it. 
+    ///
+    /// If the limit for sending ComplicationInfo updates has been reached, the system queues the transfer
+    /// and will deliver it when the app is next brought into the foreground or when the per-day count
+    /// gets reset.
+    ///
+    /// Starting from iOS 10, you can query the remaining number of transfers available for the day by
+    /// checking the currentWatchState property.
+    ///
+    /// - Parameter complicationInfo: The ComplicationInfo to transfer.
+    /// - Throws: ErrorType
+    public func transfer(complicationInfo: ComplicationInfo) throws {
+        guard currentState == .activated else { throw ErrorType.sessionIsNotActive }
+        session.transferCurrentComplicationUserInfo(complicationInfo.jsonRepresentation())
+    }
+    
+    #endif
+    
 }
+
 
 /// Serves as the WCSessionDelegate to obfuscate the delegate methods.
 private final class CommunicatorSessionDelegate: NSObject, WCSessionDelegate {
@@ -174,7 +237,7 @@ private final class CommunicatorSessionDelegate: NSObject, WCSessionDelegate {
         session.activate()
     }
     
-    func sessionDidBecomeInactive(_ session: WCSession) {}
+    func sessionDidBecomeInactive(_ session: WCSession) {} // Required
     
     func sessionWatchStateDidChange(_ session: WCSession) {
         guard let watchState = communicator?.currentWatchState else { return }
@@ -184,7 +247,7 @@ private final class CommunicatorSessionDelegate: NSObject, WCSessionDelegate {
     #endif
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-        communicator?.activationStateChangedObservers.notify(activationState)
+        communicator?.activationStateChangedObservers.notify(activationState.equivalentCommunicatorState)
         guard activationState == .activated else { return }
         session.activate()
     }
@@ -201,16 +264,18 @@ private final class CommunicatorSessionDelegate: NSObject, WCSessionDelegate {
         communicator?.messageReceivedObservers.notify(message)
     }
     
-    func session(_ session: WCSession, didReceiveMessageData messageData: Data) {}
-    
-    func session(_ session: WCSession, didReceiveMessageData messageData: Data, replyHandler: @escaping (Data) -> Void) { replyHandler(Data()) }
-    
     // MARK: Receiving and sending userInfo/complication data
     
     
     func session(_ session: WCSession, didReceiveUserInfo userInfo: [String : Any] = [:]) {
-        guard let message = try? Message(jsonDictionary: userInfo) else { return }
-        communicator?.messageReceivedObservers.notify(message)
+        if let message = try? Message(jsonDictionary: userInfo) {
+            communicator?.messageReceivedObservers.notify(message)
+        }
+        #if os(watchOS)
+        if let complicationInfo = try? ComplicationInfo(jsonDictionary: userInfo) {
+            communicator?.complicationInfoReceivedObservers.notify(complicationInfo)
+        }
+        #endif
     }
     
     func session(_ session: WCSession, didFinish userInfoTransfer: WCSessionUserInfoTransfer, error: Error?) {

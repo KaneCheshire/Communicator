@@ -7,12 +7,42 @@
 //
 
 import WatchKit
+import ClockKit
 import Communicator
 
 class ExtensionDelegate: NSObject, WKExtensionDelegate {
 
+    // MARK: - Properties -
+    // MARK: Fileprivate
+    
+    fileprivate var watchConnectivityTask: WKWatchConnectivityRefreshBackgroundTask? {
+        didSet {
+            oldValue?.setTaskCompleted()
+        }
+    }
+    
+    // MARK: - WKExtensionDelegate -
+    
     func applicationDidFinishLaunching() {
         setupObservers()
+    }
+    
+    func handle(_ backgroundTasks: Set<WKRefreshBackgroundTask>) {
+        for task in backgroundTasks {
+            switch task {
+            case let task as WKApplicationRefreshBackgroundTask:
+                task.setTaskCompleted()
+            case let task as WKSnapshotRefreshBackgroundTask:
+                task.setTaskCompleted(restoredDefaultState: false, estimatedSnapshotExpiration: .distantFuture, userInfo: nil)
+            case let task as WKURLSessionRefreshBackgroundTask:
+                task.setTaskCompleted()
+            case let task as WKWatchConnectivityRefreshBackgroundTask:
+                watchConnectivityTask = task
+            default:
+                assertionFailure("Unhandled task!")
+                task.setTaskCompleted()
+            }
+        }
     }
 
 }
@@ -25,11 +55,11 @@ private extension ExtensionDelegate {
         setupMessageReceivedObservers()
         setupBlobReceivedObservers()
         setupContextUpdatedObservers()
+        setupComplicationInfoObservers()
     }
-    
     private func setupActivationStateChangedObservers() {
         Communicator.shared.activationStateChangedObservers.add { state in
-            print("Activation state changed: \(state.rawValue)")
+            print("Activation state changed: \(state)")
         }
     }
     
@@ -43,19 +73,39 @@ private extension ExtensionDelegate {
         Communicator.shared.messageReceivedObservers.add { message in
             print("Received message: \(message)")
             message.replyHandler?(["Replied!" : "Message"])
+            self.endWatchConnectivityBackgroundTaskIfNecessary()
         }
     }
     
     private func setupBlobReceivedObservers() {
         Communicator.shared.blobReceivedObservers.add { blob in
             print("Received blob: \(blob.identifier)")
+            self.endWatchConnectivityBackgroundTaskIfNecessary()
         }
     }
     
     private func setupContextUpdatedObservers() {
         Communicator.shared.contextUpdatedObservers.add { context in
             print("Received context: \(context)")
+            self.endWatchConnectivityBackgroundTaskIfNecessary()
         }
+    }
+    
+    private func setupComplicationInfoObservers() {
+        Communicator.shared.complicationInfoReceivedObservers.add { complicationInfo in
+            print("Received complication info: \(complicationInfo)")
+            CLKComplicationServer.sharedInstance().activeComplications?.forEach {
+                CLKComplicationServer.sharedInstance().reloadTimeline(for: $0)
+            }
+            self.endWatchConnectivityBackgroundTaskIfNecessary()
+        }
+    }
+    
+    private func endWatchConnectivityBackgroundTaskIfNecessary() {
+        // First check we're not expecting more data
+        guard !Communicator.shared.hasPendingDataToBeReceived else { return }
+        // And then end the task (if there is one!)
+        self.watchConnectivityTask?.setTaskCompleted()
     }
     
 }
