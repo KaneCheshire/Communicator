@@ -231,7 +231,7 @@ Each app has some simple buttons which kick off sending a `Message` (with a repl
 ## Requirements
 
 Communicator relies on `WatchConnectivity`, Apple's framework for communicating between iOS and watchOS apps,
-and in the future will also rely on `TABObserverSet` as an external dependency.
+and also heavily relies on `TABObserverSet` as an external dependency.
 
 Communicator requires iOS 9.3 and newer and watchOS 2.2 and newer.
 
