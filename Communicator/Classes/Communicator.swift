@@ -7,6 +7,7 @@
 //
 
 import WatchConnectivity
+import TABObserverSet
 
 public typealias JSONDictionary = [String : Any]
 
@@ -58,6 +59,13 @@ public final class Communicator: NSObject {
     /// Observers are notified when the communication session detects a WatchState change.
     /// This can mean the user has enabled a complication or installed the watch app, for example.
     public let watchStateUpdatedObservers = ObserverSet<WatchState>()
+    public var currentWatchState: WatchState {
+        if #available(iOS 10.0, *) {
+            return WatchState(isPaired: session.isPaired, isWatchAppInstalled: session.isWatchAppInstalled, isComplicationEnabled: session.isComplicationEnabled, numberOfComplicationUserInfoTransfersAvailable: session.remainingComplicationUserInfoTransfers, watchSpecificDirectoryURL: session.watchDirectoryURL)
+        } else {
+            return WatchState(isPaired: session.isPaired, isWatchAppInstalled: session.isWatchAppInstalled, isComplicationEnabled: session.isComplicationEnabled, numberOfComplicationUserInfoTransfersAvailable: -1, watchSpecificDirectoryURL: session.watchDirectoryURL)
+        }
+    }
     
     #endif
     
@@ -169,13 +177,8 @@ private final class CommunicatorSessionDelegate: NSObject, WCSessionDelegate {
     func sessionDidBecomeInactive(_ session: WCSession) {}
     
     func sessionWatchStateDidChange(_ session: WCSession) {
-        if #available(iOS 10.0, *) {
-            let watchState = WatchState(isPaired: session.isPaired, isWatchAppInstalled: session.isWatchAppInstalled, isComplicationEnabled: session.isComplicationEnabled, numberOfComplicationUserInfoTransfersAvailable: session.remainingComplicationUserInfoTransfers, watchSpecificDirectoryURL: session.watchDirectoryURL)
-            communicator?.watchStateUpdatedObservers.notify(watchState)
-        } else {
-            let watchState = WatchState(isPaired: session.isPaired, isWatchAppInstalled: session.isWatchAppInstalled, isComplicationEnabled: session.isComplicationEnabled, numberOfComplicationUserInfoTransfersAvailable: -1, watchSpecificDirectoryURL: session.watchDirectoryURL)
-            communicator?.watchStateUpdatedObservers.notify(watchState)
-        }
+        guard let watchState = communicator?.currentWatchState else { return }
+        communicator?.watchStateUpdatedObservers.notify(watchState)
     }
     
     #endif

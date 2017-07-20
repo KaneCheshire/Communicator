@@ -1,5 +1,7 @@
 PODS:
-  - Communicator (0.1.0)
+  - Communicator (1.0.0):
+    - TABObserverSet (= 1.1.1)
+  - TABObserverSet (1.1.1)
 
 DEPENDENCIES:
   - Communicator (from `../`)
@@ -9,7 +11,8 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  Communicator: af7cfb04c130c523547ad0c4e848d7d7d0bdbc8a
+  Communicator: da296d6293670e4d192e1cb1a86e18b6990464fa
+  TABObserverSet: a5107ff2b73427250cad40171b2f0f1a39c500bb
 
 PODFILE CHECKSUM: dbebf98ec9cb648bbafbd21cd01103ffc2976969
 

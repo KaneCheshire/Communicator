@@ -89,6 +89,8 @@ try? Communicator.shared.send(immediateMessage: message)
 
 Notice that we're using `immediateMessage` in the above example. This works well for rapid communication between two devices, but is limited to small amounts of data and will fail if either of the devices becomes unreachable during communication.
 
+If you send this from watchOS it will also wake up your iOS app in the background if it needs to.
+
 You can also assign a `replyHandler` to the message. On the sending device, this `replyHandler` is executed by the system when the receiving device executes it on its end.
 
 On the receiving device you listen for new messages, check the identifier and then execute the `replyHandler`, which will allow the system on the sending device to execute the `replyHandler` there. The `replyHandler` also expects a JSON dictionary just like the content of the message.
@@ -164,6 +166,56 @@ Communicator.shared.contextUpdatedObservers.add { context in
 }
 ```
 
+### `WatchState`
+
+`WatchState` is one of the only iOS-only elements of `Communicator`. It provides some information
+about the current state of the user's paired watch or watches, like whether a complication has been enabled
+or whether the watch app has been installed.
+
+You can observe any changes in the `WatchState` using the shared communicator object on iOS:
+
+```swift
+Communicator.shared.watchStateUpdatedObservers.add { watchState in
+   print("Watch state changed: \(watchState)")
+}
+```
+
+You can also query the current `WatchState` at any time from the iOS `Communicator`:
+
+```swift
+let watchState = Communicator.shared.currentWatchState
+```
+
+A `WatchState` will let you check if the user has a paired watch:
+
+```swift
+watchState.isPaired
+```
+
+Whether the currently paired watch has your watch app installed:
+
+```swift
+watchState.isWatchAppInstalled
+```
+
+Whether the currently paired watch has one of your complications enabled:
+
+```swift
+watchState.isComplicationEnabled
+```
+
+The number of complication transfers available today:
+
+```swift
+watchState.numberOfComplicationUserInfoTransfersAvailable // This will be -1 on anything older than iOS 10
+```
+
+And also, you can query a URL which points to a directory on the iOS device specific to the currently paired watch.
+You can use this directory to store things specific to that watch, which you don't want associated with the user's other watches. This directory (and anything in it) is automatically deleted by the system if the user uninstalls your watchOS app.
+
+```swift
+watchState.watchSpecificDirectoryURL
+```
 
 ## Example
 
