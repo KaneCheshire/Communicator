@@ -17,7 +17,7 @@
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Author](#author)
-- [Licence](#licence)
+- [License](#license)
 
 ## Introduction
 
