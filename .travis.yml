@@ -10,5 +10,4 @@ language: objective-c
 # - gem install cocoapods # Since Travis is not always on latest version
 # - pod install --project-directory=Example
 script:
-- rvm use 2.2.2  
-- set -o pipefail && xcodebuild test -workspace Example/Communicator.xcworkspace -scheme Communicator-Example -configuration Debug -sdk iphonesimulator -destination 'OS=10,name=iPhone SE' test | xcpretty
+- xcodebuild test -workspace Example/Communicator.xcworkspace -scheme Communicator-Example -configuration Debug -sdk iphonesimulator -destination 'OS=10.0,name=iPhone SE' test | xcpretty
