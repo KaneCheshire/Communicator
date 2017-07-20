@@ -7,7 +7,17 @@
 
 - [Introduction](#introduction)
 - [Usage](#usage)
+  - [`Communicator`](#communicator-1)
   - [`Message`](#message)
+  - [`Blob`](#blob)
+  - [`Context`](#context)
+  - [`WatchState`](#watchstate)
+  - [`ComplicationInfo`](#complicationinfo)
+- [Example](#example)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Author](#author)
+- [Licence](#licence)
 
 ## Introduction
 
