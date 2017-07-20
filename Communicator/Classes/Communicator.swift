@@ -94,9 +94,9 @@ public final class Communicator: NSObject {
     /// Can be queried to return the current watch state, i.e. whether it's paired etc.
     public var currentWatchState: WatchState {
         if #available(iOS 10.0, *) {
-            return WatchState(isPaired: session.isPaired, isWatchAppInstalled: session.isWatchAppInstalled, isComplicationEnabled: session.isComplicationEnabled, numberOfComplicationUserInfoTransfersAvailable: session.remainingComplicationUserInfoTransfers, watchSpecificDirectoryURL: session.watchDirectoryURL)
+            return WatchState(isPaired: session.isPaired, isWatchAppInstalled: session.isWatchAppInstalled, isComplicationEnabled: session.isComplicationEnabled, numberOfComplicationInfoTransfersAvailable: session.remainingComplicationUserInfoTransfers, watchSpecificDirectoryURL: session.watchDirectoryURL)
         } else {
-            return WatchState(isPaired: session.isPaired, isWatchAppInstalled: session.isWatchAppInstalled, isComplicationEnabled: session.isComplicationEnabled, numberOfComplicationUserInfoTransfersAvailable: -1, watchSpecificDirectoryURL: session.watchDirectoryURL)
+            return WatchState(isPaired: session.isPaired, isWatchAppInstalled: session.isWatchAppInstalled, isComplicationEnabled: session.isComplicationEnabled, numberOfComplicationInfoTransfersAvailable: -1, watchSpecificDirectoryURL: session.watchDirectoryURL)
         }
     }
     
