@@ -67,7 +67,6 @@ private extension AppDelegate {
         Communicator.shared.contextUpdatedObservers.add { context in
             print("Received context: \(context)")
         }
-    
     }
     
 }

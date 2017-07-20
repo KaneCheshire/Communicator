@@ -52,6 +52,119 @@ is terminated during transfer.
 
 You can use a `Context` to keep things in sync between devices, which makes it perfect for preferences. `Context`s are not suitable for messaging or sending large data.
 
+## Usage
+
+### `Communicator`
+
+Each app has its own shared `Communicator` object which it
+should use to communicate with the counterpart app.
+
+```swift
+Communicator.shared
+```
+
+The APIs between iOS and watchOS are almost identical, so
+you can use `Communicator` anywhere, including in a shared iOS-watchOS framework.
+
+`Communicator` uses `ObserverSet`s to notify observers/listeners when events occur, like a Message being sent or the activation state of the underlying session changing.
+
+### `Message`
+
+A `Message` is a simple object comprising of an identifier string of your choosing, and a JSON dictionary as content.
+
+The keys of the JSON dictionary must be strings, and the values must be plist-types. That means anything you can save to `UserDefaults`; `String`, `Int`, `Data` etc. You also _cannot_ send large amounts of data between devices using a `Message` because the system will reject it. Instead, use a `Blob` for sending large amounts of data.
+
+This is how you create a simple `Message`:
+
+```swift
+let json: JSONDictionary = ["TotalDistanceTravelled" : 10000.000]
+let message = Message(identifier: "JourneyComplete", content: json)
+```
+
+And this is how you send it:
+
+```swift
+try? Communicator.shared.send(immediateMessage: message)
+```
+
+Notice that we're using `immediateMessage` in the above example. This works well for rapid communication between two devices, but is limited to small amounts of data and will fail if either of the devices becomes unreachable during communication.
+
+You can also assign a `replyHandler` to the message. On the sending device, this `replyHandler` is executed by the system when the receiving device executes it on its end.
+
+On the receiving device you listen for new messages, check the identifier and then execute the `replyHandler`, which will allow the system on the sending device to execute the `replyHandler` there. The `replyHandler` also expects a JSON dictionary just like the content of the message.
+
+```swift
+Communicator.shared.messageReceivedObservers.add { message in
+    if message.identifier == "JourneyComplete" {
+      let replyJSON: JSONDictionary = ["JourneyProcessed" : true]
+      message.replyHandler?(replyJSON)
+    }
+}
+```
+
+You can also choose to send a message using the `guaranteed` method, however with this method the `replyHandler` is ignored even if you execute it on the receiving device. This is because messages can be queued while the receiving device is not currently receiving messages, so they're queued until the session is next created:
+
+```swift
+try? Communicator.shared.send(guaranteedMessage: message)
+```
+
+Because the messages are queued, they could be received in a stream on the receiving device when it's able to process them.
+
+### `Blob`
+
+A `Blob` is very similar to a `Message` but is better suited to sending larger bits of data. A `Blob` is created with an `identifier` but instead of assigning a JSON dictionary as the content, you assign pure `Data` instead.
+
+This is how you create a `Blob`:
+
+```swift
+let largeData: Data = getJourneyHistoryData()
+let blob = Blob(identifier: "JourneyHistory", content: largeData)
+```
+
+And this is how you transfer it to the other device:
+
+```swift
+try? Communicator.shared.transfer(blob: blob)
+```
+
+Because a `Blob` can be much larger than a `Message`, it might take significantly longer to send. The system handles this, and continues to send it even if the sending device becomes unreachable before it has completed.
+
+On the receiving device you listen for new `Blob`s. Because these `Blob`s can often be queued waiting for the session to start again, `Communicator` will often notify observers very early on. This makes it a good idea to start observing for `Blob`s as soon as possible, like in the `AppDelegate` or `ExtensionDelegate`.
+
+```swift
+Communicator.shared.blobReceivedObservers.add { blob in
+    if blob.identifier == "JourneyHistory" {
+      let JourneyHistoryData: Data = blob.content
+      // -- Do something with the data -- //
+    }
+}
+```
+
+You can also assign a completion handler when creating a blob, which will give you an error of an error was detected by the system.
+
+### `Context`
+
+A `Context` is a very lightweight object. A `Context` can be send and received by either device, and the system stores the last sent/received `Context` that you can query at any time. This makes it ideal for syncing lightweight things like preferences between devices.
+
+A `Context` has no identifier, and simply takes a JSON dictionary as content. Like a `Message`, this content must be primitive types like `String`, `Int`, `Data` etc, and must not be too large or the system will reject it:
+
+```swift
+let json: JSONDictionary = ["ShowTotalDistance" : true]
+let context = Context(content: json)
+try? Communicator.shared.sync(context: context)
+```
+
+On the receiving device you listen for new `Context`s:
+
+```swift
+Communicator.shared.contextUpdatedObservers.add { context in
+  if let shouldShowTotalDistance = context.content["ShowTotalDistance"] as? Bool {
+    print("Show total distance setting changed: \(shouldShowTotalDistance)")
+  }
+}
+```
+
+
 ## Example
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
