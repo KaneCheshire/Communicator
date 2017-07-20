@@ -11,4 +11,3 @@ language: objective-c
 # - pod install --project-directory=Example
 script:
 - set -o pipefail && xcodebuild test -workspace Example/Communicator.xcworkspace -scheme Communicator-Example -configuration Debug -sdk iphonesimulator -destination 'OS=10,name=iPhone SE' test | xcpretty
-- pod lib lint
