@@ -5,13 +5,13 @@
 [![License](https://img.shields.io/cocoapods/l/Communicator.svg?style=flat)](http://cocoapods.org/pods/Communicator)
 [![Platform](https://img.shields.io/cocoapods/p/Communicator.svg?style=flat)](http://cocoapods.org/pods/Communicator)
 
+- [Introduction](#introduction)
+- [Usage](#usage)
+  - [`Message`](#message)
+
 ## Introduction
 
-Sending messages and data between watchOS and iOS apps
-is possible thanks to Apple's work on `WatchConnectivity`,
-however there are a lot of delegate callbacks to work with,
-plus some of the API calls are similar and it's not really
-clear which is needed for what purpose.
+Sending messages and data between watchOS and iOS apps is possible thanks to Apple's work on `WatchConnectivity`, however there are a _lot_ of delegate callbacks to work with, and some of the API calls are quite similar and it's not really clear which is needed and for what purpose.
 
 `Communicator` means you don't have to spend any time writing a cross-platform wrapper around `WatchConnectivity` and is extremely easy to use.
 
@@ -21,10 +21,9 @@ Each app gets its own shared `Communicator` object to use which handles all the 
 Communicator.shared
 ```
 
-Usage between the two platforms is identical, so you can
-use it in a shared framework with no workarounds.
+Usage between the two platforms is essentially identical, so you can use it in a shared framework with no workarounds.
 
-Here's how you send a simple message with Communicator.
+Here's how you send a simple message with `Communicator`.
 
 ```swift
 let message = Message(identifier: "1234", content: ["messageKey" : "This is some message content!"])
@@ -43,7 +42,7 @@ Communicator.shared.messageReceivedObservers.add { message in
 }
 ```
 
-The great thing about using this style of observing means that you can observe these messages from anywhere in your app and filter out the ones you don't care about.
+You can observe these messages from anywhere in your app and filter out the ones you don't care about.
 
 `Communicator` can also transfer `Blob`s and sync `Context`s.
 
@@ -52,12 +51,13 @@ is terminated during transfer.
 
 You can use a `Context` to keep things in sync between devices, which makes it perfect for preferences. `Context`s are not suitable for messaging or sending large data.
 
+Lastly, you can update your watchOS complication from your iOS by transferring a `ComplicationInfo`. You get a limited number of `ComplicationInfo` transfers a day, and you can easily query the remaining number of transfers available by getting the `currentWatchState` object and inspecting the `numberOfComplicationInfoTransfersAvailable` property.
+
 ## Usage
 
 ### `Communicator`
 
-Each app has its own shared `Communicator` object which it
-should use to communicate with the counterpart app.
+Each app has its own shared `Communicator` object which it should use to communicate with the counterpart app.
 
 ```swift
 Communicator.shared
@@ -66,7 +66,7 @@ Communicator.shared
 The APIs between iOS and watchOS are almost identical, so
 you can use `Communicator` anywhere, including in a shared iOS-watchOS framework.
 
-`Communicator` uses `ObserverSet`s to notify observers/listeners when events occur, like a `Message` being sent or the activation state of the underlying session changing.
+`Communicator` uses `ObserverSet`s to notify observers/listeners when events occur, like a `Message` being received, or the activation state of the underlying session changing.
 
 ### `Message`
 
