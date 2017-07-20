@@ -17,6 +17,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     
     fileprivate var watchConnectivityTask: WKWatchConnectivityRefreshBackgroundTask? {
         didSet {
+            print("watchConnectivityTask set")
             oldValue?.setTaskCompleted()
         }
     }

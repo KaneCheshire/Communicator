@@ -24,7 +24,7 @@ class ViewController: UIViewController {
             if let error = error {
                 print("Error transferring blob: \(error.localizedDescription)")
             } else {
-                print("Successfully transferred blob to phone")
+                print("Successfully transferred blob to watch")
             }
         })
         try? Communicator.shared.transfer(blob: blob)
@@ -34,10 +34,16 @@ class ViewController: UIViewController {
         let context = Context(content: ["hello" : "world"])
         do {
             try Communicator.shared.sync(context: context)
-            print("Synced context to phone")
+            print("Synced context to watch")
         } catch let error {
-            print("Error syncing context to phone: \(error.localizedDescription)")
+            print("Error syncing context to watch: \(error.localizedDescription)")
         }
+    }
+    
+    @IBAction func transferComplicationInfoTapped() {
+        let complicationInfo = ComplicationInfo(content: ["Value" : 1])
+        try? Communicator.shared.transfer(complicationInfo: complicationInfo)
+        print("Number of complication transfers available today: \(Communicator.shared.currentWatchState.numberOfComplicationInfoTransfersAvailable)")
     }
     
 }

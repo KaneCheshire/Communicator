@@ -29,28 +29,37 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Nf-Ge-lD1">
-                                <rect key="frame" x="142" y="180" width="91" height="30"/>
+                                <rect key="frame" x="142" y="178" width="91" height="30"/>
                                 <state key="normal" title="Transfer blob"/>
                                 <connections>
                                     <action selector="transferBlobTapped" destination="vXZ-lx-hvc" eventType="touchUpInside" id="CTv-eQ-a3b"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zop-3c-FNF">
-                                <rect key="frame" x="142" y="234" width="90" height="30"/>
+                                <rect key="frame" x="142" y="232" width="90" height="30"/>
                                 <state key="normal" title="Sync context"/>
                                 <connections>
                                     <action selector="syncContextTapped" destination="vXZ-lx-hvc" eventType="touchUpInside" id="pt8-tX-Eib"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tj7-H2-Bl7">
+                                <rect key="frame" x="98" y="286" width="178" height="30"/>
+                                <state key="normal" title="Transfer complication info"/>
+                                <connections>
+                                    <action selector="transferComplicationInfoTapped" destination="vXZ-lx-hvc" eventType="touchUpInside" id="OQt-5a-7J9"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="tj7-H2-Bl7" firstAttribute="centerX" secondItem="Zop-3c-FNF" secondAttribute="centerX" id="FVb-3g-5AK"/>
                             <constraint firstItem="g4p-c4-JhH" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="Hwi-m8-sMb"/>
                             <constraint firstItem="g4p-c4-JhH" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="104" id="MCa-I4-TyC"/>
                             <constraint firstItem="Zop-3c-FNF" firstAttribute="top" secondItem="9Nf-Ge-lD1" secondAttribute="bottom" constant="24" id="Oqq-Q6-bh1"/>
                             <constraint firstItem="Zop-3c-FNF" firstAttribute="centerX" secondItem="9Nf-Ge-lD1" secondAttribute="centerX" id="T5u-25-Yn1"/>
-                            <constraint firstItem="9Nf-Ge-lD1" firstAttribute="top" secondItem="g4p-c4-JhH" secondAttribute="bottom" constant="26" id="juv-N8-Mkh"/>
+                            <constraint firstItem="9Nf-Ge-lD1" firstAttribute="top" secondItem="g4p-c4-JhH" secondAttribute="bottom" constant="24" id="juv-N8-Mkh"/>
                             <constraint firstItem="9Nf-Ge-lD1" firstAttribute="centerX" secondItem="g4p-c4-JhH" secondAttribute="centerX" id="pzX-Bm-WRk"/>
+                            <constraint firstItem="tj7-H2-Bl7" firstAttribute="top" secondItem="Zop-3c-FNF" secondAttribute="bottom" constant="24" id="ruU-MS-yTP"/>
                         </constraints>
                     </view>
                 </viewController>
