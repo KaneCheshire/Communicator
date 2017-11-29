@@ -18,7 +18,8 @@ With a simple syntax, `TABObserverSet` is easy to use and read in your code.
 To integrate `TABObserverSet` using Cocoapods, simply add the following to your podfile:
 
 ```ruby
-pod 'TABObserverSet'
+pod 'TABObserverSet', '2.0.0' # Swift 4
+pod 'TABObserverSet', '1.1.1' # Swift 3
 ```
 
 ### Manual

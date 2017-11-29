@@ -27,11 +27,13 @@ import Dispatch
 
 /// A reference to an entry in the list of observers. Use this to remove an observer.
 open class ObserverSetEntry<Parameters> {
+ 
+  public typealias ObserverCallback = (Any) -> (Parameters) -> Void
   
   fileprivate weak var observer: AnyObject?
-  fileprivate let callBack: (Any) -> (Parameters) -> Void
+  fileprivate let callBack: ObserverCallback
   
-  fileprivate init(observer: AnyObject?, callBack: @escaping (Any) -> (Parameters) -> Void) {
+  fileprivate init(observer: AnyObject?, callBack: @escaping ObserverCallback) {
     self.observer = observer
     self.callBack = callBack
   }
@@ -96,6 +98,18 @@ open class ObserverSet<Parameters> {
     }
   }
   
+
+  /**
+   Removes an observer from the list.
+
+   - parameter observer: An observer to remove from the list of observers.
+   */
+  open func removeObserver(_ observer: AnyObject) {
+    synchronized {
+      self.entries = self.entries.filter{ $0.observer !== observer }
+    }
+  }
+
   /**
    Call this method to notify all observers.
    
@@ -121,7 +135,7 @@ open class ObserverSet<Parameters> {
   
   private var queue = DispatchQueue(label: "com.theappbusiness.ObserverSet", attributes: [])
   
-  private func synchronized(_ f: (Void) -> Void) {
+  private func synchronized(_ f: () -> Void) {
     queue.sync(execute: f)
   }
   

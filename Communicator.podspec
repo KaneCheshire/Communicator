@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'Communicator'
-  s.version          = '1.1.0'
+  s.version          = '2.0.0'
   s.summary          = 'Communication between iOS and watchOS apps just got a whole lot easier.'
 
   s.description      = <<-DESC
@@ -58,5 +58,5 @@ Pod::Spec.new do |s|
   s.platforms = { :ios => "9.3", :watchos => "2.2" }
   s.source_files = 'Communicator/Classes/**/*'
   s.frameworks = 'WatchConnectivity'
-  s.dependency 'TABObserverSet', '1.1.1'
+  s.dependency 'TABObserverSet', '2.0.0'
 end

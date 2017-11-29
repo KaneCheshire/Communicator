@@ -111,7 +111,7 @@ public final class Communicator: NSObject {
     
     // MARK: Private
     
-    private let session: WCSession = .default()
+    private let session: WCSession = .default
     private lazy var sessionDelegate: CommunicatorSessionDelegate = {
         return CommunicatorSessionDelegate(communicator: self)
     }()
