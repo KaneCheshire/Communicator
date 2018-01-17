@@ -160,7 +160,7 @@ On watchOS, receiving a `Blob` while in the background can cause the system to g
 
 ### `Context`
 
-A `Context` is a very lightweight object. A `Context` can be send and received by either device, and the system stores the last sent/received `Context` that you can query at any time. This makes it ideal for syncing lightweight things like preferences between devices.
+A `Context` is a very lightweight object. A `Context` can be sent and received by either device, and the system stores the last sent/received `Context` that you can query at any time. This makes it ideal for syncing lightweight things like preferences between devices.
 
 A `Context` has no identifier, and simply takes a JSON dictionary as content. Like a `Message`, this content must be primitive types like `String`, `Int`, `Data` etc, and must not be too large or the system will reject it:
 
@@ -236,7 +236,7 @@ watchState.watchSpecificDirectoryURL
 ### `ComplicationInfo`
 
 A `ComplicationInfo` can only be sent from an iOS device, and can only be received on a watchOS device.
-Its purpose is to wake the watchOS to process the data and update its complication. At the time of writing
+Its purpose is to wake the watchOS app to process the data and update its complication. At the time of writing
 your iOS can do this 50 times a day, and you can query the `currentWatchState` of the shared `Communicator` object
 on iOS to find out how many remaining updates you have left.
 
