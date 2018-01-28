@@ -1,13 +1,4 @@
-# references:
-# * http://www.objc.io/issue-6/travis-ci.html
-# * https://github.com/supermarin/xcpretty#usage
-
-osx_image: xcode8.3.3
+osx_image: xcode9.0
 language: objective-c
-# cache: cocoapods
-# podfile: Example/Podfile
-# before_install:
-# - gem install cocoapods # Since Travis is not always on latest version
-# - pod install --project-directory=Example
 script:
-- xcodebuild test -workspace Example/Communicator.xcworkspace -scheme Communicator-Example -configuration Debug -sdk iphonesimulator -destination 'OS=10.0,name=iPhone SE' test | xcpretty
+- xcodebuild test -workspace Example/Communicator.xcworkspace -scheme Communicator-Example -sdk iphonesimulator11.0 ONLY_ACTIVE_ARCH=NO | xcpretty
