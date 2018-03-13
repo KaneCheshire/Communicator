@@ -51,7 +51,7 @@ private extension AppDelegate {
     }
     
     private func setupMessageReceivedObservers() {
-        Communicator.shared.messageReceivedObservers.add { message in
+        Communicator.shared.immediateMessageReceivedObservers.add { message in
             print("Received message: \(message)")
             message.replyHandler?(["Reply" : "Message"])
         }

@@ -15,13 +15,17 @@ public struct WatchState {
     
     /// Whether the user has a paired Apple Watch.
     public let isPaired: Bool
+    
     /// Whether the user's Apple Watch has your app installed.
     public let isWatchAppInstalled: Bool
+    
     /// Whether the user has enabled one or more of your complications.
     public let isComplicationEnabled: Bool
+    
     /// The amount of complication updates you can make from your iOS app.
     /// On iOS versions before iOS 10 this will be -1.
     public let numberOfComplicationInfoTransfersAvailable: Int
+    
     /// Represents a system-defined URL pointing to a directory on the
     /// user's iPhone which you can write items to specific to a
     /// particular watch. When the user switches watches, this URL will change,
