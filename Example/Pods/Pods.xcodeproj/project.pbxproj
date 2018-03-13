@@ -40,6 +40,10 @@
 		B65DADFD463AB1AE5285FE4AC11FFD84 /* Communicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB312C5D9022957D9D6819F854471A1 /* Communicator.swift */; };
 		BABBD531D33E8148733D3A3D2D382268 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E7B658370D04418B60DE3561FBAB429 /* Foundation.framework */; };
 		C0492393EDDF03429D7579907EC9D0FE /* Pods-Communicator_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 9BAA97DD341361DC85B384D7BDD0FEDB /* Pods-Communicator_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C31D939C2057C19900E6C93D /* ImmediateMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D939B2057C19900E6C93D /* ImmediateMessage.swift */; };
+		C31D939D2057C19900E6C93D /* ImmediateMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D939B2057C19900E6C93D /* ImmediateMessage.swift */; };
+		C31D939F2057C1A400E6C93D /* GuaranteedMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D939E2057C1A400E6C93D /* GuaranteedMessage.swift */; };
+		C31D93A02057C1A500E6C93D /* GuaranteedMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D939E2057C1A400E6C93D /* GuaranteedMessage.swift */; };
 		D251CD9C38FD18A72AC789FD291851B4 /* WatchConnectivity+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F43581460C8C859C94C11BCC18BD5A /* WatchConnectivity+Helpers.swift */; };
 		D47F7309CF802FF8792D015C2F584930 /* ObserverSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99CE566ED3F3659B28937A8666C92926 /* ObserverSet.swift */; };
 		D6813491C6E4FE8E704BED22A3EFA3CD /* WatchConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1F2D29913870232049268387E94D887 /* WatchConnectivity.framework */; };
@@ -153,6 +157,8 @@
 		B8968CDFB09943BC629258DEA5A5E534 /* Communicator-iOS.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Communicator-iOS.modulemap"; sourceTree = "<group>"; };
 		C14AB5E8CCBBF7BD9A009C601BFEABE0 /* Pods-Communicator_Tests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Communicator_Tests-resources.sh"; sourceTree = "<group>"; };
 		C29BF2E8137E9A859CD53955DD731F6F /* Pods-Communicator_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Communicator_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		C31D939B2057C19900E6C93D /* ImmediateMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ImmediateMessage.swift; path = Communicator/Classes/ImmediateMessage.swift; sourceTree = "<group>"; };
+		C31D939E2057C1A400E6C93D /* GuaranteedMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GuaranteedMessage.swift; path = Communicator/Classes/GuaranteedMessage.swift; sourceTree = "<group>"; };
 		C5B15E70FA51D01EE24DEEB1C0F6CED5 /* Communicator-watchOS.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; name = "Communicator-watchOS.modulemap"; path = "../Communicator-watchOS/Communicator-watchOS.modulemap"; sourceTree = "<group>"; };
 		C7E181742E6838A3946B004AE8D23075 /* Communicator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Communicator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C998D878A3B44D29775B309558FF0D45 /* Pods-Communicator_Tests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Communicator_Tests-umbrella.h"; sourceTree = "<group>"; };
@@ -393,6 +399,8 @@
 				DD43C52D21ACE48FE54F127E86F7D74B /* ComplicationInfo.swift */,
 				D054AACA37AA72BAEBA4CE59A19A945F /* Context.swift */,
 				FC8CA5B7E27E178EA920367D687B9A80 /* Message.swift */,
+				C31D939B2057C19900E6C93D /* ImmediateMessage.swift */,
+				C31D939E2057C1A400E6C93D /* GuaranteedMessage.swift */,
 				01F43581460C8C859C94C11BCC18BD5A /* WatchConnectivity+Helpers.swift */,
 				48CB3F627CD853DAFA9D0176A10584CF /* WatchState.swift */,
 				CAD3FA4A3AF34DEF0A483DF04C7CF051 /* Support Files */,
@@ -661,9 +669,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				81CF8A5600F9955FDD018F39E13C4E0B /* Blob.swift in Sources */,
+				C31D93A02057C1A500E6C93D /* GuaranteedMessage.swift in Sources */,
 				4041E06E8E96DB1B168FE554C28A462C /* Communicator-watchOS-dummy.m in Sources */,
 				B65DADFD463AB1AE5285FE4AC11FFD84 /* Communicator.swift in Sources */,
 				ED0F0193FDA29F4C7B742DC1C57381BC /* ComplicationInfo.swift in Sources */,
+				C31D939D2057C19900E6C93D /* ImmediateMessage.swift in Sources */,
 				5711155CC61D8078FC0ECC128D439E22 /* Context.swift in Sources */,
 				7A65081AB98C9C0E96ECE541064689D3 /* Message.swift in Sources */,
 				D251CD9C38FD18A72AC789FD291851B4 /* WatchConnectivity+Helpers.swift in Sources */,
@@ -694,9 +704,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				3A474C65C16B64DF5D9C3D16510CE619 /* Blob.swift in Sources */,
+				C31D939F2057C1A400E6C93D /* GuaranteedMessage.swift in Sources */,
 				7FD40D3CF690A817CBF1D8012B28B8B2 /* Communicator-iOS-dummy.m in Sources */,
 				3CCD04E06557EEAD5DEEA68C016B2EF8 /* Communicator.swift in Sources */,
 				95D71C69D8160303822443743B05F123 /* ComplicationInfo.swift in Sources */,
+				C31D939C2057C19900E6C93D /* ImmediateMessage.swift in Sources */,
 				93127B5F0352CFD13EF967D2FEBB6258 /* Context.swift in Sources */,
 				DA4327399DF7EA228A47C7D7D6F96D9C /* Message.swift in Sources */,
 				EC16E346F1C8094B060661053E4AA2C8 /* WatchConnectivity+Helpers.swift in Sources */,
