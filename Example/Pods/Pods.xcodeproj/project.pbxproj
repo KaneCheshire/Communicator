@@ -24,7 +24,6 @@
 		6C215AB9FDE969609B95DF1501BD30A0 /* Pods-WatchExample Extension-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 3EB0EEAF313189BBD968913AD19C3DF0 /* Pods-WatchExample Extension-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6C76FB1C5B57CCBBE38E4A5A28AFDBCE /* Pods-Communicator_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 79EFCC1C0C1AB41222B72BD3636B1642 /* Pods-Communicator_Tests-dummy.m */; };
 		7269ABA97251EA53C45CFE67D4006410 /* WatchState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CB3F627CD853DAFA9D0176A10584CF /* WatchState.swift */; };
-		7A65081AB98C9C0E96ECE541064689D3 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8CA5B7E27E178EA920367D687B9A80 /* Message.swift */; };
 		7B91C780BF71BEF7D3F2ABF7F3F1B77A /* Communicator-watchOS-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F2E3072BDAC51232A6E8C2B6971ED8D /* Communicator-watchOS-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7FD40D3CF690A817CBF1D8012B28B8B2 /* Communicator-iOS-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 54E85B8B0496E13A076ACCC7B7317CEA /* Communicator-iOS-dummy.m */; };
 		81CF8A5600F9955FDD018F39E13C4E0B /* Blob.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7356F589E2A3E9E828464EFFEE788FD /* Blob.swift */; };
@@ -47,7 +46,6 @@
 		D251CD9C38FD18A72AC789FD291851B4 /* WatchConnectivity+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F43581460C8C859C94C11BCC18BD5A /* WatchConnectivity+Helpers.swift */; };
 		D47F7309CF802FF8792D015C2F584930 /* ObserverSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99CE566ED3F3659B28937A8666C92926 /* ObserverSet.swift */; };
 		D6813491C6E4FE8E704BED22A3EFA3CD /* WatchConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1F2D29913870232049268387E94D887 /* WatchConnectivity.framework */; };
-		DA4327399DF7EA228A47C7D7D6F96D9C /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8CA5B7E27E178EA920367D687B9A80 /* Message.swift */; };
 		DDE78040B8EA32F289C08C4F31ABA64F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E7B658370D04418B60DE3561FBAB429 /* Foundation.framework */; };
 		EC16E346F1C8094B060661053E4AA2C8 /* WatchConnectivity+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F43581460C8C859C94C11BCC18BD5A /* WatchConnectivity+Helpers.swift */; };
 		ED0F0193FDA29F4C7B742DC1C57381BC /* ComplicationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD43C52D21ACE48FE54F127E86F7D74B /* ComplicationInfo.swift */; };
@@ -176,7 +174,6 @@
 		EDDCCB05BA62B6689ECADC287C38A572 /* TABObserverSet-iOS-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "TABObserverSet-iOS-umbrella.h"; sourceTree = "<group>"; };
 		F0514E2F2C575506B5FCC9C43B63A366 /* Communicator-iOS.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Communicator-iOS.xcconfig"; sourceTree = "<group>"; };
 		F4551F835D6755991DB5EDBF3C33C7E0 /* Pods-Communicator_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Communicator_Example.release.xcconfig"; sourceTree = "<group>"; };
-		FC8CA5B7E27E178EA920367D687B9A80 /* Message.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Message.swift; path = Communicator/Classes/Message.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -398,9 +395,8 @@
 				9FB312C5D9022957D9D6819F854471A1 /* Communicator.swift */,
 				DD43C52D21ACE48FE54F127E86F7D74B /* ComplicationInfo.swift */,
 				D054AACA37AA72BAEBA4CE59A19A945F /* Context.swift */,
-				FC8CA5B7E27E178EA920367D687B9A80 /* Message.swift */,
-				C31D939B2057C19900E6C93D /* ImmediateMessage.swift */,
 				C31D939E2057C1A400E6C93D /* GuaranteedMessage.swift */,
+				C31D939B2057C19900E6C93D /* ImmediateMessage.swift */,
 				01F43581460C8C859C94C11BCC18BD5A /* WatchConnectivity+Helpers.swift */,
 				48CB3F627CD853DAFA9D0176A10584CF /* WatchState.swift */,
 				CAD3FA4A3AF34DEF0A483DF04C7CF051 /* Support Files */,
@@ -675,7 +671,6 @@
 				ED0F0193FDA29F4C7B742DC1C57381BC /* ComplicationInfo.swift in Sources */,
 				C31D939D2057C19900E6C93D /* ImmediateMessage.swift in Sources */,
 				5711155CC61D8078FC0ECC128D439E22 /* Context.swift in Sources */,
-				7A65081AB98C9C0E96ECE541064689D3 /* Message.swift in Sources */,
 				D251CD9C38FD18A72AC789FD291851B4 /* WatchConnectivity+Helpers.swift in Sources */,
 				7269ABA97251EA53C45CFE67D4006410 /* WatchState.swift in Sources */,
 			);
@@ -710,7 +705,6 @@
 				95D71C69D8160303822443743B05F123 /* ComplicationInfo.swift in Sources */,
 				C31D939C2057C19900E6C93D /* ImmediateMessage.swift in Sources */,
 				93127B5F0352CFD13EF967D2FEBB6258 /* Context.swift in Sources */,
-				DA4327399DF7EA228A47C7D7D6F96D9C /* Message.swift in Sources */,
 				EC16E346F1C8094B060661053E4AA2C8 /* WatchConnectivity+Helpers.swift in Sources */,
 				F87A0044850EE5E038208F395E4DB5C1 /* WatchState.swift in Sources */,
 			);
