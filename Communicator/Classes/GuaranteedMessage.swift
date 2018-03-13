@@ -28,7 +28,7 @@ public struct GuaranteedMessage {
     }
     
     // MARK: - Properties -
-    // MAR
+    // MARK: Public
     
     /// The Message's identifer, defined by your app.
     public let identifier: String
