@@ -1,13 +1,13 @@
 Pod::Spec.new do |s|
   s.name             = 'Communicator'
-  s.version          = '2.0.0'
-  s.summary          = 'Communication between iOS and watchOS apps just got a whole lot easier.'
+  s.version          = '3.0.0'
+  s.summary          = 'Communication between iOS and watchOS apps just got a whole lot better.'
 
   s.description      = <<-DESC
   Sending messages and data between watchOS and iOS apps
   is possible thanks to Apple's work on `WatchConnectivity`,
-  however there are a lot of delegate callbacks to work with,
-  plus some of the API calls are similar and it's not really
+  but there are a lot of delegate callbacks to work with,
+  some of the API calls are similar, and it's not really
   clear which is needed for what purpose.
 
   `Communicator` means you don't have to spend any time writing a cross-platform wrapper around `WatchConnectivity` and is extremely easy to use.
@@ -19,12 +19,12 @@ Pod::Spec.new do |s|
   ```
 
   Usage between the two platforms is identical, so you can
-  use it in a shared framework with no workarounds.
+  use it in a shared framework with few workarounds.
 
   Here's how you send a simple message with Communicator.
 
   ```swift
-  let message = Message(identifier: "1234", content: ["messageKey" : "This is some message content!"])
+  let message = ImmediateMessage(identifier: "1234", content: ["messageKey" : "This is some message content!"])
   try? Communicator.shared.send(immediateMessage: message)
   ```
 
@@ -33,7 +33,7 @@ Pod::Spec.new do |s|
   On the other device you register as an observer for new messages:
 
   ```swift
-  Communicator.shared.messageReceivedObservers.add { message in
+  Communicator.shared.immediateMessageReceivedObservers.add { message in
       if message.identifier == "1234" {
           print("Message received: \(message.content)")
       }
@@ -44,7 +44,7 @@ Pod::Spec.new do |s|
 
   `Communicator` can also transfer `Blob`s and sync `Context`s.
 
-  `Blob`s are perfect for sending larger amounts of data (`WatchConnectivity` will reject large data in `Message`s), and will continue to transfer even if your app
+  `Blob`s are perfect for sending larger amounts of data (`WatchConnectivity` will reject large data in other types of messages), and will continue to transfer even if your app
   is terminated during transfer.
 
   You can use a `Context` to keep things in sync between devices, which makes it perfect for preferences. `Context`s are not suitable for messaging or sending large data.
@@ -58,5 +58,5 @@ Pod::Spec.new do |s|
   s.platforms = { :ios => "9.3", :watchos => "2.2" }
   s.source_files = 'Communicator/Classes/**/*'
   s.frameworks = 'WatchConnectivity'
-  s.dependency 'TABObserverSet', '2.0.0'
+  s.dependency 'TABObserverSet', '2.1.0'
 end

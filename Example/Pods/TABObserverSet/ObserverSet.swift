@@ -138,5 +138,10 @@ open class ObserverSet<Parameters> {
   private func synchronized(_ f: () -> Void) {
     queue.sync(execute: f)
   }
-  
+}
+
+public extension ObserverSet where Parameters == Void {
+  public func notify() {
+    notify(())
+  }
 }

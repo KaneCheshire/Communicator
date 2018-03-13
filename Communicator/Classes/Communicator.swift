@@ -17,7 +17,7 @@ public final class Communicator: NSObject {
     /// Represents an error that may occur.
     ///
     /// - sessionIsNotActive: Indicates the session is not currently active and cannot be used.
-    public enum ErrorType: Error {
+    public enum Error: Swift.Error {
         case sessionIsNotActive
     }
     
@@ -50,9 +50,13 @@ public final class Communicator: NSObject {
     /// This may not be called on the main queue.
     public let reachabilityChangedObservers = ObserverSet<Bool>()
     
-    /// Observers are notified when a new Message is received.
+    /// Observers are notified when a new ImmediateMessage is received.
     /// This may not be called on the main queue.
-    public let messageReceivedObservers = ObserverSet<Message>()
+    public let immediateMessageReceivedObservers = ObserverSet<ImmediateMessage>()
+    
+    /// Observers are notified when a new GuaranteedMessage is received.
+    /// This may not be called on the main queue.
+    public let guaranteedMessageReceivedObservers = ObserverSet<GuaranteedMessage>()
     
     /// Observers are notified when a new Blob is received.
     /// This may not be called on the main queue.
@@ -76,7 +80,7 @@ public final class Communicator: NSObject {
     }
     
     /// Whether the underlying session still has data to send you.
-    /// This always returns `false` on anything older than iOS 10.
+    /// This always returns `false` on anything older than iOS 10 or watchOS 3.
     public var hasPendingDataToBeReceived: Bool {
         if #available(iOS 10.0, *), #available(watchOS 3.0, *) {
             return session.hasContentPending
@@ -139,9 +143,9 @@ public final class Communicator: NSObject {
     /// Do not use Messages for sending large amounts of data, transfer a Blob instead.
     ///
     /// - Parameter immediateMessage: The Message to send immediately to the counterpart app.
-    /// - Throws: ErrorType
-    public func send(immediateMessage: Message) throws {
-        guard currentState == .activated else { throw ErrorType.sessionIsNotActive }
+    /// - Throws: Error
+    public func send(immediateMessage: ImmediateMessage) throws {
+        guard currentState == .activated else { throw Error.sessionIsNotActive }
         session.sendMessage(immediateMessage.jsonRepresentation(), replyHandler: immediateMessage.replyHandler, errorHandler: immediateMessage.errorHandler)
     }
     
@@ -152,9 +156,9 @@ public final class Communicator: NSObject {
     /// Do not use Messages for sending large amounts of data, transfer a Blob instead.
     ///
     /// - Parameter guaranteedMessage: The Message to queue and send to the counterpart app.
-    /// - Throws: ErrorType
-    public func transfer(guaranteedMessage: Message) throws {
-        guard currentState == .activated else { throw ErrorType.sessionIsNotActive }
+    /// - Throws: Error
+    public func send(guaranteedMessage: GuaranteedMessage) throws {
+        guard currentState == .activated else { throw Error.sessionIsNotActive }
         session.transferUserInfo(guaranteedMessage.jsonRepresentation())
     }
     
@@ -165,9 +169,9 @@ public final class Communicator: NSObject {
     /// are not guaranteed.
     ///
     /// - Parameter blob: The Blob to transfer.
-    /// - Throws: ErrorType
+    /// - Throws: Error
     public func transfer(blob: Blob) throws {
-        guard currentState == .activated else { throw ErrorType.sessionIsNotActive }
+        guard currentState == .activated else { throw Error.sessionIsNotActive }
         let documentsDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
         let urlString = documentsDirectory.appending("/blob.data")
         let fileURL = URL(fileURLWithPath: urlString)
@@ -183,9 +187,9 @@ public final class Communicator: NSObject {
     /// Communicator object.
     ///
     /// - Parameter context: The Context to sync with the counterpart app.
-    /// - Throws: ErrorType
+    /// - Throws: Error
     public func sync(context: Context) throws {
-        guard currentState == .activated else { throw ErrorType.sessionIsNotActive }
+        guard currentState == .activated else { throw Error.sessionIsNotActive }
         try session.updateApplicationContext(context.content)
     }
     
@@ -203,9 +207,9 @@ public final class Communicator: NSObject {
     /// checking the currentWatchState property.
     ///
     /// - Parameter complicationInfo: The ComplicationInfo to transfer.
-    /// - Throws: ErrorType
+    /// - Throws: Error
     public func transfer(complicationInfo: ComplicationInfo) throws {
-        guard currentState == .activated else { throw ErrorType.sessionIsNotActive }
+        guard currentState == .activated else { throw Error.sessionIsNotActive }
         session.transferCurrentComplicationUserInfo(complicationInfo.jsonRepresentation())
     }
     
@@ -255,21 +259,20 @@ private final class CommunicatorSessionDelegate: NSObject, WCSessionDelegate {
     // MARK: Receiving messages
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
-        guard let message = try? Message(jsonDictionary: message) else { return }
-        communicator?.messageReceivedObservers.notify(message)
+        guard let message = try? ImmediateMessage(jsonDictionary: message) else { return }
+        communicator?.immediateMessageReceivedObservers.notify(message)
     }
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
-        guard let message = try? Message(jsonDictionary: message, replyHandler: replyHandler) else { return replyHandler(["error":"unableToConstructMessageFromJSON"]) }
-        communicator?.messageReceivedObservers.notify(message)
+        guard let message = try? ImmediateMessage(jsonDictionary: message, replyHandler: replyHandler) else { return replyHandler(["error":"unableToConstructMessageFromJSON"]) }
+        communicator?.immediateMessageReceivedObservers.notify(message)
     }
     
     // MARK: Receiving and sending userInfo/complication data
     
-    
     func session(_ session: WCSession, didReceiveUserInfo userInfo: [String : Any] = [:]) {
-        if let message = try? Message(jsonDictionary: userInfo) {
-            communicator?.messageReceivedObservers.notify(message)
+        if let message = try? GuaranteedMessage(jsonDictionary: userInfo) {
+            communicator?.guaranteedMessageReceivedObservers.notify(message)
         }
         #if os(watchOS)
         if let complicationInfo = try? ComplicationInfo(jsonDictionary: userInfo) {

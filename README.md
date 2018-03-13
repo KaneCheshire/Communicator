@@ -8,7 +8,8 @@
 - [Introduction](#introduction)
 - [Usage](#usage)
   - [`Communicator`](#communicator-1)
-  - [`Message`](#message)
+  - [`ImmediateMessage`](#immediatemessage)
+  - [`GuaranteedMessage`](#guaranteedmessage)
   - [`Blob`](#blob)
   - [`Context`](#context)
   - [`WatchState`](#watchstate)
@@ -36,7 +37,7 @@ Usage between the two platforms is essentially identical, so you can use it in a
 Here's how you send a simple message with `Communicator`.
 
 ```swift
-let message = Message(identifier: "1234", content: ["messageKey" : "This is some message content!"])
+let message = ImmediateMessage(identifier: "1234", content: ["messageKey" : "This is some message content!"])
 try? Communicator.shared.send(immediateMessage: message)
 ```
 
@@ -45,7 +46,7 @@ This will try to send a message to the counterpart immediately. If the underlyin
 On the other device you register as an observer for new messages:
 
 ```swift
-Communicator.shared.messageReceivedObservers.add { message in
+Communicator.shared.immedateMessageReceivedObservers.add { message in
     if message.identifier == "1234" {
         print("Message received: \(message.content)")
     }
@@ -56,7 +57,7 @@ You can observe these messages from anywhere in your app and filter out the ones
 
 `Communicator` can also transfer `Blob`s and sync `Context`s.
 
-`Blob`s are perfect for sending larger amounts of data (`WatchConnectivity` will reject large data in `Message`s), and will continue to transfer even if your app
+`Blob`s are perfect for sending larger amounts of data (`WatchConnectivity` will reject large data in any other message type), and will continue to transfer even if your app
 is terminated during transfer.
 
 You can use a `Context` to keep things in sync between devices, which makes it perfect for preferences. `Context`s are not suitable for messaging or sending large data.
@@ -76,19 +77,19 @@ Communicator.shared
 The APIs between iOS and watchOS are almost identical, so
 you can use `Communicator` anywhere, including in a shared iOS-watchOS framework.
 
-`Communicator` uses `ObserverSet`s to notify observers/listeners when events occur, like a `Message` being received, or the activation state of the underlying session changing.
+`Communicator` uses `ObserverSet`s to notify observers/listeners when events occur, like an `ImmediateMessage` being received, or the activation state of the underlying session changing.
 
-### `Message`
+### `ImmediateMessage`
 
-A `Message` is a simple object comprising of an identifier string of your choosing, and a JSON dictionary as content.
+An `ImmediateMessage` is a simple object comprising of an identifier string of your choosing, and a JSON dictionary as content.
 
-The keys of the JSON dictionary must be strings, and the values must be plist-types. That means anything you can save to `UserDefaults`; `String`, `Int`, `Data` etc. You also _cannot_ send large amounts of data between devices using a `Message` because the system will reject it. Instead, use a `Blob` for sending large amounts of data.
+The keys of the JSON dictionary must be strings, and the values must be plist-types. That means anything you can save to `UserDefaults`; `String`, `Int`, `Data` etc. You also _cannot_ send large amounts of data between devices using a `ImmediateMessage` because the system will reject it. Instead, use a `Blob` for sending large amounts of data.
 
-This is how you create a simple `Message`:
+This is how you create a simple `ImmediateMessage`:
 
 ```swift
-let json: JSONDictionary = ["TotalDistanceTravelled" : 10000.000]
-let message = Message(identifier: "JourneyComplete", content: json)
+let json: JSONDictionary = ["TotalDistanceTravelled" : 10000.00]
+let message = ImmediateMessage(identifier: "JourneyComplete", content: json) // Optionally pass in a reply handler here
 ```
 
 And this is how you send it:
@@ -103,30 +104,43 @@ If you send this from watchOS it will also wake up your iOS app in the backgroun
 
 You can also assign a `replyHandler` to the message. On the sending device, this `replyHandler` is executed by the system when the receiving device executes it on its end.
 
-On the receiving device you listen for new messages, check the identifier and then execute the `replyHandler`, which will allow the system on the sending device to execute the `replyHandler` there. The `replyHandler` also expects a JSON dictionary just like the content of the message.
+On the receiving device you listen for new messages, check the identifier and then execute the `replyHandler` (if you assigned one when creating the message), which will allow the system on the sending device to execute the `replyHandler` there. The `replyHandler` also expects a JSON dictionary just like the content of the message.
 
 ```swift
-Communicator.shared.messageReceivedObservers.add { message in
+Communicator.shared.immediateMessageReceivedObservers.add { message in
     if message.identifier == "JourneyComplete" {
       let replyJSON: JSONDictionary = ["JourneyProcessed" : true]
-      message.replyHandler?(replyJSON)
+      message.replyHandler?(replyJSON) // Optional because you might not have set one on the sender's side
     }
 }
 ```
 
-You can also choose to send a message using the `guaranteed` method, however with this method the `replyHandler` is ignored even if you execute it on the receiving device. This is because messages can be queued while the receiving device is not currently receiving messages, so they're queued until the session is next created:
+### `GuaranteedMessage`
+
+You can also choose to send a message using the `guaranteed` method. `GuaranteedMessage`s don't have a reply handler because messages can be queued while the receiving device is not currently receiving messages, meaning they're queued until the session is next created:
 
 ```swift
+let json: JSONDictionary = ["CaloriesBurnt" : 400.00]
+let message = GuaranteedMessage(identifier: "WorkoutComplete", content: json)
 try? Communicator.shared.send(guaranteedMessage: message)
 ```
 
-Because the messages are queued, they could be received in a stream on the receiving device when it's able to process them.
+Because the messages are queued, they could be received in a stream on the receiving device when it's able to process them. You should make sure your observers are set up as soon as possible to avoid missing any messages.
 
-On watchOS, receiving a "guaranteed" `Message` while in the background can cause the system to generate a `WKWatchConnectivityRefreshBackgroundTask` which you are responsible for handling in your `ExtensionDelegate`.
+```swift
+Communicator.shared.guaranteedMessageReceivedObservers.add { message in
+    if message.identifier == "CaloriesBurnt" {
+      let content = message.content
+      // Handle message
+    }
+}
+```
+
+On watchOS, receiving a "guaranteed" `GuaranteedMessage` while in the background can cause the system to generate a `WKWatchConnectivityRefreshBackgroundTask` which you are responsible for handling in your `ExtensionDelegate`.
 
 ### `Blob`
 
-A `Blob` is very similar to a `Message` but is better suited to sending larger bits of data. A `Blob` is created with an `identifier` but instead of assigning a JSON dictionary as the content, you assign pure `Data` instead.
+A `Blob` is very similar to a `GuaranteedMessage` but is better suited to sending larger bits of data. A `Blob` is created with an `identifier` but instead of assigning a JSON dictionary as the content, you assign pure `Data` instead.
 
 This is how you create a `Blob`:
 
@@ -162,7 +176,7 @@ On watchOS, receiving a `Blob` while in the background can cause the system to g
 
 A `Context` is a very lightweight object. A `Context` can be sent and received by either device, and the system stores the last sent/received `Context` that you can query at any time. This makes it ideal for syncing lightweight things like preferences between devices.
 
-A `Context` has no identifier, and simply takes a JSON dictionary as content. Like a `Message`, this content must be primitive types like `String`, `Int`, `Data` etc, and must not be too large or the system will reject it:
+A `Context` has no identifier, and simply takes a JSON dictionary as content. Like an `ImmediateMessage`, this content must be primitive types like `String`, `Int`, `Data` etc, and must not be too large or the system will reject it:
 
 ```swift
 let json: JSONDictionary = ["ShowTotalDistance" : true]
