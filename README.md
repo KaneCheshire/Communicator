@@ -234,7 +234,7 @@ Whether the currently paired watch has one of your complications enabled:
 watchState.isComplicationEnabled
 ```
 
-The number of complication info transfers available today:
+The number of complication info transfers available today (returns `0` if `isComplicationEnabled` returns `false`):
 
 ```swift
 watchState.numberOfComplicationInfoTransfersAvailable // This will be -1 on anything older than iOS 10
