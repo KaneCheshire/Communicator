@@ -19,6 +19,7 @@ public final class Communicator: NSObject {
     /// - sessionIsNotActive: Indicates the session is not currently active and cannot be used.
     public enum Error: Swift.Error {
         case sessionIsNotActive
+        case sessionIsNotReachable
     }
     
     /// Represents the current state of the communcation session.
@@ -32,6 +33,17 @@ public final class Communicator: NSObject {
         case activated
     }
     
+    /// Represents the current reachability of the counteroart app..
+    ///
+    /// - notReachable: The counterpart app is not reachable at all.
+    /// - backgroundMessaging: The counterpart app is reachable but only for background messaging types. (i.e Blobs and GuaranteedMessages)
+    /// - immediateMessaging: The counterpart app is available for all types of messaging.
+    public enum Reachability {
+        case notReachable
+        case backgroundMessaging
+        case immediateMessaging
+    }
+    
     /// The shared communicaator object.
     public static let shared = Communicator()
     
@@ -40,6 +52,14 @@ public final class Communicator: NSObject {
     
     public var currentState: State {
         return session.activationState.equivalentCommunicatorState
+    }
+    
+    public var currentReachability: Reachability {
+        switch (session.activationState, session.isReachable) {
+        case (.activated, true): return .immediateMessaging
+        case (.activated, false): return .backgroundMessaging
+        default: return .notReachable
+        }
     }
     
     /// Observers are notified when the communication session state changes.
@@ -119,9 +139,6 @@ public final class Communicator: NSObject {
     private lazy var sessionDelegate: CommunicatorSessionDelegate = {
         return CommunicatorSessionDelegate(communicator: self)
     }()
-    private var canCommunicate: Bool {
-        return session.isReachable && session.activationState != .notActivated
-    }
     fileprivate var blobTransferCompletionHandlers: [WCSessionFileTransfer : Blob.CompletionHandler] = [:]
     
     // MARK: - Initialisers -
@@ -136,26 +153,30 @@ public final class Communicator: NSObject {
     // MARK: - Functions -
     // MARK: Public
     
-    /// Sends a Message immediately to the counterpart app.
-    /// If an immediate error occurs this message will throw an error.
-    /// If an error occurs after the Message transfer is attempted, the Message's error handler
-    /// will be called, if there is one.
-    /// Do not use Messages for sending large amounts of data, transfer a Blob instead.
+    /// Sends a message immediately to the counterpart app.
     ///
-    /// - Parameter immediateMessage: The Message to send immediately to the counterpart app.
+    /// If an error occurs before sending the message, this function will throw an error.
+    /// If an error occurs after the ImmediateMessage transfer is attempted, the ImmediateMessage's error handler
+    /// will be called, if there is one.
+    /// Do not use ImmediateMessage for sending large amounts of data, transfer a Blob instead.
+    ///
+    /// - Parameter immediateMessage: The ImmediateMessage to send immediately to the counterpart app.
     /// - Throws: Error
     public func send(immediateMessage: ImmediateMessage) throws {
-        guard currentState == .activated else { throw Error.sessionIsNotActive }
+        guard currentReachability == .immediateMessaging else { throw Error.sessionIsNotReachable }
         session.sendMessage(immediateMessage.jsonRepresentation(), replyHandler: immediateMessage.replyHandler, errorHandler: immediateMessage.errorHandler)
     }
     
-    /// Sends a guaranteed Message to the counterpart app.
-    /// Guaranteed messages are queued and deliverd to the counterpart in the order they were
+    /// Sends a guaranteed message to the counterpart app.
+    /// GuaranteedMessages do not require the counterpart app to be reachable, as the system sends them at an "opportune" time.
+    /// GuaranteedMessages are queued and delivered to the counterpart in the order they were
     /// queued.
     /// This means that you may get a stream of these messages after your app is launched.
-    /// Do not use Messages for sending large amounts of data, transfer a Blob instead.
     ///
-    /// - Parameter guaranteedMessage: The Message to queue and send to the counterpart app.
+    /// If an error occurs before sending the message, this function will throw an error.
+    /// Do not use GuaranteedMessages for sending large amounts of data, transfer a Blob instead.
+    ///
+    /// - Parameter guaranteedMessage: The GuaranteedMessages to queue and send to the counterpart app.
     /// - Throws: Error
     public func send(guaranteedMessage: GuaranteedMessage) throws {
         guard currentState == .activated else { throw Error.sessionIsNotActive }
@@ -167,6 +188,8 @@ public final class Communicator: NSObject {
     /// The system will continue to send this data after the sending device exits if
     /// necessary. The system can throttle Blob transfers if needed, so transfer speeds
     /// are not guaranteed.
+    ///
+    /// If an error occurs before transferring the Blob, this function will throw an error.
     ///
     /// - Parameter blob: The Blob to transfer.
     /// - Throws: Error
@@ -185,6 +208,8 @@ public final class Communicator: NSObject {
     /// Contexts are perfect for syncing things like preferences. You can query the latest Context at any time
     /// with the`mostRecentlyReceievedContext` and `mostRecentlySentContext` properties of the shared
     /// Communicator object.
+    ///
+    /// If an error occurs before syncing the context, this function will throw an error.
     ///
     /// - Parameter context: The Context to sync with the counterpart app.
     /// - Throws: Error
