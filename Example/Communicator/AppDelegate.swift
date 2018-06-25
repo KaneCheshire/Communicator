@@ -34,38 +34,38 @@ private extension AppDelegate {
     
     private func setupActivationStateChangedObservers() {
         Communicator.shared.activationStateChangedObservers.add { state in
-            print("Activation state changed: \(state)")
+            print("Activation state changed: ", state)
         }
     }
     
     private func setupWatchStateChangedObservers() {
         Communicator.shared.watchStateUpdatedObservers.add { watchState in
-           print("Watch state changed: \(watchState)")
+           print("Watch state changed: ", watchState)
         }
     }
     
     private func setupReachabilityChangedObservers() {
-        Communicator.shared.reachabilityChangedObservers.add { isReachable in
-            print("Reachability changed: \(isReachable ? "is" : "is not") reachable")
+        Communicator.shared.reachabilityChangedObservers.add { reachability in
+            print("Reachability changed: ", reachability)
         }
     }
     
     private func setupMessageReceivedObservers() {
         Communicator.shared.immediateMessageReceivedObservers.add { message in
-            print("Received message: \(message)")
+            print("Received message: ", message.identifier)
             message.replyHandler?(["Reply" : "Message"])
         }
     }
     
     private func setupBlobReceivedObservers() {
         Communicator.shared.blobReceivedObservers.add { blob in
-            print("Received blob: \(blob.identifier)")
+            print("Received blob: ", blob.identifier)
         }
     }
     
     private func setupContextUpdatedObservers() {
         Communicator.shared.contextUpdatedObservers.add { context in
-            print("Received context: \(context)")
+            print("Received context: ", context)
         }
     }
     

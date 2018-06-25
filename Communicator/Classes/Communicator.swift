@@ -68,7 +68,7 @@ public final class Communicator: NSObject {
     
     /// Observers are notified when the counterpart app becomes reachable or unreachable.
     /// This may not be called on the main queue.
-    public let reachabilityChangedObservers = ObserverSet<Bool>()
+    public let reachabilityChangedObservers = ObserverSet<Reachability>()
     
     /// Observers are notified when a new ImmediateMessage is received.
     /// This may not be called on the main queue.
@@ -257,7 +257,7 @@ private final class CommunicatorSessionDelegate: NSObject, WCSessionDelegate {
     // MARK: Session status
     
     func sessionReachabilityDidChange(_ session: WCSession) {
-        communicator?.reachabilityChangedObservers.notify(session.isReachable)
+        communicator?.reachabilityChangedObservers.notify(communicator?.currentReachability ?? .notReachable)
     }
     
     #if os(iOS)

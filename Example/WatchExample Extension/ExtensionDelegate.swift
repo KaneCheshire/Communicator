@@ -60,19 +60,19 @@ private extension ExtensionDelegate {
     }
     private func setupActivationStateChangedObservers() {
         Communicator.shared.activationStateChangedObservers.add { state in
-            print("Activation state changed: \(state)")
+            print("Activation state changed: ", state)
         }
     }
     
     private func setupReachabilityChangedObservers() {
-        Communicator.shared.reachabilityChangedObservers.add { isReachable in
-            print("Reachability changed: \(isReachable ? "is" : "is not") reachable")
+        Communicator.shared.reachabilityChangedObservers.add { reachability in
+            print("Reachability changed:", reachability)
         }
     }
     
     private func setupMessageReceivedObservers() {
         Communicator.shared.immediateMessageReceivedObservers.add { message in
-            print("Received message: \(message)")
+            print("Received message: ", message.identifier)
             message.replyHandler?(["Replied!" : "Message"])
             self.endWatchConnectivityBackgroundTaskIfNecessary()
         }
@@ -80,21 +80,21 @@ private extension ExtensionDelegate {
     
     private func setupBlobReceivedObservers() {
         Communicator.shared.blobReceivedObservers.add { blob in
-            print("Received blob: \(blob.identifier)")
+            print("Received blob: ", blob.identifier)
             self.endWatchConnectivityBackgroundTaskIfNecessary()
         }
     }
     
     private func setupContextUpdatedObservers() {
         Communicator.shared.contextUpdatedObservers.add { context in
-            print("Received context: \(context)")
+            print("Received context: ", context)
             self.endWatchConnectivityBackgroundTaskIfNecessary()
         }
     }
     
     private func setupComplicationInfoObservers() {
         Communicator.shared.complicationInfoReceivedObservers.add { complicationInfo in
-            print("Received complication info: \(complicationInfo)")
+            print("Received complication info: ", complicationInfo)
             CLKComplicationServer.sharedInstance().activeComplications?.forEach {
                 CLKComplicationServer.sharedInstance().reloadTimeline(for: $0)
             }
