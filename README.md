@@ -79,6 +79,8 @@ you can use `Communicator` anywhere, including in a shared iOS-watchOS framework
 
 `Communicator` uses `ObserverSet`s to notify observers/listeners when events occur, like an `ImmediateMessage` being received, or the activation state of the underlying session changing.
 
+You can query the current reachability of the counterpart app at any time using the `currentReachability` propery.
+
 ### `ImmediateMessage`
 
 An `ImmediateMessage` is a simple object comprising of an identifier string of your choosing, and a JSON dictionary as content.
@@ -98,7 +100,7 @@ And this is how you send it:
 try? Communicator.shared.send(immediateMessage: message)
 ```
 
-Notice that we're using `immediateMessage` in the above example. This works well for rapid communication between two devices, but is limited to small amounts of data and will fail if either of the devices becomes unreachable during communication.
+This works well for rapid communication between two devices, but is limited to small amounts of data and will fail if either of the devices becomes unreachable during communication.
 
 If you send this from watchOS it will also wake up your iOS app in the background if it needs to.
 
@@ -114,6 +116,8 @@ Communicator.shared.immediateMessageReceivedObservers.add { message in
     }
 }
 ```
+
+The value of `Communicator.currentReachability` must be `.immediateMessage` otherwise an error will be thrown.
 
 ### `GuaranteedMessage`
 
@@ -172,6 +176,8 @@ You can also assign a completion handler when creating a `Blob`, which will give
 
 On watchOS, receiving a `Blob` while in the background can cause the system to generate a `WKWatchConnectivityRefreshBackgroundTask` which you are responsible for handling in your `ExtensionDelegate`.
 
+The value of `Communicator.currentReachability` must not be `.notReachable` otherwise an error will be thrown.
+
 ### `Context`
 
 A `Context` is a very lightweight object. A `Context` can be sent and received by either device, and the system stores the last sent/received `Context` that you can query at any time. This makes it ideal for syncing lightweight things like preferences between devices.
@@ -195,6 +201,8 @@ Communicator.shared.contextUpdatedObservers.add { context in
 ```
 
 On watchOS, receiving a `Context` while in the background can cause the system to generate a `WKWatchConnectivityRefreshBackgroundTask` which you are responsible for handling in your `ExtensionDelegate`.
+
+The value of `Communicator.currentReachability` must not be `.notReachable` otherwise an error will be thrown.
 
 ### `WatchState`
 
@@ -234,7 +242,7 @@ Whether the currently paired watch has one of your complications enabled:
 watchState.isComplicationEnabled
 ```
 
-The number of complication info transfers available today:
+The number of complication info transfers available today (returns `0` if `isComplicationEnabled` returns `false`):
 
 ```swift
 watchState.numberOfComplicationInfoTransfersAvailable // This will be -1 on anything older than iOS 10
@@ -278,6 +286,8 @@ Communicator.shared.complicationInfoReceivedObservers.add { complicationInfo in
 ```
 
 You are responsible for handling and completing any `WKWatchConnectivityRefreshBackgroundTask` handed to your `ExtensionDelegate` as a result of transferring a `ComplicationInfo`, which is why observing these updates in the `ExtensionDelegate` is recommended.
+
+The value of `Communicator.currentReachability` must not be `.notReachable` otherwise an error will be thrown.
 
 ## Example
 
