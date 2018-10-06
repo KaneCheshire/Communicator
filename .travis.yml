@@ -1,4 +1,4 @@
-osx_image: xcode9.0
+osx_image: xcode10
 language: objective-c
 script:
-- xcodebuild test -workspace Example/Communicator.xcworkspace -scheme Communicator-Example -sdk iphonesimulator11.0 ONLY_ACTIVE_ARCH=NO | xcpretty
+- xcodebuild test -workspace Example/Communicator.xcworkspace -scheme Communicator-Example -sdk iphonesimulator12.0 ONLY_ACTIVE_ARCH=NO | xcpretty
