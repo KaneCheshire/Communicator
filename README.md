@@ -62,7 +62,7 @@ is terminated during transfer.
 
 You can use a `Context` to keep things in sync between devices, which makes it perfect for preferences. `Context`s are not suitable for messaging or sending large data.
 
-Lastly, you can update your watchOS complication from your iOS by transferring a `ComplicationInfo`. You get a limited number of `ComplicationInfo` transfers a day, and you can easily query the remaining number of transfers available by getting the `currentWatchState` object and inspecting the `numberOfComplicationInfoTransfersAvailable` property.
+Lastly, you can update your watchOS complication from your iOS app by transferring a `ComplicationInfo`. You get a limited number of `ComplicationInfo` transfers a day, and you can easily query the remaining number of transfers available by getting the `currentWatchState` object and inspecting the `numberOfComplicationInfoTransfersAvailable` property.
 
 ## Usage
 
@@ -259,7 +259,7 @@ watchState.watchSpecificDirectoryURL
 
 A `ComplicationInfo` can only be sent from an iOS device, and can only be received on a watchOS device.
 Its purpose is to wake the watchOS app to process the data and update its complication. At the time of writing
-your iOS can do this 50 times a day, and you can query the `currentWatchState` of the shared `Communicator` object
+your iOS app can do this 50 times a day, and you can query the `currentWatchState` of the shared `Communicator` object
 on iOS to find out how many remaining updates you have left.
 
 Just like a `Context`, a `ComplicationInfo` has no identifier and its content is a JSON dictionary:
