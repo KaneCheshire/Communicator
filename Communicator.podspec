@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'Communicator'
-  s.version          = '3.2.0'
+  s.version          = '3.3.0'
   s.summary          = 'Communication between iOS and watchOS apps just got a whole lot better.'
 
   s.description      = <<-DESC
@@ -52,12 +52,12 @@ Pod::Spec.new do |s|
 
   s.homepage         = 'https://github.com/KaneCheshire/Communicator'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'Kane Cheshire' => 'kane.cheshire@googlemail.com' }
+  s.author           = { 'Kane Cheshire' => '@kanecheshire' }
   s.source           = { :git => 'https://github.com/KaneCheshire/Communicator.git', :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/kanecheshire'
   s.platforms = { :ios => "9.3", :watchos => "2.2" }
   s.source_files = 'Communicator/Classes/**/*'
   s.frameworks = 'WatchConnectivity'
   s.dependency 'TABObserverSet', '~> 2'
-  s.swift_version = '4.2'
+  s.swift_version = '5.0'
 end
