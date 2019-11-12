@@ -200,6 +200,7 @@ public final class Communicator: NSObject {
         let fileURL = URL(fileURLWithPath: urlString)
         try blob.dataRepresentation().write(to: fileURL)
         let transfer = session.transferFile(fileURL, metadata: nil)
+        // TODO: Handle progress
         blobTransferCompletionHandlers[transfer] = blob.completionHandler
     }
     
