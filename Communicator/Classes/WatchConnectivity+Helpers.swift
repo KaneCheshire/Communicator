@@ -15,6 +15,7 @@ extension WCSessionActivationState {
         case .notActivated: return .notActivated
         case .inactive: return .inactive
         case .activated: return .activated
+        @unknown default: return .inactive
         }
     }
     

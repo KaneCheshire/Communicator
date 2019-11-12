@@ -279,7 +279,6 @@
 				607FACCD1AFB9204008FA782 /* Frameworks */,
 				607FACCE1AFB9204008FA782 /* Resources */,
 				02EA01BE3F55D1548500DB46 /* [CP] Embed Pods Frameworks */,
-				8B77759772A7F1E6868CD5A5 /* [CP] Copy Pods Resources */,
 				C322124C1F1FF58400110DFD /* Embed Watch Content */,
 			);
 			buildRules = (
@@ -300,8 +299,6 @@
 				607FACE11AFB9204008FA782 /* Sources */,
 				607FACE21AFB9204008FA782 /* Frameworks */,
 				607FACE31AFB9204008FA782 /* Resources */,
-				6AB8FFA1CF7707F0D05F1503 /* [CP] Embed Pods Frameworks */,
-				16D617FC45C54931449E9DA3 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -340,7 +337,6 @@
 				C32212331F1FF58400110DFD /* Frameworks */,
 				C32212341F1FF58400110DFD /* Resources */,
 				AEE437E2327B92F727C78BEC /* [CP] Embed Pods Frameworks */,
-				B7AE8E925B7708A45287DC87 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -358,17 +354,17 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0830;
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 1120;
 				ORGANIZATIONNAME = CocoaPods;
 				TargetAttributes = {
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
 						DevelopmentTeam = 9BCL7VAFF4;
-						LastSwiftMigration = 1010;
+						LastSwiftMigration = 1120;
 					};
 					607FACE41AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
-						LastSwiftMigration = 0910;
+						LastSwiftMigration = 1120;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 607FACCF1AFB9204008FA782;
 					};
@@ -380,7 +376,7 @@
 					C32212351F1FF58400110DFD = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = 9BCL7VAFF4;
-						LastSwiftMigration = 1010;
+						LastSwiftMigration = 1120;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -390,6 +386,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -450,7 +447,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Communicator_Example/Pods-Communicator_Example-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Communicator_Example/Pods-Communicator_Example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Communicator-iOS/Communicator.framework",
 				"${BUILT_PRODUCTS_DIR}/TABObserverSet-iOS/TABObserverSet.framework",
 			);
@@ -461,22 +458,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Communicator_Example/Pods-Communicator_Example-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		16D617FC45C54931449E9DA3 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Communicator_Tests/Pods-Communicator_Tests-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Communicator_Example/Pods-Communicator_Example-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		1B39CA1D6EA67D80016898F8 /* [CP] Check Pods Manifest.lock */ = {
@@ -497,43 +479,13 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		6AB8FFA1CF7707F0D05F1503 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Communicator_Tests/Pods-Communicator_Tests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		8B77759772A7F1E6868CD5A5 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Communicator_Example/Pods-Communicator_Example-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		AEE437E2327B92F727C78BEC /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-WatchExample Extension/Pods-WatchExample Extension-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-WatchExample Extension/Pods-WatchExample Extension-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Communicator-watchOS/Communicator.framework",
 				"${BUILT_PRODUCTS_DIR}/TABObserverSet-watchOS/TABObserverSet.framework",
 			);
@@ -544,22 +496,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-WatchExample Extension/Pods-WatchExample Extension-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B7AE8E925B7708A45287DC87 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-WatchExample Extension/Pods-WatchExample Extension-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WatchExample Extension/Pods-WatchExample Extension-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		EA104DC92ED67D297608223D /* [CP] Check Pods Manifest.lock */ = {
@@ -679,6 +616,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -736,6 +674,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -793,7 +732,7 @@
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -808,7 +747,7 @@
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -831,8 +770,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Communicator_Example.app/Communicator_Example";
 			};
 			name = Debug;
@@ -852,8 +791,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Communicator_Example.app/Communicator_Example";
 			};
 			name = Release;
@@ -919,7 +858,7 @@
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 3.2;
 			};
@@ -940,7 +879,7 @@
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 3.2;
 			};
