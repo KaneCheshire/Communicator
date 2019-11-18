@@ -15,25 +15,24 @@ class ViewController: UIViewController {
         let message = ImmediateMessage(identifier: "message", content: ["hello" : "world"], replyHandler: { replyJSON in
             print("Received reply from message: \(replyJSON)")
         })
-        try? Communicator.shared.send(immediateMessage: message)
+        try? Communicator.shared.send(message)
     }
     
     @IBAction func transferBlobTapped() {
         let data = "hello world".data(using: .utf8) ?? Data()
-        let blob = Blob(identifier: "blob", content: data, completionHandler: { error in
-            if let error = error {
-                print("Error transferring blob: \(error.localizedDescription)")
-            } else {
-                print("Successfully transferred blob to watch")
-            }
-        })
-        try? Communicator.shared.transfer(blob: blob)
+        let blob = Blob(identifier: "blob", content: data)
+        try? Communicator.shared.transfer(blob) { result in
+                   switch result {
+                       case .failure(let error): print("Error transferring blob: \(error.localizedDescription)")
+                       case .success: print("Successfully transferred blob to phone")
+                   }
+               }
     }
     
     @IBAction func syncContextTapped() {
         let context = Context(content: ["hello" : "world"])
         do {
-            try Communicator.shared.sync(context: context)
+            try Communicator.shared.sync(context)
             print("Synced context to watch")
         } catch let error {
             print("Error syncing context to watch: \(error.localizedDescription)")
@@ -42,7 +41,7 @@ class ViewController: UIViewController {
     
     @IBAction func transferComplicationInfoTapped() {
         let complicationInfo = ComplicationInfo(content: ["Value" : 1])
-        try? Communicator.shared.transfer(complicationInfo: complicationInfo)
+        try? Communicator.shared.transfer(complicationInfo)
         print("Number of complication transfers available today: \(Communicator.shared.currentWatchState.numberOfComplicationInfoTransfersAvailable)")
     }
     

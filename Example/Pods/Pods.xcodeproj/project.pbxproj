@@ -111,7 +111,7 @@
 		1562135E857ADB06A8BD534FE8FB105B /* Pods-Communicator_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Communicator_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
 		16652AC31B71A1B0D281BD1D8F9B0F94 /* TABObserverSet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TABObserverSet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1ADB42E0CF292B91DF9A233B054A15D2 /* Pods-WatchExample Extension.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-WatchExample Extension.modulemap"; sourceTree = "<group>"; };
-		1D04993B0ADAEF29DD1160B0852B1803 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		1D04993B0ADAEF29DD1160B0852B1803 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
 		1E2976ACB49B28F73E790B259E920374 /* Communicator-watchOS-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "Communicator-watchOS-prefix.pch"; path = "../Communicator-watchOS/Communicator-watchOS-prefix.pch"; sourceTree = "<group>"; };
 		212EEF9BC948D31AE0BA3B210C1ABE8F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS5.2.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		218E2EDC07EDDED773E1AA8F4C21BE32 /* Pods-Communicator_Example-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Communicator_Example-Info.plist"; sourceTree = "<group>"; };
@@ -125,17 +125,17 @@
 		3ABEE491D39246C577970D2A408206DE /* Pods-WatchExample Extension-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-WatchExample Extension-acknowledgements.plist"; sourceTree = "<group>"; };
 		481710C9C7E41B9033D0A9E76C36082F /* TABObserverSet-iOS-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "TABObserverSet-iOS-umbrella.h"; sourceTree = "<group>"; };
 		48713444AE222932514A1F1F5BEAA055 /* Pods-Communicator_Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Communicator_Example-frameworks.sh"; sourceTree = "<group>"; };
-		53A4E3B1EBA488166F5DAE253B9775A7 /* TABObserverSet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TABObserverSet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		53A4E3B1EBA488166F5DAE253B9775A7 /* TABObserverSet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = TABObserverSet.framework; path = "TABObserverSet-iOS.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		53E783C267132CBDC82F68C0B0FA2D7B /* Pods-WatchExample Extension-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-WatchExample Extension-Info.plist"; sourceTree = "<group>"; };
 		57735D1B9B9F9620675BF42D8CD36F42 /* Pods-Communicator_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-Communicator_Example.modulemap"; sourceTree = "<group>"; };
 		5A077420B047CBE600B8C501701CFFD2 /* TABObserverSet-watchOS-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "TABObserverSet-watchOS-prefix.pch"; path = "../TABObserverSet-watchOS/TABObserverSet-watchOS-prefix.pch"; sourceTree = "<group>"; };
-		62B161A5A08A5C4C4913EFA3DCAD9AF0 /* Pods_WatchExample_Extension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WatchExample_Extension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		62B161A5A08A5C4C4913EFA3DCAD9AF0 /* Pods_WatchExample_Extension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_WatchExample_Extension.framework; path = "Pods-WatchExample Extension.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		67A8D38E2605DFE05CE79AFA39024D2F /* TABObserverSet-iOS-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "TABObserverSet-iOS-dummy.m"; sourceTree = "<group>"; };
 		6884D31F9BD69E0315A61F4F4AA10721 /* Pods-Communicator_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Communicator_Example-acknowledgements.plist"; sourceTree = "<group>"; };
-		6B1238B10CA2F5E9487884C31AC5B739 /* Communicator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Communicator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6B1238B10CA2F5E9487884C31AC5B739 /* Communicator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Communicator.framework; path = "Communicator-iOS.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		708F18E826EE6E3C2CCFF1AF7374708E /* Pods-WatchExample Extension-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-WatchExample Extension-frameworks.sh"; sourceTree = "<group>"; };
 		79C4D878F0EA073CA5B9615C8CD5A727 /* Communicator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Communicator.swift; path = Communicator/Classes/Communicator.swift; sourceTree = "<group>"; };
-		7FD040CA4FFD92E6D2A2160485AB6DF4 /* Pods_Communicator_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Communicator_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7FD040CA4FFD92E6D2A2160485AB6DF4 /* Pods_Communicator_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Communicator_Tests.framework; path = "Pods-Communicator_Tests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		809A384D6282720E9ED7153251AEF58C /* Pods-Communicator_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Communicator_Example-dummy.m"; sourceTree = "<group>"; };
 		81262DD5D3FE5DAFA50C25C0511C647D /* Pods-Communicator_Tests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Communicator_Tests-umbrella.h"; sourceTree = "<group>"; };
 		817F155481BE2D0E425952C2B2A82F5E /* Communicator-iOS-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Communicator-iOS-umbrella.h"; sourceTree = "<group>"; };
@@ -145,9 +145,9 @@
 		97902D59D740585B6ECA0F475553E5EB /* TABObserverSet-watchOS.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; name = "TABObserverSet-watchOS.modulemap"; path = "../TABObserverSet-watchOS/TABObserverSet-watchOS.modulemap"; sourceTree = "<group>"; };
 		995E0D463007351F9BD1D92B6A806116 /* Pods-Communicator_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-Communicator_Tests.modulemap"; sourceTree = "<group>"; };
 		9A476E864944D1AE8A8A92FBF393F96D /* Communicator-watchOS.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Communicator-watchOS.xcconfig"; path = "../Communicator-watchOS/Communicator-watchOS.xcconfig"; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9E60A038B59BC5B0F0927892FCE95E1B /* Pods-WatchExample Extension-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-WatchExample Extension-dummy.m"; sourceTree = "<group>"; };
-		A1F848FEFD7EBAB97E8800FF1EFAEFCF /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		A1F848FEFD7EBAB97E8800FF1EFAEFCF /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
 		A694C78A993E28FE7E6DB5DB681EA1AF /* ObserverSet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ObserverSet.swift; sourceTree = "<group>"; };
 		A917C64206518F7F6693D3140B2D43D2 /* TABObserverSet-watchOS-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "TABObserverSet-watchOS-dummy.m"; path = "../TABObserverSet-watchOS/TABObserverSet-watchOS-dummy.m"; sourceTree = "<group>"; };
 		AA73938CF398BE18F7F188FBD5114373 /* TABObserverSet-watchOS-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "TABObserverSet-watchOS-umbrella.h"; path = "../TABObserverSet-watchOS/TABObserverSet-watchOS-umbrella.h"; sourceTree = "<group>"; };
@@ -160,7 +160,7 @@
 		B558404086F4EE4BFF9E25EDAFE853B2 /* Pods-Communicator_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Communicator_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		BE1DDBE7F084AB690DAD167C81FDF407 /* WatchState.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WatchState.swift; path = Communicator/Classes/WatchState.swift; sourceTree = "<group>"; };
 		C0035375155233421F4A51F8B56F476F /* TABObserverSet-iOS-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "TABObserverSet-iOS-prefix.pch"; sourceTree = "<group>"; };
-		C0B9EC68D5520B2400BBAAB305808DA1 /* TABObserverSet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TABObserverSet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C0B9EC68D5520B2400BBAAB305808DA1 /* TABObserverSet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = TABObserverSet.framework; path = "TABObserverSet-watchOS.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3598BFEA5F6F06DE275E751CED27102 /* WatchConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchConnectivity.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/WatchConnectivity.framework; sourceTree = DEVELOPER_DIR; };
 		C400F24D48CC5C15D4911980DA4DC54B /* Communicator-iOS-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Communicator-iOS-prefix.pch"; sourceTree = "<group>"; };
 		C42CE299FC906D2251CC0F70E92163EE /* Pods-Communicator_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Communicator_Tests-dummy.m"; sourceTree = "<group>"; };
@@ -172,13 +172,13 @@
 		DC5FF3937E92207C761D13685F6A9715 /* Communicator-watchOS-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "Communicator-watchOS-dummy.m"; path = "../Communicator-watchOS/Communicator-watchOS-dummy.m"; sourceTree = "<group>"; };
 		DC9F60E0FED99A8AE3377DCD3AEA1AF2 /* Communicator-iOS-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Communicator-iOS-dummy.m"; sourceTree = "<group>"; };
 		DD18F16E29FBF3204FC12938421A9B98 /* TABObserverSet-watchOS-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = "TABObserverSet-watchOS-Info.plist"; path = "../TABObserverSet-watchOS/TABObserverSet-watchOS-Info.plist"; sourceTree = "<group>"; };
-		E13F96223B5B09D8EF8ADAB53010B8FF /* Communicator.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; path = Communicator.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		E13F96223B5B09D8EF8ADAB53010B8FF /* Communicator.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = Communicator.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		E16ED086693C378CAD68CDB807F317C8 /* Communicator-watchOS.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; name = "Communicator-watchOS.modulemap"; path = "../Communicator-watchOS/Communicator-watchOS.modulemap"; sourceTree = "<group>"; };
 		F22FE2F8AD41A262BB26401F4E5D7908 /* WatchConnectivity+Helpers.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "WatchConnectivity+Helpers.swift"; path = "Communicator/Classes/WatchConnectivity+Helpers.swift"; sourceTree = "<group>"; };
-		F5B0A6F13C014B468480440F2EB7F89D /* Pods_Communicator_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Communicator_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F5B0A6F13C014B468480440F2EB7F89D /* Pods_Communicator_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Communicator_Example.framework; path = "Pods-Communicator_Example.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8190F460E27226B04E03A6BF29574A3 /* Pods-Communicator_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Communicator_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		F9ED6735162BACB02B2E1B7A2ACD58EC /* Communicator-iOS-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Communicator-iOS-Info.plist"; sourceTree = "<group>"; };
-		FC146CC6E5DC3B4499F4F909620C145B /* Communicator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Communicator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FC146CC6E5DC3B4499F4F909620C145B /* Communicator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Communicator.framework; path = "Communicator-watchOS.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE15CC6D9EA9BFB9B9017F9747CF0649 /* Blob.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Blob.swift; path = Communicator/Classes/Blob.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -442,6 +442,7 @@
 				A694C78A993E28FE7E6DB5DB681EA1AF /* ObserverSet.swift */,
 				D8C7123D33E6D1D232FD59E740875EE5 /* Support Files */,
 			);
+			name = TABObserverSet;
 			path = TABObserverSet;
 			sourceTree = "<group>";
 		};
@@ -656,20 +657,6 @@
 			attributes = {
 				LastSwiftUpdateCheck = 1100;
 				LastUpgradeCheck = 1100;
-				TargetAttributes = {
-					3AF09E20F5DD8485E53E1241ABE51FD9 = {
-						LastSwiftMigration = 1120;
-					};
-					9CE41F73E4F8BD9CEE4E8D5C604E5B92 = {
-						LastSwiftMigration = 1120;
-					};
-					D24821F65C40CE044E9137FAD2AE9387 = {
-						LastSwiftMigration = 1120;
-					};
-					D2F3DD9EE948CBF2EAEC38C6B009CD5D = {
-						LastSwiftMigration = 1120;
-					};
-				};
 			};
 			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -870,9 +857,42 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		16478AC9BE974966506808C99CA23DAF /* Release */ = {
+		00DAA600431DF405D71489A094B2F18C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2F6902E4FDF6AEF7B482150CCB2801C4 /* TABObserverSet-watchOS.xcconfig */;
+			baseConfigurationReference = 017A5A0041B7B6A4782B94A0BA8FDBA2 /* Communicator-iOS.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/Communicator-iOS/Communicator-iOS-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Communicator-iOS/Communicator-iOS-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Communicator-iOS/Communicator-iOS.modulemap";
+				PRODUCT_MODULE_NAME = Communicator;
+				PRODUCT_NAME = Communicator;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		07E4229695A8279D82F35965CA291687 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9A476E864944D1AE8A8A92FBF393F96D /* Communicator-watchOS.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -884,22 +904,53 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/TABObserverSet-watchOS/TABObserverSet-watchOS-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/TABObserverSet-watchOS/TABObserverSet-watchOS-Info.plist";
+				GCC_PREFIX_HEADER = "Target Support Files/Communicator-watchOS/Communicator-watchOS-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Communicator-watchOS/Communicator-watchOS-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/TABObserverSet-watchOS/TABObserverSet-watchOS.modulemap";
-				PRODUCT_MODULE_NAME = TABObserverSet;
-				PRODUCT_NAME = TABObserverSet;
+				MODULEMAP_FILE = "Target Support Files/Communicator-watchOS/Communicator-watchOS.modulemap";
+				PRODUCT_MODULE_NAME = Communicator;
+				PRODUCT_NAME = Communicator;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+				WATCHOS_DEPLOYMENT_TARGET = 3.0;
+			};
+			name = Debug;
+		};
+		3DBB45061A1FBCB6045DFBA91BF6EE74 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = ABD69A3C62E3E7C6635BFFE6201F3F8F /* TABObserverSet-iOS.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/TABObserverSet-iOS/TABObserverSet-iOS-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/TABObserverSet-iOS/TABObserverSet-iOS-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/TABObserverSet-iOS/TABObserverSet-iOS.modulemap";
+				PRODUCT_MODULE_NAME = TABObserverSet;
+				PRODUCT_NAME = TABObserverSet;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
-				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
 		};
@@ -970,9 +1021,9 @@
 			};
 			name = Debug;
 		};
-		4455135117568A998E74B78AC2A263C7 /* Release */ = {
+		699331B189A513C35D0489F9315094B3 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9A476E864944D1AE8A8A92FBF393F96D /* Communicator-watchOS.xcconfig */;
+			baseConfigurationReference = 2F6902E4FDF6AEF7B482150CCB2801C4 /* TABObserverSet-watchOS.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -984,13 +1035,13 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/Communicator-watchOS/Communicator-watchOS-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/Communicator-watchOS/Communicator-watchOS-Info.plist";
+				GCC_PREFIX_HEADER = "Target Support Files/TABObserverSet-watchOS/TABObserverSet-watchOS-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/TABObserverSet-watchOS/TABObserverSet-watchOS-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/Communicator-watchOS/Communicator-watchOS.modulemap";
-				PRODUCT_MODULE_NAME = Communicator;
-				PRODUCT_NAME = Communicator;
+				MODULEMAP_FILE = "Target Support Files/TABObserverSet-watchOS/TABObserverSet-watchOS.modulemap";
+				PRODUCT_MODULE_NAME = TABObserverSet;
+				PRODUCT_NAME = TABObserverSet;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
@@ -999,7 +1050,7 @@
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
-				WATCHOS_DEPLOYMENT_TARGET = 2.2;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
 		};
@@ -1036,70 +1087,6 @@
 			};
 			name = Debug;
 		};
-		832E2EA58B2A26BC24C03B752B80B6C0 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = ABD69A3C62E3E7C6635BFFE6201F3F8F /* TABObserverSet-iOS.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/TABObserverSet-iOS/TABObserverSet-iOS-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/TABObserverSet-iOS/TABObserverSet-iOS-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/TABObserverSet-iOS/TABObserverSet-iOS.modulemap";
-				PRODUCT_MODULE_NAME = TABObserverSet;
-				PRODUCT_NAME = TABObserverSet;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		8B77D58303913B20996B033507250481 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 017A5A0041B7B6A4782B94A0BA8FDBA2 /* Communicator-iOS.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/Communicator-iOS/Communicator-iOS-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/Communicator-iOS/Communicator-iOS-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/Communicator-iOS/Communicator-iOS.modulemap";
-				PRODUCT_MODULE_NAME = Communicator;
-				PRODUCT_NAME = Communicator;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
 		8CC7DE6732ED4A13EF0EE3664ECF39B2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B53619DE39C2CD0F84B007171759D497 /* Pods-WatchExample Extension.release.xcconfig */;
@@ -1134,37 +1121,6 @@
 				WATCHOS_DEPLOYMENT_TARGET = 3.2;
 			};
 			name = Release;
-		};
-		9B5C1D355326A8DE6FADD6C09DCD1991 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 017A5A0041B7B6A4782B94A0BA8FDBA2 /* Communicator-iOS.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/Communicator-iOS/Communicator-iOS-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/Communicator-iOS/Communicator-iOS-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/Communicator-iOS/Communicator-iOS.modulemap";
-				PRODUCT_MODULE_NAME = Communicator;
-				PRODUCT_NAME = Communicator;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
 		};
 		A65A28DF61EE917C91759991688AE214 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1265,38 +1221,7 @@
 			};
 			name = Release;
 		};
-		BA922DA4733A991B455CA887BD5B7C20 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = ABD69A3C62E3E7C6635BFFE6201F3F8F /* TABObserverSet-iOS.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/TABObserverSet-iOS/TABObserverSet-iOS-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/TABObserverSet-iOS/TABObserverSet-iOS-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/TABObserverSet-iOS/TABObserverSet-iOS.modulemap";
-				PRODUCT_MODULE_NAME = TABObserverSet;
-				PRODUCT_NAME = TABObserverSet;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		C1AF967E6AF73B259E2141D1525BD8A5 /* Debug */ = {
+		ACD3129050B2A9AE3140D5B831D76A4B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2F6902E4FDF6AEF7B482150CCB2801C4 /* TABObserverSet-watchOS.xcconfig */;
 			buildSettings = {
@@ -1327,6 +1252,71 @@
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
+		};
+		CA84E4F9BB9D4223ED7DD40978D5D425 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 017A5A0041B7B6A4782B94A0BA8FDBA2 /* Communicator-iOS.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/Communicator-iOS/Communicator-iOS-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Communicator-iOS/Communicator-iOS-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Communicator-iOS/Communicator-iOS.modulemap";
+				PRODUCT_MODULE_NAME = Communicator;
+				PRODUCT_NAME = Communicator;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		D4237B11F8DF6E1A27A79EBC1500BB54 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9A476E864944D1AE8A8A92FBF393F96D /* Communicator-watchOS.xcconfig */;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/Communicator-watchOS/Communicator-watchOS-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Communicator-watchOS/Communicator-watchOS-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Communicator-watchOS/Communicator-watchOS.modulemap";
+				PRODUCT_MODULE_NAME = Communicator;
+				PRODUCT_NAME = Communicator;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+				WATCHOS_DEPLOYMENT_TARGET = 3.0;
+			};
+			name = Release;
 		};
 		D83F666C4503B6D3B02CAB988E0234D3 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -1381,18 +1371,18 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_INSTALLED_PRODUCT = NO;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				SYMROOT = "${SRCROOT}/../build";
 				WATCHOS_DEPLOYMENT_TARGET = 3.2;
 			};
 			name = Release;
 		};
-		D9848E339F7D0C703E318E5642269147 /* Debug */ = {
+		E74B0EC5A00080B05D371DB989B3536C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9A476E864944D1AE8A8A92FBF393F96D /* Communicator-watchOS.xcconfig */;
+			baseConfigurationReference = ABD69A3C62E3E7C6635BFFE6201F3F8F /* TABObserverSet-iOS.xcconfig */;
 			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -1402,21 +1392,21 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/Communicator-watchOS/Communicator-watchOS-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/Communicator-watchOS/Communicator-watchOS-Info.plist";
+				GCC_PREFIX_HEADER = "Target Support Files/TABObserverSet-iOS/TABObserverSet-iOS-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/TABObserverSet-iOS/TABObserverSet-iOS-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/Communicator-watchOS/Communicator-watchOS.modulemap";
-				PRODUCT_MODULE_NAME = Communicator;
-				PRODUCT_NAME = Communicator;
-				SDKROOT = watchos;
+				MODULEMAP_FILE = "Target Support Files/TABObserverSet-iOS/TABObserverSet-iOS.modulemap";
+				PRODUCT_MODULE_NAME = TABObserverSet;
+				PRODUCT_NAME = TABObserverSet;
+				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
-				WATCHOS_DEPLOYMENT_TARGET = 2.2;
 			};
 			name = Debug;
 		};
@@ -1460,8 +1450,8 @@
 		03411DFF9A47F6ACE4319BD96594A732 /* Build configuration list for PBXNativeTarget "TABObserverSet-iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				BA922DA4733A991B455CA887BD5B7C20 /* Debug */,
-				832E2EA58B2A26BC24C03B752B80B6C0 /* Release */,
+				E74B0EC5A00080B05D371DB989B3536C /* Debug */,
+				3DBB45061A1FBCB6045DFBA91BF6EE74 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1478,8 +1468,8 @@
 		4400E6CF2C3E946F13259B9838457443 /* Build configuration list for PBXNativeTarget "Communicator-watchOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D9848E339F7D0C703E318E5642269147 /* Debug */,
-				4455135117568A998E74B78AC2A263C7 /* Release */,
+				07E4229695A8279D82F35965CA291687 /* Debug */,
+				D4237B11F8DF6E1A27A79EBC1500BB54 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1505,8 +1495,8 @@
 		71A9AFF14FBEC7234026E38340C27E34 /* Build configuration list for PBXNativeTarget "TABObserverSet-watchOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C1AF967E6AF73B259E2141D1525BD8A5 /* Debug */,
-				16478AC9BE974966506808C99CA23DAF /* Release */,
+				ACD3129050B2A9AE3140D5B831D76A4B /* Debug */,
+				699331B189A513C35D0489F9315094B3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1523,8 +1513,8 @@
 		E7C02D6BE4817B228EEF40DCC71FE328 /* Build configuration list for PBXNativeTarget "Communicator-iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				9B5C1D355326A8DE6FADD6C09DCD1991 /* Debug */,
-				8B77D58303913B20996B033507250481 /* Release */,
+				CA84E4F9BB9D4223ED7DD40978D5D425 /* Debug */,
+				00DAA600431DF405D71489A094B2F18C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

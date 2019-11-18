@@ -13,7 +13,7 @@ import Foundation
 /// between devices.
 public struct Blob {
     
-    public typealias CompletionHandler = ((Error?) -> Void)
+    public typealias Completion = ((Result<Void, Swift.Error>) -> Void)
     
     /// Represents an error that may occur.
     ///
@@ -31,8 +31,6 @@ public struct Blob {
     public let identifier: String
     /// The content of the Blob as pure Data.
     public let content: Data
-    /// An optional completion handler to execute when the Blob has transferred.
-    public let completionHandler: CompletionHandler?
     
     // MARK: - Initialisers -
     // MARK: Public
@@ -44,11 +42,9 @@ public struct Blob {
     ///   - identifier: The identifier of the Blob. Your app is responsible
     ///                 for creating and knowing these identifiers.
     ///   - content: The content of the Blob as Data.
-    ///   - completionHandler: An optional completion handler to execute when the blob has transferred.
-    public init(identifier: String, content: Data, completionHandler: CompletionHandler? = nil) {
+    public init(identifier: String, content: Data) {
         self.identifier = identifier
         self.content = content
-        self.completionHandler = completionHandler
     }
     
     // MARK: Internal

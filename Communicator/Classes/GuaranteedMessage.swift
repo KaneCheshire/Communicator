@@ -18,6 +18,8 @@ import Foundation
 /// system will reject it, instead, use a Blob.
 public struct GuaranteedMessage {
     
+    public typealias Completion = (Result<Void, Swift.Error>) -> Void
+    
     /// Represents an error that may occur.
     ///
     /// - missingIdentifier: Indicates that an identifier is missing.

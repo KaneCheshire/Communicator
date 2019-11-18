@@ -27,7 +27,7 @@ private extension AppDelegate {
         setupActivationStateChangedObservers()
         setupWatchStateChangedObservers()
         setupReachabilityChangedObservers()
-        setupMessageReceivedObservers()
+        setupImmediateMessageReceivedObservers()
         setupBlobReceivedObservers()
         setupContextUpdatedObservers()
     }
@@ -50,11 +50,15 @@ private extension AppDelegate {
         }
     }
     
-    private func setupMessageReceivedObservers() {
+    private func setupImmediateMessageReceivedObservers() {
         Communicator.shared.immediateMessageReceivedObservers.add { message in
             print("Received message: ", message.identifier)
             message.replyHandler?(["Reply" : "Message"])
         }
+    }
+    
+    private func setupGuaranteedMessageReceivedObservers() {
+        
     }
     
     private func setupBlobReceivedObservers() {

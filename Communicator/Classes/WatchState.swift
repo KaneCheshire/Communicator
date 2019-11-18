@@ -24,7 +24,6 @@ public struct WatchState {
     
     /// The amount of complication updates you can make from your iOS app.
     /// If no complications are currently on the user's active watch face, this returns 0.
-    /// Note: On iOS versions before iOS 10 this will be -1.
     public let numberOfComplicationInfoTransfersAvailable: Int
     
     /// Represents a system-defined URL pointing to a directory on the

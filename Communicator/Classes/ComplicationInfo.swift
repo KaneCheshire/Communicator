@@ -11,6 +11,8 @@ import Foundation
 /// Represents information to update complications in watchOS apps.
 public struct ComplicationInfo {
     
+    public typealias Completion = (Result<Void, Swift.Error>) -> Void
+    
     enum ErrorType: Error {
         case notAComplicationInfo
     }
