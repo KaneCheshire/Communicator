@@ -49,11 +49,11 @@ public struct Blob {
     
     // MARK: Internal
     
-    init(jsonDictionary: JSONDictionary) throws {
-        guard let identifier = jsonDictionary["identifier"] as? String else {
+    init(content: Content) throws {
+        guard let identifier = content["identifier"] as? String else {
             throw ErrorType.missingIdentifier
         }
-        guard let content = jsonDictionary["content"] as? Data else {
+        guard let content = content["content"] as? Data else {
             throw ErrorType.missingContent
         }
         self.init(identifier: identifier, content: content)
@@ -62,7 +62,7 @@ public struct Blob {
     // MARK: - Functions -
     // MARK: Internal
     
-    func jsonRepresentation() -> JSONDictionary {
+    func jsonRepresentation() -> Content {
         return ["identifier" : identifier,
                 "content" : content]
     }

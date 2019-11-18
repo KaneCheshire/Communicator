@@ -12,7 +12,7 @@ import TABObserverSet
 import WatchKit
 #endif
 
-public typealias JSONDictionary = [String : Any]
+public typealias Content = [String : Any]
 
 /// Handles communicating with a watchOS or iOS counterpart app by sending Messages, Contexts and Blobs.
 public final class Communicator: NSObject {
@@ -21,7 +21,6 @@ public final class Communicator: NSObject {
     ///
     /// - sessionIsNotActive: Indicates the session is not currently active and cannot be used.
     public enum Error: Swift.Error {
-        case sessionIsNotActive
         case sessionIsNotReachable
     }
     
@@ -159,10 +158,12 @@ public final class Communicator: NSObject {
     /// Do not use ImmediateMessage for sending large amounts of data, transfer a Blob instead.
     ///
     /// - Parameter immediateMessage: The ImmediateMessage to send immediately to the counterpart app.
-    /// - Throws: Error
-    public func send(_ immediateMessage: ImmediateMessage) throws {
-        guard currentReachability == .immediateMessaging else { throw Error.sessionIsNotReachable }
-        session.sendMessage(immediateMessage.jsonRepresentation(), replyHandler: immediateMessage.replyHandler, errorHandler: immediateMessage.errorHandler)
+    public func send(_ immediateMessage: ImmediateMessage, errorHandler: ImmediateMessage.ErrorHandler? = nil) {
+        guard currentReachability == .immediateMessaging else {
+            errorHandler?(Error.sessionIsNotReachable)
+            return
+        }
+        session.sendMessage(immediateMessage.jsonRepresentation(), replyHandler: immediateMessage.reply, errorHandler: errorHandler)
     }
     
     /// Sends a guaranteed message to the counterpart app.
@@ -175,11 +176,15 @@ public final class Communicator: NSObject {
     /// Do not use GuaranteedMessages for sending large amounts of data, transfer a Blob instead.
     ///
     /// - Parameter guaranteedMessage: The GuaranteedMessages to queue and send to the counterpart app.
-    /// - Throws: Error
-    public func send(_ guaranteedMessage: GuaranteedMessage, completion: GuaranteedMessage.Completion? = nil) throws {
-        guard currentState == .activated else { throw Error.sessionIsNotActive }
-        let transfer = session.transferUserInfo(guaranteedMessage.jsonRepresentation())
-        guaranteedMessageTransferCompletionHandlers[transfer] = completion
+    /// - Parameter completiob: An optional completion handler that is executed when the transfer fails or succeeds.
+    public func send(_ guaranteedMessage: GuaranteedMessage, completion: GuaranteedMessage.Completion? = nil) {
+        switch currentReachability {
+            case .backgroundMessaging, .immediateMessaging:
+                let transfer = session.transferUserInfo(guaranteedMessage.jsonRepresentation())
+                guaranteedMessageTransferCompletionHandlers[transfer] = completion
+            case .notReachable:
+                completion?(.failure(Error.sessionIsNotReachable))
+        }
     }
     
     /// Transfers a Blob to the counterpart app.
@@ -191,16 +196,23 @@ public final class Communicator: NSObject {
     /// If an error occurs before transferring the Blob, this function will throw an error.
     ///
     /// - Parameter blob: The Blob to transfer.
-    /// - Parameter completion: An optional handler that is called when the transfer completes.
-    /// - Throws: Error
-    public func transfer(_ blob: Blob, completion: Blob.Completion? = nil) throws {
-        guard currentState == .activated else { throw Error.sessionIsNotActive }
-        let documentsDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-        let urlString = documentsDirectory.appending("/blob.data")
-        let fileURL = URL(fileURLWithPath: urlString)
-        try blob.dataRepresentation().write(to: fileURL)
-        let transfer = session.transferFile(fileURL, metadata: nil)
-        blobTransferCompletionHandlers[transfer] = completion
+    /// - Parameter completion: An optional handler that is called when the transfer completes or fails.
+    public func transfer(_ blob: Blob, completion: Blob.Completion? = nil) {
+        switch currentReachability {
+            case .backgroundMessaging, .immediateMessaging:
+                let documentsDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+                let urlString = documentsDirectory.appending("/blob.data")
+                let fileURL = URL(fileURLWithPath: urlString)
+                do {
+                    try blob.dataRepresentation().write(to: fileURL)
+                    let transfer = session.transferFile(fileURL, metadata: nil)
+                    blobTransferCompletionHandlers[transfer] = completion
+                } catch {
+                    completion?(.failure(error))
+                }
+            case .notReachable:
+                completion?(.failure(Error.sessionIsNotReachable))
+        }
     }
     
     /// Syncs a Context with the counterpart app. Contexts are lightweight and should not be used for messaging
@@ -212,11 +224,13 @@ public final class Communicator: NSObject {
     /// If an error occurs before syncing the context, this function will throw an error.
     ///
     /// - Parameter context: The Context to sync with the counterpart app.
-    /// - Parameter completion: An optional handler that is called when the transfer completes.
-    /// - Throws: Error
     public func sync(_ context: Context) throws {
-        guard currentState == .activated else { throw Error.sessionIsNotActive }
-        try session.updateApplicationContext(context.content)
+        switch currentReachability {
+            case .backgroundMessaging, .immediateMessaging:
+                try session.updateApplicationContext(context.content)
+            case .notReachable:
+                throw Error.sessionIsNotReachable
+        }
     }
     
     #if os(iOS)
@@ -233,12 +247,15 @@ public final class Communicator: NSObject {
     /// checking the currentWatchState property.
     ///
     /// - Parameter complicationInfo: The ComplicationInfo to transfer.
-    /// - Parameter completion: An optional handler that is called when the transfer completes.
-    /// - Throws: Error
-    public func transfer(_ complicationInfo: ComplicationInfo, completion: ComplicationInfo.Completion? = nil) throws {
-        guard currentState == .activated else { throw Error.sessionIsNotActive }
-        let transfer = session.transferCurrentComplicationUserInfo(complicationInfo.jsonRepresentation())
-        complicationInfoTransferCompletionHandlers[transfer] = completion
+    /// - Parameter completion: An optional handler that is called when the transfer completes or fails.
+    public func transfer(_ complicationInfo: ComplicationInfo, completion: ComplicationInfo.Completion? = nil) {
+        switch currentReachability {
+            case .backgroundMessaging, .immediateMessaging:
+                let transfer = session.transferCurrentComplicationUserInfo(complicationInfo.jsonRepresentation())
+                complicationInfoTransferCompletionHandlers[transfer] = completion
+            case .notReachable:
+                completion?(.failure(Error.sessionIsNotReachable))
+        }
     }
     
     #endif
@@ -291,19 +308,19 @@ private final class CommunicatorSessionDelegate: NSObject, WCSessionDelegate {
     // MARK: Receiving messages
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
-        guard let message = try? ImmediateMessage(jsonDictionary: message) else { return }
+        guard let message = try? ImmediateMessage(content: message, reply: nil) else { return }
         communicator?.immediateMessageReceivedObservers.notify(message)
     }
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
-        guard let message = try? ImmediateMessage(jsonDictionary: message, replyHandler: replyHandler) else { return replyHandler(["error":"unableToConstructMessageFromJSON"]) }
+        guard let message = try? ImmediateMessage(content: message, reply: replyHandler) else { return replyHandler(["error":"unableToConstructMessageFromJSON"]) }
         communicator?.immediateMessageReceivedObservers.notify(message)
     }
     
     // MARK: Receiving and sending userInfo/complication data
     
     func session(_ session: WCSession, didReceiveUserInfo userInfo: [String : Any] = [:]) {
-        if let message = try? GuaranteedMessage(jsonDictionary: userInfo) {
+        if let message = try? GuaranteedMessage(content: userInfo) {
             communicator?.guaranteedMessageReceivedObservers.notify(message)
         }
         #if os(watchOS)
@@ -341,8 +358,8 @@ private final class CommunicatorSessionDelegate: NSObject, WCSessionDelegate {
     
     func session(_ session: WCSession, didReceive file: WCSessionFile) {
         guard let data = try? Data(contentsOf: file.fileURL) else { return }
-        guard let messageDictionary: [String : Any] = NSKeyedUnarchiver.unarchiveObject(with: data) as? [String : Any] else { return }
-        guard let blob = try? Blob(jsonDictionary: messageDictionary) else { return }
+        guard let content = NSKeyedUnarchiver.unarchiveObject(with: data) as? [String : Any] else { return }
+        guard let blob = try? Blob(content: content) else { return }
         communicator?.blobReceivedObservers.notify(blob)
         endBackgroundTaskIfRequired()
     }

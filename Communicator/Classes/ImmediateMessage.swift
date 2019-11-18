@@ -8,6 +8,7 @@
 
 import Foundation
 
+
 /// Represents a message that can be sent between devices being received
 /// (almost) immediately, while both device's sessions are available.
 ///
@@ -21,14 +22,14 @@ import Foundation
 /// system will reject it, instead, use a Blob.
 public struct ImmediateMessage {
     
-    public typealias ReplyHandler = ([String : Any]) -> Void
-    public typealias ErrorHandler = (Error) -> Void
+    public typealias Reply = (Content) -> Void
+    public typealias ErrorHandler = (Swift.Error) -> Void
     
     /// Represents an error that may occur.
     ///
     /// - missingIdentifier: Indicates that an identifier is missing.
     /// - missingContent: Indicates that the content is missing.
-    enum ErrorType: Error {
+    enum Error: Swift.Error {
         case missingIdentifier
         case missingContent
     }
@@ -39,11 +40,9 @@ public struct ImmediateMessage {
     /// The Message's identifer, defined by your app.
     public let identifier: String
     /// The content of the Message in a JSON dictionary format.
-    public let content: JSONDictionary
-    /// An optional reply handler to execute in response to a message.
-    public let replyHandler: ReplyHandler?
-    /// An optional error handler to execute in the event of an error.
-    public let errorHandler: ErrorHandler?
+    public let content: Content
+    /// The optional reply handler that is called from the counterpart.
+    public let reply: Reply?
     
     // MARK: - Initialisers -
     // MARK: Public
@@ -60,31 +59,29 @@ public struct ImmediateMessage {
     ///                 for creating and knowing these identifiers.
     ///   - content: The content of the Message. Content must be in a JSON dictionary
     ///              format with only plist values. i.e, String, Int, Data etc.
-    ///   - replyHandler: An optional reply handler.
-    ///   - errorHandler: An optional error handler.
-    public init(identifier: String, content: JSONDictionary, replyHandler: ReplyHandler? = nil, errorHandler: ErrorHandler? = nil) {
+    ///   - reply: An optional reply handler.
+    public init(identifier: String, content: Content, reply: Reply? = nil) {
         self.identifier = identifier
         self.content = content
-        self.replyHandler = replyHandler
-        self.errorHandler = errorHandler
+        self.reply = reply
     }
     
     // MARK: Internal
     
-    init(jsonDictionary: JSONDictionary, replyHandler: ReplyHandler? = nil) throws {
-        guard let identifier = jsonDictionary["identifier"] as? String else {
-            throw ErrorType.missingIdentifier
+    init(content: Content, reply: Reply?) throws {
+        guard let identifier = content["identifier"] as? String else {
+            throw Error.missingIdentifier
         }
-        guard let content = jsonDictionary["content"] as? JSONDictionary else {
-            throw ErrorType.missingContent
+        guard let content = content["content"] as? Content else {
+            throw Error.missingContent
         }
-        self.init(identifier: identifier, content: content, replyHandler: replyHandler, errorHandler: nil)
+        self.init(identifier: identifier, content: content, reply: reply)
     }
     
     // MARK: - Functions -
     // MARK: Internal
     
-    func jsonRepresentation() -> JSONDictionary {
+    func jsonRepresentation() -> Content {
         return ["identifier" : identifier,
                 "content" : content]
     }

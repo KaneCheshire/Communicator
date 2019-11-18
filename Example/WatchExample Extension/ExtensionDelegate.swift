@@ -54,8 +54,11 @@ private extension ExtensionDelegate {
     
     private func setupMessageReceivedObservers() {
         Communicator.shared.immediateMessageReceivedObservers.add { message in
-            print("Received message: ", message.identifier)
-            message.replyHandler?(["Replied!" : "Message"])
+            print("Received message: ", message)
+            message.reply?(["Replied!" : "Message"])
+        }
+        Communicator.shared.guaranteedMessageReceivedObservers.add { message in
+            print("Received message: ", message)
         }
     }
     

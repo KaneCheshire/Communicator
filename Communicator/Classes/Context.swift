@@ -16,7 +16,7 @@ public struct Context {
     // MARK: Public
     
     /// The Context's content, in a JSON dictionary format.
-    public let content: JSONDictionary
+    public let content: Content
     
     // MARK: - Initialisers -
     // MARK: Public
@@ -28,7 +28,7 @@ public struct Context {
     /// - Parameter content: The content of the Context, in JSON dictionary format.
     ///                      The JSON dictionary must contain only plist values,
     ///                      I.e. Strings, Ints and Data etc.
-    public init(content: JSONDictionary) {
+    public init(content: Content) {
         self.content = content
     }
     

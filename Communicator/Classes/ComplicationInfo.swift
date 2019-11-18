@@ -21,7 +21,7 @@ public struct ComplicationInfo {
     // MARK: Public
     
     /// The content of the ComplicationInfo as a JSON dictionary.
-    public let content: JSONDictionary
+    public let content: Content
     
     // MARK: - Initialisers -
     // MARK: Public
@@ -31,14 +31,14 @@ public struct ComplicationInfo {
     /// such as Strings, Ints, Data etc.
     ///
     /// - Parameter content: The content of the ComplicationInfo as a JSON dictionary.
-    public init(content: JSONDictionary) {
+    public init(content: Content) {
         self.content = content
     }
     
     // MARK: Internal
     
-    init(jsonDictionary: JSONDictionary) throws {
-        guard let content = jsonDictionary["_ComplicationInfo"] as? JSONDictionary else {
+    init(jsonDictionary: Content) throws {
+        guard let content = jsonDictionary["_ComplicationInfo"] as? Content else {
             throw ErrorType.notAComplicationInfo
         }
         self.content = content
@@ -47,7 +47,7 @@ public struct ComplicationInfo {
     // MARK: - Functions -
     // MARK: Internal
     
-    func jsonRepresentation() -> JSONDictionary {
+    func jsonRepresentation() -> Content {
         return ["_ComplicationInfo" : content]
     }
     

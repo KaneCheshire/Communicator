@@ -52,18 +52,17 @@ private extension AppDelegate {
     
     private func setupImmediateMessageReceivedObservers() {
         Communicator.shared.immediateMessageReceivedObservers.add { message in
-            print("Received message: ", message.identifier)
-            message.replyHandler?(["Reply" : "Message"])
+            print("Received message: ", message)
+            message.reply?(["Reply" : "Message"])
         }
-    }
-    
-    private func setupGuaranteedMessageReceivedObservers() {
-        
+        Communicator.shared.guaranteedMessageReceivedObservers.add { message in
+            print("Received message: ", message)
+        }
     }
     
     private func setupBlobReceivedObservers() {
         Communicator.shared.blobReceivedObservers.add { blob in
-            print("Received blob: ", blob.identifier)
+            print("Received blob: ", blob)
         }
     }
     

@@ -35,7 +35,7 @@ public struct GuaranteedMessage {
     /// The Message's identifer, defined by your app.
     public let identifier: String
     /// The content of the Message in a JSON dictionary format.
-    public let content: JSONDictionary
+    public let content: Content
     
     // MARK: - Initialisers -
     // MARK: Public
@@ -49,18 +49,18 @@ public struct GuaranteedMessage {
     ///                 for creating and knowing these identifiers.
     ///   - content: The content of the Message. Content must be in a JSON dictionary
     ///              format with only plist values. i.e, String, Int, Data etc.
-    public init(identifier: String, content: JSONDictionary) {
+    public init(identifier: String, content: Content) {
         self.identifier = identifier
         self.content = content
     }
     
     // MARK: Internal
     
-    init(jsonDictionary: JSONDictionary) throws {
-        guard let identifier = jsonDictionary["identifier"] as? String else {
+    init(content: Content) throws {
+        guard let identifier = content["identifier"] as? String else {
             throw Error.missingIdentifier
         }
-        guard let content = jsonDictionary["content"] as? JSONDictionary else {
+        guard let content = content["content"] as? Content else {
             throw Error.missingContent
         }
         self.init(identifier: identifier, content: content)
@@ -69,7 +69,7 @@ public struct GuaranteedMessage {
     // MARK: - Functions -
     // MARK: Internal
     
-    func jsonRepresentation() -> JSONDictionary {
+    func jsonRepresentation() -> Content {
         return ["identifier" : identifier,
                 "content" : content]
     }
