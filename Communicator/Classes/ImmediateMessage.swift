@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 /// Represents a message that can be sent between devices being received
 /// (almost) immediately, while both device's sessions are available.
 ///

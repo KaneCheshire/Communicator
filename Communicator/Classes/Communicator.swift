@@ -176,8 +176,8 @@ public final class Communicator: NSObject {
     /// Do not use GuaranteedMessages for sending large amounts of data, transfer a Blob instead.
     ///
     /// - Parameter guaranteedMessage: The GuaranteedMessages to queue and send to the counterpart app.
-    /// - Parameter completiob: An optional completion handler that is executed when the transfer fails or succeeds.
-    public func send(_ guaranteedMessage: GuaranteedMessage, completion: GuaranteedMessage.Completion? = nil) {
+    /// - Parameter completion: An optional completion handler that is executed when the transfer fails or succeeds.
+    public func send(_ guaranteedMessage: GuaranteedMessage, completion: GuaranteedMessage.Completion? = nil) { // TODO: Support cancelling
         switch currentReachability {
             case .backgroundMessaging, .immediateMessaging:
                 let transfer = session.transferUserInfo(guaranteedMessage.jsonRepresentation())
@@ -282,13 +282,13 @@ private final class CommunicatorSessionDelegate: NSObject, WCSessionDelegate {
     #if os(iOS)
     
     func sessionDidDeactivate(_ session: WCSession) {
-        session.activate()
         communicator?.reachabilityChangedObservers.notify(communicator?.currentReachability ?? .notReachable)
+        session.activate()
     }
     
     func sessionDidBecomeInactive(_ session: WCSession) {
         communicator?.reachabilityChangedObservers.notify(communicator?.currentReachability ?? .notReachable)
-    } // Required
+    }
     
     func sessionWatchStateDidChange(_ session: WCSession) {
         guard let watchState = communicator?.currentWatchState else { return }
@@ -301,8 +301,9 @@ private final class CommunicatorSessionDelegate: NSObject, WCSessionDelegate {
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         communicator?.activationStateChangedObservers.notify(activationState.equivalentCommunicatorState)
         communicator?.reachabilityChangedObservers.notify(communicator?.currentReachability ?? .notReachable)
-        guard activationState != .activated else { return }
-        session.activate()
+        if activationState == .notActivated {
+            session.activate()
+        }
     }
     
     // MARK: Receiving messages
@@ -322,12 +323,11 @@ private final class CommunicatorSessionDelegate: NSObject, WCSessionDelegate {
     func session(_ session: WCSession, didReceiveUserInfo userInfo: [String : Any] = [:]) {
         if let message = try? GuaranteedMessage(content: userInfo) {
             communicator?.guaranteedMessageReceivedObservers.notify(message)
-        }
-        #if os(watchOS)
-        if let complicationInfo = try? ComplicationInfo(jsonDictionary: userInfo) {
+        } else if let complicationInfo = try? ComplicationInfo(jsonDictionary: userInfo) {
+            #if os(watchOS)
             communicator?.complicationInfoReceivedObservers.notify(complicationInfo)
+            #endif
         }
-        #endif
         endBackgroundTaskIfRequired()
     }
     
