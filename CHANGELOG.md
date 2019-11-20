@@ -6,7 +6,7 @@
 
 ## 4.0.0
 
-> **NOTE:** Version 4 is a breaking change.
+> **NOTE:** Version 4 is a very breaking change.
 
 - Now supports from iOS 10+ and watchOS 3+, availability checks in code removed where possible.
 - Moved completion handler from `Blob` init to `Communicator.transfer(Blob)`.
@@ -21,6 +21,13 @@
 - Fixed `Communicator` from trying to re-activate the session immediately after it activated, which caused `WatchConnectivity` to log an error.
 - To observe changes, you now call `observe` on the type you want to observe, i.e. `GuaranteedMessage.observe { message in }`
 - Removed dependency on `TABObserverSet`.
+- Added new `InteractiveImmediateMessage` which has a reply handler, removing the optional reply handler from `ImmediateMessage` all together.
+- Replies in interactive messages now expect an `ImmediateMessage` rather than just a JSON file.
+- Support for sending messages with just an identifier and empty content, with default values for their inits.
+- Support for cancelling `GuaranteedMessage`s, `ComplicationInfo`s and `Blobs`s.
+- `WatchState` is now an enum rather than a struct.
+- When observing changes you can now choose which `DispatchQueue` the handler is called on, which defaults to a special `communicator` queue off the main thread.
+
 
 ## 3.3.0
 

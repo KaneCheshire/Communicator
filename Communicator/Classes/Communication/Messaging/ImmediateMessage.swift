@@ -11,14 +11,13 @@ import Foundation
 /// Represents a message that can be sent between devices being received
 /// (almost) immediately, while both device's sessions are available.
 ///
-/// Immedate messages support configuring with a reply handler that gets called
-/// on the sender's side when it is called by the receiver.
-///
 /// Immedate messages are not guaranteed, and will fail if either of the sender or
-/// receiver session becomes unavailable while sending/replying.
+/// receiver session becomes unavailable while sending.
 ///
-/// Do not use a Message to send large amounts of data because the
+/// Do not use an ImmediateMessage to send large amounts of data because the
 /// system will reject it, instead, use a Blob.
+///
+/// If you want a reply immediately, use an `InteractiveImmediateMessage`.
 public struct ImmediateMessage {
     
     public typealias ErrorHandler = (Error) -> Void

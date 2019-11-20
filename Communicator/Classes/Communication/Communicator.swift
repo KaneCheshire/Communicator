@@ -107,7 +107,7 @@ public final class Communicator: NSObject {
     
     /// Sends an interactive message immediately. Interactive messages have a reply handler that is executed on the receiving end.
     ///
-    /// If an error occurs after the ImmediateMessage transfer is attempted, the error handler
+    /// If an error occurs after the InteractiveImmediateMessage transfer is attempted, the error handler
     /// will be called, if there is one provided.
     /// Do not use InteractiveImmediateMessage for sending large amounts of data, transfer a Blob instead.
     ///
