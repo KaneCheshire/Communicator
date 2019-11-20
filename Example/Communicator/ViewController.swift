@@ -12,7 +12,7 @@ import Communicator
 class ViewController: UIViewController {
     
     @IBAction func sendMessageTapped() {
-        let message = InteractiveImmediateMessage(identifier: "message", content: ["hello": "world"]) { reply in
+        let message = InteractiveImmediateMessage(identifier: "message") { reply in
             print("Received reply from message: \(reply)")
         }
         Communicator.shared.send(message) { error in

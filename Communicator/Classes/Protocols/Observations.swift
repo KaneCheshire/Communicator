@@ -30,6 +30,7 @@ public extension Observable {
     
     @discardableResult
     static func observe(queue: DispatchQueue = .communicator, handler: @escaping (Self) -> Void) -> Observation {
+        _ = Communicator.shared
         let observeration = Observation(queue: queue)
         observations.store[observeration] = handler
         return observeration

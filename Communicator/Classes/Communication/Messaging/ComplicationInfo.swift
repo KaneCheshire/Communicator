@@ -26,16 +26,3 @@ public struct ComplicationInfo {
     }
     
 }
-
-extension ComplicationInfo {
-    
-    init?(jsonDictionary: Content) {
-        guard let content = jsonDictionary["__complication_info__"] as? Content else { return nil }
-        self.content = content
-    }
-    
-    func jsonRepresentation() -> Content {
-        return ["__complication_info__" : content]
-    }
-    
-}

@@ -29,7 +29,7 @@ public extension Reachability {
             return
         }
         if session.isReachable {
-            self = .fully
+            self = .immediatelyReachable
         } else {
             self = .backgroundOnly
         }

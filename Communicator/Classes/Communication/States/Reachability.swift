@@ -11,9 +11,9 @@ import Foundation
 ///
 /// - notReachable: The counterpart app is not reachable at all.
 /// - backgroundOnly: The counterpart app is reachable but only for background messaging types. (i.e Blobs, GuaranteedMessages, Contexts and ComplicationInfos)
-/// - fully: The counterpart app is available for all types of messaging.
+/// - immediatelyReachable: The counterpart app is available for all types of messaging.
 public enum Reachability {
     case notReachable
     case backgroundOnly
-    case fully
+    case immediatelyReachable
 }

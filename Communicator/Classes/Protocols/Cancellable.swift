@@ -9,6 +9,7 @@ import WatchConnectivity
 
 public protocol Cancellable {
     
+    /// Cancels the task.
     func cancel()
     
 }

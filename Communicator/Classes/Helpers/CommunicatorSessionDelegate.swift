@@ -8,7 +8,7 @@
 import WatchConnectivity
 
 /// Serves as the WCSessionDelegate to obfuscate the delegate methods.
-final class CommunicatorSessionDelegate: NSObject, WCSessionDelegate {
+final class SessionDelegate: NSObject, WCSessionDelegate {
     
     let communicator: Communicator
     var blobTransferCompletionHandlers: [WCSessionFileTransfer : Blob.Completion] = [:]
@@ -62,7 +62,9 @@ final class CommunicatorSessionDelegate: NSObject, WCSessionDelegate {
     }
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
-        guard let message = InteractiveImmediateMessage(content: message, reply: replyHandler) else { return replyHandler(["error":"unableToConstructMessageFromJSON"]) }
+        guard let message = InteractiveImmediateMessage(content: message, reply: { reply in
+            replyHandler(reply.jsonRepresentation())
+        }) else { return }
         InteractiveImmediateMessage.notifyObservers(message)
     }
     

@@ -23,16 +23,10 @@ public struct ImmediateMessage {
     
     public typealias ErrorHandler = (Error) -> Void
     
-    // MARK: - Properties -
-    // MARK: Public
-    
-    /// The Message's identifer, defined by your app.
+    /// The  identifer, defined by your app.
     public let identifier: String
     /// The content of the Message in a JSON dictionary format.
     public let content: Content
-    
-    // MARK: - Initialisers -
-    // MARK: Public
     
     /// Creates a new message instance, configured with an identifier,
     /// some content in the form of a JSON dictionary with plist values.
@@ -42,22 +36,9 @@ public struct ImmediateMessage {
     ///                 for creating and knowing these identifiers.
     ///   - content: The content of the Message. Content must be in a JSON dictionary
     ///              format with only plist values. i.e, String, Int, Data etc.
-    public init(identifier: String, content: Content) {
+    public init(identifier: String, content: Content = [:]) {
         self.identifier = identifier
         self.content = content
     }
     
 }
-
-extension ImmediateMessage {
-    
-    init?(content: Content) {
-        guard let identifier = content["identifier"] as? String else { return nil }
-        guard let content = content["content"] as? Content else { return nil }
-        self.init(identifier: identifier, content: content)
-    }
-    
-}
-
-extension ImmediateMessage: ContentPackagable {}
-

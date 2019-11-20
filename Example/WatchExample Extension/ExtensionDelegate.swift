@@ -41,7 +41,8 @@ private extension ExtensionDelegate {
         }
         InteractiveImmediateMessage.observe { interactiveMessage in
             print("Received interactive message: ", interactiveMessage)
-            interactiveMessage.reply(["Reply" : "Message"])
+            let reply = ImmediateMessage(identifier: "reply")
+            interactiveMessage.reply(reply)
         }
         ImmediateMessage.observe { immediateMessage in
             print("Received immediate message: ", immediateMessage)

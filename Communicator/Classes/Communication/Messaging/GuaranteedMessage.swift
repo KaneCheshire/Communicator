@@ -14,7 +14,7 @@ import Foundation
 /// session is unavailable, reply handlers are not supported.
 /// To use reply handlers, see `InteractiveImmediateMessage`.
 ///
-/// Do not use a Message to send large amounts of data because the
+/// Do not use a GuaranteedMessage to send large amounts of data because the
 /// system will reject it, instead, use a Blob.
 public struct GuaranteedMessage {
     
@@ -28,27 +28,14 @@ public struct GuaranteedMessage {
     /// Creates a new message instance, configured with an identifier,
     /// some content in the form of a JSON dictionary with plist values.
     ///
-    ///
     /// - Parameters:
     ///   - identifier: The identifier of the Message. Your app is responsible
     ///                 for creating and knowing these identifiers.
     ///   - content: The content of the Message. Content must be in a JSON dictionary
     ///              format with only plist values. i.e, String, Int, Data etc.
-    public init(identifier: String, content: Content) {
+    public init(identifier: String, content: Content = [:]) {
         self.identifier = identifier
         self.content = content
     }
     
 }
-
-extension GuaranteedMessage {
-    
-    init?(content: Content) {
-        guard let identifier = content["identifier"] as? String else { return nil }
-        guard let content = content["content"] as? Content else { return nil }
-        self.init(identifier: identifier, content: content)
-    }
-    
-}
-
-extension GuaranteedMessage: ContentPackagable {}

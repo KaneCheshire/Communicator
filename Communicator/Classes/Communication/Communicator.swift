@@ -18,7 +18,7 @@ public final class Communicator: NSObject {
     ///
     /// - sessionIsNotActive: Indicates the session is not currently active and cannot be used.
     public enum Error: Swift.Error {
-        case sessionIsNotReachable(expectedReachability: Reachability, actual: Reachability)
+        case sessionIsNotReachable(minimumReachability: Reachability, actual: Reachability)
     }
     
     /// Represents the current state of the communcation session.
@@ -34,9 +34,6 @@ public final class Communicator: NSObject {
     
     /// The shared communicaator object.
     public static let shared = Communicator()
-    
-    // MARK: - Properties -
-    // MARK: Public
     
     public var currentState: State {
         return State(session: session.activationState)
@@ -81,13 +78,8 @@ public final class Communicator: NSObject {
     
     #endif
     
-    // MARK: Private
-    
     private let session: WCSession = .default
-    private lazy var sessionDelegate = CommunicatorSessionDelegate(communicator: self)
-    
-    // MARK: - Initialisers -
-    // MARK: Public
+    private lazy var sessionDelegate = SessionDelegate(communicator: self)
     
     override init() {
         super.init()
@@ -95,22 +87,19 @@ public final class Communicator: NSObject {
         session.activate()
     }
     
-    // MARK: - Functions -
-    // MARK: Public
-    
     /// Sends a message immediately to the counterpart app.
     ///
     /// If an error occurs after the ImmediateMessage transfer is attempted, the error handler
     /// will be called, if there is one provided.
     /// Do not use ImmediateMessage for sending large amounts of data, transfer a Blob instead.
     ///
-    /// The current reachability must be .immediateMessaging.
+    /// The current reachability must be .immediatelyReachable.
     ///
     /// - Parameter immediateMessage: The message to send immediately to the counterpart app.
     /// - Parameter errorHandler: An optional error handler that is called upon failure for any reason.
     public func send(_ immediateMessage: ImmediateMessage, errorHandler: ImmediateMessage.ErrorHandler? = nil) {
-        guard currentReachability == .fully else {
-            errorHandler?(Error.sessionIsNotReachable(expectedReachability: .fully, actual: currentReachability))
+        guard currentReachability == .immediatelyReachable else {
+            errorHandler?(Error.sessionIsNotReachable(minimumReachability: .immediatelyReachable, actual: currentReachability))
             return
         }
         session.sendMessage(immediateMessage.jsonRepresentation(), replyHandler: nil, errorHandler: errorHandler)
@@ -128,11 +117,14 @@ public final class Communicator: NSObject {
     ///   - interactiveImmediateMessage: The interactive message to send immediately to the counterpart app.
     ///   - errorHandler: An optional error handler that is called upon failure for any reason.
     public func send(_ interactiveImmediateMessage: InteractiveImmediateMessage, errorHandler: ImmediateMessage.ErrorHandler? = nil) {
-        guard currentReachability == .fully else {
-            errorHandler?(Error.sessionIsNotReachable(expectedReachability: .fully, actual: currentReachability))
+        guard currentReachability == .immediatelyReachable else {
+            errorHandler?(Error.sessionIsNotReachable(minimumReachability: .immediatelyReachable, actual: currentReachability))
             return
         }
-        session.sendMessage(interactiveImmediateMessage.jsonRepresentation(), replyHandler: interactiveImmediateMessage.reply, errorHandler: errorHandler)
+        session.sendMessage(interactiveImmediateMessage.jsonRepresentation(), replyHandler: { content in
+            guard let message = ImmediateMessage(content: content) else { return }
+            interactiveImmediateMessage.reply(message)
+        }, errorHandler: errorHandler)
     }
     
     /// Sends a guaranteed message to the counterpart app.
@@ -152,7 +144,7 @@ public final class Communicator: NSObject {
     @discardableResult
     public func send(_ guaranteedMessage: GuaranteedMessage, completion: GuaranteedMessage.Completion? = nil) -> Cancellable? {
         guard currentReachability != .notReachable  else {
-            completion?(.failure(Error.sessionIsNotReachable(expectedReachability: .backgroundOnly, actual: .notReachable)))
+            completion?(.failure(Error.sessionIsNotReachable(minimumReachability: .backgroundOnly, actual: .notReachable)))
             return nil
         }
         let transfer = session.transferUserInfo(guaranteedMessage.jsonRepresentation())
@@ -177,7 +169,7 @@ public final class Communicator: NSObject {
     @discardableResult
     public func transfer(_ blob: Blob, completion: Blob.Completion? = nil) -> Cancellable? {
         guard currentReachability != .notReachable  else {
-            completion?(.failure(Error.sessionIsNotReachable(expectedReachability: .backgroundOnly, actual: .notReachable)))
+            completion?(.failure(Error.sessionIsNotReachable(minimumReachability: .backgroundOnly, actual: .notReachable)))
             return nil
         }
         let documentsDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
@@ -207,7 +199,7 @@ public final class Communicator: NSObject {
     /// - Parameter context: The Context to sync with the counterpart app.
     public func sync(_ context: Context) throws {
         guard currentReachability != .notReachable  else {
-            throw Error.sessionIsNotReachable(expectedReachability: .backgroundOnly, actual: .notReachable)
+            throw Error.sessionIsNotReachable(minimumReachability: .backgroundOnly, actual: .notReachable)
         }
         try session.updateApplicationContext(context.content)
     }
@@ -234,7 +226,7 @@ public final class Communicator: NSObject {
     @discardableResult
     public func transfer(_ complicationInfo: ComplicationInfo, completion: ComplicationInfo.Completion? = nil) -> Cancellable? {
         guard currentReachability != .notReachable  else {
-            completion?(.failure(Error.sessionIsNotReachable(expectedReachability: .backgroundOnly, actual: .notReachable)))
+            completion?(.failure(Error.sessionIsNotReachable(minimumReachability: .backgroundOnly, actual: .notReachable)))
             return nil
         }
         let transfer = session.transferCurrentComplicationUserInfo(complicationInfo.jsonRepresentation())
