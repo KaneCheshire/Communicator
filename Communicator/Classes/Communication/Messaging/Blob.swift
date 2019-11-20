@@ -13,27 +13,12 @@ import Foundation
 /// between devices.
 public struct Blob {
     
-    public typealias Completion = ((Result<Void, Swift.Error>) -> Void)
-    
-    /// Represents an error that may occur.
-    ///
-    /// - missingIdentifier: Indicates that an identifier is missing.
-    /// - missingContent: Indicates that the content is missing.
-    enum ErrorType: Error {
-        case missingIdentifier
-        case missingContent
-    }
-    
-    // MARK: - Properties -
-    // MARK: Public
+    public typealias Completion = ((Result<Void, Error>) -> Void)
     
     /// The Blob's identifer, defined by your app.
     public let identifier: String
     /// The content of the Blob as pure Data.
     public let content: Data
-    
-    // MARK: - Initialisers -
-    // MARK: Public
     
     /// Creates a new instance configured with an identifier, some data as content an
     /// optionally a completion handler to execute when the Blob has transferred.
@@ -47,28 +32,20 @@ public struct Blob {
         self.content = content
     }
     
-    // MARK: Internal
+}
+
+extension Blob {
     
-    init(content: Content) throws {
-        guard let identifier = content["identifier"] as? String else {
-            throw ErrorType.missingIdentifier
-        }
-        guard let content = content["content"] as? Data else {
-            throw ErrorType.missingContent
-        }
+    init?(content: Content) {
+        guard let identifier = content["identifier"] as? String else { return nil }
+        guard let content = content["content"] as? Data else { return nil }
         self.init(identifier: identifier, content: content)
     }
     
-    // MARK: - Functions -
-    // MARK: Internal
-    
-    func jsonRepresentation() -> Content {
-        return ["identifier" : identifier,
-                "content" : content]
-    }
     
     func dataRepresentation() -> Data {
-        return NSKeyedArchiver.archivedData(withRootObject:jsonRepresentation())
+        return NSKeyedArchiver.archivedData(withRootObject: ["identifier" : identifier,
+                                                             "content" : content])
     }
     
 }

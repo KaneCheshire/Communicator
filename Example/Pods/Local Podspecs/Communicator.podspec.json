@@ -22,11 +22,6 @@
   },
   "source_files": "Communicator/Classes/**/*",
   "frameworks": "WatchConnectivity",
-  "dependencies": {
-    "TABObserverSet": [
-      "~> 2"
-    ]
-  },
   "swift_versions": "5.0",
   "swift_version": "5.0"
 }

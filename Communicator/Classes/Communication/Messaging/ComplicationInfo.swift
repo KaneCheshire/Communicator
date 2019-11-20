@@ -10,21 +10,11 @@ import Foundation
 
 /// Represents information to update complications in watchOS apps.
 public struct ComplicationInfo {
-    
-    public typealias Completion = (Result<Void, Swift.Error>) -> Void
-    
-    enum ErrorType: Error {
-        case notAComplicationInfo
-    }
 
-    // MARK: - Properties -
-    // MARK: Public
+    public typealias Completion = (Result<Int, Error>) -> Void
     
     /// The content of the ComplicationInfo as a JSON dictionary.
     public let content: Content
-    
-    // MARK: - Initialisers -
-    // MARK: Public
     
     /// Creates a new ComplicationInfo configured with some content.
     /// The content must be a JSON dictionary containing primitive plist types
@@ -35,20 +25,17 @@ public struct ComplicationInfo {
         self.content = content
     }
     
-    // MARK: Internal
+}
+
+extension ComplicationInfo {
     
-    init(jsonDictionary: Content) throws {
-        guard let content = jsonDictionary["_ComplicationInfo"] as? Content else {
-            throw ErrorType.notAComplicationInfo
-        }
+    init?(jsonDictionary: Content) {
+        guard let content = jsonDictionary["__complication_info__"] as? Content else { return nil }
         self.content = content
     }
     
-    // MARK: - Functions -
-    // MARK: Internal
-    
     func jsonRepresentation() -> Content {
-        return ["_ComplicationInfo" : content]
+        return ["__complication_info__" : content]
     }
     
 }

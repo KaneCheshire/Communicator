@@ -21,17 +21,7 @@ import Foundation
 /// system will reject it, instead, use a Blob.
 public struct ImmediateMessage {
     
-    public typealias Reply = (Content) -> Void
-    public typealias ErrorHandler = (Swift.Error) -> Void
-    
-    /// Represents an error that may occur.
-    ///
-    /// - missingIdentifier: Indicates that an identifier is missing.
-    /// - missingContent: Indicates that the content is missing.
-    enum Error: Swift.Error {
-        case missingIdentifier
-        case missingContent
-    }
+    public typealias ErrorHandler = (Error) -> Void
     
     // MARK: - Properties -
     // MARK: Public
@@ -40,50 +30,34 @@ public struct ImmediateMessage {
     public let identifier: String
     /// The content of the Message in a JSON dictionary format.
     public let content: Content
-    /// The optional reply handler that is called from the counterpart.
-    public let reply: Reply?
     
     // MARK: - Initialisers -
     // MARK: Public
     
     /// Creates a new message instance, configured with an identifier,
-    /// some content in the form of a JSON dictionary with plist values,
-    /// an optional reply handler and an optional error handler.
-    ///
-    /// On the sender's side, the reply handler will be called by the system when
-    /// the receiver executes the reply handler on its side.
+    /// some content in the form of a JSON dictionary with plist values.
     ///
     /// - Parameters:
     ///   - identifier: The identifier of the Message. Your app is responsible
     ///                 for creating and knowing these identifiers.
     ///   - content: The content of the Message. Content must be in a JSON dictionary
     ///              format with only plist values. i.e, String, Int, Data etc.
-    ///   - reply: An optional reply handler.
-    public init(identifier: String, content: Content, reply: Reply? = nil) {
+    public init(identifier: String, content: Content) {
         self.identifier = identifier
         self.content = content
-        self.reply = reply
-    }
-    
-    // MARK: Internal
-    
-    init(content: Content, reply: Reply?) throws {
-        guard let identifier = content["identifier"] as? String else {
-            throw Error.missingIdentifier
-        }
-        guard let content = content["content"] as? Content else {
-            throw Error.missingContent
-        }
-        self.init(identifier: identifier, content: content, reply: reply)
-    }
-    
-    // MARK: - Functions -
-    // MARK: Internal
-    
-    func jsonRepresentation() -> Content {
-        return ["identifier" : identifier,
-                "content" : content]
     }
     
 }
+
+extension ImmediateMessage {
+    
+    init?(content: Content) {
+        guard let identifier = content["identifier"] as? String else { return nil }
+        guard let content = content["content"] as? Content else { return nil }
+        self.init(identifier: identifier, content: content)
+    }
+    
+}
+
+extension ImmediateMessage: ContentPackagable {}
 

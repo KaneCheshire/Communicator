@@ -12,7 +12,7 @@ import Communicator
 class InterfaceController: WKInterfaceController {
     
     @IBAction func sendMessageTapped() {
-        let message = ImmediateMessage(identifier: "message", content: ["hello" : "world"]) { reply in
+        let message = InteractiveImmediateMessage(identifier: "message", content: ["hello": "world"]) { reply in
             print("Received reply from message: \(reply)")
         }
         Communicator.shared.send(message)

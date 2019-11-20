@@ -12,7 +12,7 @@ import Communicator
 class ViewController: UIViewController {
     
     @IBAction func sendMessageTapped() {
-        let message = ImmediateMessage(identifier: "message", content: ["hello": "world"]) { reply in
+        let message = InteractiveImmediateMessage(identifier: "message", content: ["hello": "world"]) { reply in
             print("Received reply from message: \(reply)")
         }
         Communicator.shared.send(message) { error in
@@ -56,9 +56,36 @@ class ViewController: UIViewController {
     }
     
     @IBAction func transferComplicationInfoTapped() {
+        switch Communicator.shared.currentWatchState {
+            case .notPaired:
+                print("Watch is not paired, cannot transfer complication info")
+            case .paired(let appState):
+                switch appState {
+                    case .notInstalled:
+                        print("App is not installed, cannot transfer complication info")
+                    case .installed(let compState, _):
+                        switch compState {
+                            case .notEnabled:
+                                print("Complication is not enabled on the active watch face, cannot transfer complication info")
+                            case .enabled(let numberOfComplicationUpdatesAvailable):
+                                print("Number of complication transfers available today (usually out of 50)", numberOfComplicationUpdatesAvailable)
+                                transferCompInfo()
+                    }
+            }
+        }
+    }
+    
+    private func transferCompInfo() {
         let complicationInfo = ComplicationInfo(content: ["Value" : 1])
-        Communicator.shared.transfer(complicationInfo)
-        print("Number of complication transfers available today: \(Communicator.shared.currentWatchState.numberOfComplicationInfoTransfersAvailable)")
+        Communicator.shared.transfer(complicationInfo) { result in
+            switch result {
+                case .success(let numberOfComplicationUpdatesAvailable):
+                    print("Successfully transferred complication info, number of complications now available: ", numberOfComplicationUpdatesAvailable)
+                case .failure(let error):
+                    print("Failed to transfer complication info", error.localizedDescription)
+            }
+            
+        }
     }
     
 }

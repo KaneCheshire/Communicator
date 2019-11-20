@@ -6,8 +6,9 @@
 [![Platform](https://img.shields.io/cocoapods/p/Communicator.svg?style=flat)](http://cocoapods.org/pods/Communicator)
 
 - [Introduction](#introduction)
+- [Introduction](#quick-start)
 - [Usage](#usage)
-  - [`Communicator`](#communicator-1)
+  - [`Communicator.shared`](#communicator-1)
   - [`ImmediateMessage`](#immediatemessage)
   - [`GuaranteedMessage`](#guaranteedmessage)
   - [`Blob`](#blob)
@@ -22,9 +23,14 @@
 
 ## Introduction
 
-Sending messages and data between watchOS and iOS apps is possible thanks to Apple's work on `WatchConnectivity`, however there are a _lot_ of delegate callbacks to work with, and some of the API calls are quite similar and it's not really clear which is needed and for what purpose.
+Sending messages and data between watchOS and iOS apps is possible thanks to Apple's work on `WatchConnectivity`, however there are a _lot_ of delegate callbacks to work with, some of the API calls are quite similar and it's not really clear which is needed and for what purpose.
 
-`Communicator` means you don't have to spend any time writing a cross-platform wrapper around `WatchConnectivity` and is extremely easy to use.
+`Communicator` means you don't have to spend any time writing a cross-platform wrapper around `WatchConnectivity`, and it's extremely easy to use.
+
+`Communicator` supports watch switching out-the-box, uses closures rather than delegate functions,
+and allows multiple places in your app to react to messages and events.
+
+## Quick start
 
 Each app gets its own shared `Communicator` object to use which handles all the underlying session stuff:
 
@@ -34,16 +40,23 @@ Communicator.shared
 
 Usage between the two platforms is essentially identical, so you can use it in a shared framework with no workarounds.
 
-Here's how you send a simple message with `Communicator`.
+Here's how you send a simple message with `Communicator`:
 
 ```swift
 let message = ImmediateMessage(identifier: "1234", content: ["messageKey" : "This is some message content!"])
-try? Communicator.shared.send(immediateMessage: message)
+Communicator.shared.send(message)
 ```
 
-This will try to send a message to the counterpart immediately. If the underlying session is not active, the `try` will fail and Communicator will `throw` an error you can catch if you want.
+This will try to send a message to the counterpart immediately. If the receiving app is not appropriately reachable, the message sending will fail, but you can query this any time:
 
-On the other device you register as an observer for new messages:
+```swift
+switch Communicator.shared.currentReachability {
+  case .immediateMessaging: Communicator.shared.send(message)
+  default: break
+}
+```
+
+On the other device you register as an observer for new messages as early on as possible in your app's launch cycle:
 
 ```swift
 Communicator.shared.immedateMessageReceivedObservers.add { message in
@@ -55,18 +68,21 @@ Communicator.shared.immedateMessageReceivedObservers.add { message in
 
 You can observe these messages from anywhere in your app and filter out the ones you don't care about.
 
-`Communicator` can also transfer `Blob`s and sync `Context`s.
+`Communicator` can also transfer `GuaranteedMessage`s, data `Blob`s and also sync `Context`s.
 
-`Blob`s are perfect for sending larger amounts of data (`WatchConnectivity` will reject large data in any other message type), and will continue to transfer even if your app
+`GuaranteedMessage`s are similar to `ImmediateMessage`s in that they have an identifier, but they don't support reply handlers and can be sent when the reachability state is either `.immediateMessaging` or `.backgroundMessaging`, and will continue to transfer even if your app
 is terminated during transfer.
 
-You can use a `Context` to keep things in sync between devices, which makes it perfect for preferences. `Context`s are not suitable for messaging or sending large data.
+`Blob`s are perfect for sending larger amounts of data (`WatchConnectivity` will reject large data in any other message type), can be sent when the reachability state is either `.immediateMessaging` or `.backgroundMessaging`, and will continue to transfer even if your app
+is terminated during transfer.
+
+You can use a `Context` to keep things in sync between devices, which makes it perfect for preferences. `Context`s are not suitable for messaging or sending large data. Sending or receiving a `Context` overwrites any previously sent `Context`, which you can query any time with `Communicator.shared.mostRecentlySentContext` and `Communicator.shared.mostRecentlyReceivedContext`
 
 Lastly, you can update your watchOS complication from your iOS app by transferring a `ComplicationInfo`. You get a limited number of `ComplicationInfo` transfers a day, and you can easily query the remaining number of transfers available by getting the `currentWatchState` object and inspecting the `numberOfComplicationInfoTransfersAvailable` property.
 
 ## Usage
 
-### `Communicator`
+### Communicator.shared
 
 Each app has its own shared `Communicator` object which it should use to communicate with the counterpart app.
 
@@ -79,57 +95,57 @@ you can use `Communicator` anywhere, including in a shared iOS-watchOS framework
 
 `Communicator` uses `ObserverSet`s to notify observers/listeners when events occur, like an `ImmediateMessage` being received, or the activation state of the underlying session changing.
 
-You can query the current reachability of the counterpart app at any time using the `currentReachability` propery.
+You can query the current reachability of the counterpart app at any time using the `currentReachability` property.
 
 ### `ImmediateMessage`
 
 An `ImmediateMessage` is a simple object comprising of an identifier string of your choosing, and a JSON dictionary as content.
 
-The keys of the JSON dictionary must be strings, and the values must be plist-types. That means anything you can save to `UserDefaults`; `String`, `Int`, `Data` etc. You also _cannot_ send large amounts of data between devices using a `ImmediateMessage` because the system will reject it. Instead, use a `Blob` for sending large amounts of data.
+The keys of the JSON dictionary must be strings, and the values must be plist-types. That means anything you can save to `UserDefaults`; `String`, `Int`, `Data` etc. You _cannot_ send large amounts of data between devices using a `ImmediateMessage` because the system will reject it. Instead, use a `Blob` for sending large amounts of data.
 
 This is how you create a simple `ImmediateMessage`:
 
 ```swift
-let json: JSONDictionary = ["TotalDistanceTravelled" : 10000.00]
-let message = ImmediateMessage(identifier: "JourneyComplete", content: json) // Optionally pass in a reply handler here
+let content: Content = ["TotalDistanceTravelled" : 10000.00]
+let message = ImmediateMessage(identifier: "JourneyComplete", content: json)
 ```
 
 And this is how you send it:
 
 ```swift
-try? Communicator.shared.send(immediateMessage: message)
+Communicator.shared.sendmessage)
 ```
 
-This works well for rapid communication between two devices, but is limited to small amounts of data and will fail if either of the devices becomes unreachable during communication.
+This works well for rapid, interactive communication between two devices, but is limited to small amounts of data and will fail if either of the devices becomes unreachable during communication.
 
-If you send this from watchOS it will also wake up your iOS app in the background if it needs to.
+If you send this from watchOS it will also wake up your iOS app in the background if it needs to so long as the current `Reachability` is `.immediateMessaging`, even if you send a message that doesn't expect a reply.
 
-You can also assign a `replyHandler` to the message. On the sending device, this `replyHandler` is executed by the system when the receiving device executes it on its end.
+You can also assign a `reply` handler to the message. On the sending device, this `reply` is executed by the system when the receiving device executes it on its end.
 
-On the receiving device you listen for new messages, check the identifier and then execute the `replyHandler` (if you assigned one when creating the message), which will allow the system on the sending device to execute the `replyHandler` there. The `replyHandler` also expects a JSON dictionary just like the content of the message.
+On the receiving device you listen for new messages, check the identifier and then execute the `reply` (if you assigned one when creating the message), which will allow the system on the sending device to execute the `reply` there. The `reply` also expects a JSON dictionary just like the content of the message.
 
 ```swift
 Communicator.shared.immediateMessageReceivedObservers.add { message in
     if message.identifier == "JourneyComplete" {
-      let replyJSON: JSONDictionary = ["JourneyProcessed" : true]
-      message.replyHandler?(replyJSON) // Optional because you might not have set one on the sender's side
+      let content: Content = ["JourneyProcessed" : true]
+      message.replyHandler?(content) // Optional because you might not have set one on the sender's side
     }
 }
 ```
 
-The value of `Communicator.currentReachability` must be `.immediateMessage` otherwise an error will be thrown.
+> **NOTE:** The value of `Communicator.currentReachability` must be `.immediateMessaging` otherwise an error will be thrown.
 
 ### `GuaranteedMessage`
 
-You can also choose to send a message using the `guaranteed` method. `GuaranteedMessage`s don't have a reply handler because messages can be queued while the receiving device is not currently receiving messages, meaning they're queued until the session is next created:
+You can also choose to send a message using the "guaranteed" method. `GuaranteedMessage`s don't have a reply handler because messages can be queued while the receiving device is not currently receiving messages, meaning they're queued until the session is next created:
 
 ```swift
-let json: JSONDictionary = ["CaloriesBurnt" : 400.00]
-let message = GuaranteedMessage(identifier: "WorkoutComplete", content: json)
-try? Communicator.shared.send(guaranteedMessage: message)
+let content: Content = ["CaloriesBurnt" : 400.00]
+let message = GuaranteedMessage(identifier: "WorkoutComplete", content: content)
+Communicator.shared.send(message)
 ```
 
-Because the messages are queued, they could be received in a stream on the receiving device when it's able to process them. You should make sure your observers are set up as soon as possible to avoid missing any messages.
+Because the messages are queued, they could be received in a stream on the receiving device when it's able to process them. You should make sure your observers are set up as soon as possible to avoid missing any messages, i.e. in your AppDelegate or ExtensionDelegate.
 
 ```swift
 Communicator.shared.guaranteedMessageReceivedObservers.add { message in
@@ -140,7 +156,7 @@ Communicator.shared.guaranteedMessageReceivedObservers.add { message in
 }
 ```
 
-On watchOS, receiving a "guaranteed" `GuaranteedMessage` while in the background can cause the system to generate a `WKWatchConnectivityRefreshBackgroundTask` which you are responsible for handling in your `ExtensionDelegate`.
+On watchOS, receiving a "guaranteed" `GuaranteedMessage` while in the background can cause the system to generate a `WKWatchConnectivityRefreshBackgroundTask`. If you assign this to the `Communicator`'s `task` property, `Communicator` will automatically handle ending the task for you at the right time.
 
 ### `Blob`
 

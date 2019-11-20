@@ -15,71 +15,55 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     // MARK: - WKExtensionDelegate -
     
     func applicationDidFinishLaunching() {
-        setupObservers()
+        setupObservations()
     }
     
     func handle(_ backgroundTasks: Set<WKRefreshBackgroundTask>) {
         for task in backgroundTasks {
             switch task {
-            case let task as WKWatchConnectivityRefreshBackgroundTask:
-                Communicator.shared.task = task
-            default: task.setTaskCompletedWithSnapshot(false)
+                case let task as WKWatchConnectivityRefreshBackgroundTask:
+                    Communicator.shared.task = task // Let Communicator handle the task!
+                default: task.setTaskCompletedWithSnapshot(false)
             }
         }
     }
-
+    
 }
 
 private extension ExtensionDelegate {
     
-    func setupObservers() {
-        setupActivationStateChangedObservers()
-        setupReachabilityChangedObservers()
-        setupMessageReceivedObservers()
-        setupBlobReceivedObservers()
-        setupContextUpdatedObservers()
-        setupComplicationInfoObservers()
-    }
-    private func setupActivationStateChangedObservers() {
-        Communicator.shared.activationStateChangedObservers.add { state in
+    func setupObservations() {
+        Communicator.State.observe { state in
             print("Activation state changed: ", state)
         }
-    }
-    
-    private func setupReachabilityChangedObservers() {
-        Communicator.shared.reachabilityChangedObservers.add { reachability in
+        Reachability.observe { reachability in
             print("Reachability changed:", reachability)
         }
-    }
-    
-    private func setupMessageReceivedObservers() {
-        Communicator.shared.immediateMessageReceivedObservers.add { message in
-            print("Received message: ", message)
-            message.reply?(["Replied!" : "Message"])
+        InteractiveImmediateMessage.observe { interactiveMessage in
+            print("Received interactive message: ", interactiveMessage)
+            interactiveMessage.reply(["Reply" : "Message"])
         }
-        Communicator.shared.guaranteedMessageReceivedObservers.add { message in
-            print("Received message: ", message)
+        ImmediateMessage.observe { immediateMessage in
+            print("Received immediate message: ", immediateMessage)
         }
-    }
-    
-    private func setupBlobReceivedObservers() {
-        Communicator.shared.blobReceivedObservers.add { blob in
-            print("Received blob: ", blob.identifier)
+        GuaranteedMessage.observe { guaranteedMessage in
+            print("Received guaranteed message: ", guaranteedMessage)
         }
-    }
-    
-    private func setupContextUpdatedObservers() {
-        Communicator.shared.contextUpdatedObservers.add { context in
+        Blob.observe { blob in
+            print("Received blob: ", blob)
+        }
+        Context.observe { context in
             print("Received context: ", context)
         }
+        ComplicationInfo.observe { complicationInfo in
+            print("Received complication info: ", complicationInfo)
+            self.reloadAllComplications()
+        }
     }
     
-    private func setupComplicationInfoObservers() {
-        Communicator.shared.complicationInfoReceivedObservers.add { complicationInfo in
-            print("Received complication info: ", complicationInfo)
-            CLKComplicationServer.sharedInstance().activeComplications?.forEach {
-                CLKComplicationServer.sharedInstance().reloadTimeline(for: $0)
-            }
+    private func reloadAllComplications() {
+        CLKComplicationServer.sharedInstance().activeComplications?.forEach {
+            CLKComplicationServer.sharedInstance().reloadTimeline(for: $0)
         }
     }
     

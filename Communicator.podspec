@@ -58,6 +58,5 @@ Pod::Spec.new do |s|
   s.platforms = { :ios => "10.0", :watchos => "3.0" }
   s.source_files = 'Communicator/Classes/**/*'
   s.frameworks = 'WatchConnectivity'
-  s.dependency 'TABObserverSet', '~> 2'
   s.swift_version = '5.0'
 end
