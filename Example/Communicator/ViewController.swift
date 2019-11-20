@@ -35,7 +35,7 @@ class ViewController: UIViewController {
     @IBAction func transferBlobTapped() {
         let data = Data("hello world".utf8)
         let blob = Blob(identifier: "blob", content: data)
-        Communicator.shared.transfer(blob) { result in
+        let task = Communicator.shared.transfer(blob) { result in
             switch result {
                 case .failure(let error):
                     print("Error transferring blob: \(error.localizedDescription)")
@@ -43,6 +43,7 @@ class ViewController: UIViewController {
                     print("Successfully transferred blob to watch")
             }
         }
+        task?.cancel()
     }
     
     @IBAction func syncContextTapped() {

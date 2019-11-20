@@ -85,9 +85,6 @@ public final class Communicator: NSObject {
     
     private let session: WCSession = .default
     private lazy var sessionDelegate = CommunicatorSessionDelegate(communicator: self)
-    fileprivate var blobTransferCompletionHandlers: [WCSessionFileTransfer : Blob.Completion] = [:]
-    fileprivate var guaranteedMessageTransferCompletionHandlers: [WCSessionUserInfoTransfer : GuaranteedMessage.Completion] = [:]
-    fileprivate var complicationInfoTransferCompletionHandlers: [WCSessionUserInfoTransfer : ComplicationInfo.Completion] = [:]
     
     // MARK: - Initialisers -
     // MARK: Public
@@ -159,7 +156,7 @@ public final class Communicator: NSObject {
             return nil
         }
         let transfer = session.transferUserInfo(guaranteedMessage.jsonRepresentation())
-        guaranteedMessageTransferCompletionHandlers[transfer] = completion
+        sessionDelegate.guaranteedMessageTransferCompletionHandlers[transfer] = completion
         return transfer
     }
     
@@ -189,7 +186,7 @@ public final class Communicator: NSObject {
         do {
             try blob.dataRepresentation().write(to: fileURL)
             let transfer = session.transferFile(fileURL, metadata: nil)
-            blobTransferCompletionHandlers[transfer] = completion
+            sessionDelegate.blobTransferCompletionHandlers[transfer] = completion
             return transfer
         } catch {
             completion?(.failure(error))
@@ -228,6 +225,10 @@ public final class Communicator: NSObject {
     /// You can query the remaining number of transfers available for the day by
     /// checking the currentWatchState property.
     ///
+    /// The current reachability must not be .notReachable.
+    ///
+    /// This function returns a cancellable object that you can use to cancel the transfer before it is complete.
+    ///
     /// - Parameter complicationInfo: The ComplicationInfo to transfer.
     /// - Parameter completion: An optional handler that is called when the transfer completes or fails. If the transfer succeeds, you are passed the number of updates remaining for today as an `Int`.
     @discardableResult
@@ -237,141 +238,10 @@ public final class Communicator: NSObject {
             return nil
         }
         let transfer = session.transferCurrentComplicationUserInfo(complicationInfo.jsonRepresentation())
-        complicationInfoTransferCompletionHandlers[transfer] = completion
+        sessionDelegate.complicationInfoTransferCompletionHandlers[transfer] = completion
         return transfer
     }
     
     #endif
-    
-}
-
-/// Serves as the WCSessionDelegate to obfuscate the delegate methods.
-private final class CommunicatorSessionDelegate: NSObject, WCSessionDelegate {
-    
-    weak var communicator: Communicator?
-    
-    init(communicator: Communicator) {
-        self.communicator = communicator
-        super.init()
-    }
-    
-    // MARK: - WCSessionDelegate -
-    // MARK: Session status
-    
-    func sessionReachabilityDidChange(_ session: WCSession) {
-        Reachability.notifyObservers(communicator?.currentReachability ?? .notReachable)
-    }
-    
-    #if os(iOS)
-    
-    func sessionDidDeactivate(_ session: WCSession) {
-        Reachability.notifyObservers(communicator?.currentReachability ?? .notReachable)
-        session.activate()
-    }
-    
-    func sessionDidBecomeInactive(_ session: WCSession) {
-        Reachability.notifyObservers(communicator?.currentReachability ?? .notReachable)
-    }
-    
-    func sessionWatchStateDidChange(_ session: WCSession) {
-        guard let watchState = communicator?.currentWatchState else { return }
-        WatchState.notifyObservers(watchState)
-        Reachability.notifyObservers(communicator?.currentReachability ?? .notReachable)
-    }
-    
-    #endif
-    
-    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-        let state = Communicator.State(session: session.activationState)
-        Communicator.State.notifyObservers(state)
-        Reachability.notifyObservers(communicator?.currentReachability ?? .notReachable)
-        if activationState == .notActivated {
-            session.activate()
-        }
-    }
-    
-    // MARK: Receiving messages
-    
-    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
-        guard let message = ImmediateMessage(content: message) else { return }
-        ImmediateMessage.notifyObservers(message)
-    }
-    
-    func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
-        guard let message = InteractiveImmediateMessage(content: message, reply: replyHandler) else { return replyHandler(["error":"unableToConstructMessageFromJSON"]) }
-        InteractiveImmediateMessage.notifyObservers(message)
-    }
-    
-    // MARK: Receiving and sending userInfo/complication data
-    
-    func session(_ session: WCSession, didReceiveUserInfo userInfo: [String : Any] = [:]) {
-        if let message = GuaranteedMessage(content: userInfo) {
-            GuaranteedMessage.notifyObservers(message)
-        }
-        #if os(watchOS)
-        if let complicationInfo = ComplicationInfo(jsonDictionary: userInfo) {
-            ComplicationInfo.notifyObservers(complicationInfo)
-        }
-        #endif
-        endBackgroundTaskIfRequired()
-    }
-    
-    func session(_ session: WCSession, didFinish userInfoTransfer: WCSessionUserInfoTransfer, error: Error?) {
-        if let handler = communicator?.guaranteedMessageTransferCompletionHandlers[userInfoTransfer] {
-            if let error = error {
-                handler(.failure(error))
-            } else {
-                handler(.success(()))
-            }
-        }
-        #if os(iOS)
-        if let handler = communicator?.complicationInfoTransferCompletionHandlers[userInfoTransfer] {
-            if let error = error {
-                handler(.failure(error))
-            } else {
-                let numberOfUpdatesRemaining = communicator?.currentWatchState.numberOfComplicationUpdatesAvailableToday ?? 0
-                handler(.success(numberOfUpdatesRemaining))
-            }
-        }
-        #endif
-    }
-    
-    // MARK: Receiving contexts
-    
-    func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
-        let context = Context(content: applicationContext)
-        Context.notifyObservers(context)
-        endBackgroundTaskIfRequired()
-    }
-    
-    // MARK: Receiving and sending files
-    
-    func session(_ session: WCSession, didReceive file: WCSessionFile) {
-        guard let data = try? Data(contentsOf: file.fileURL) else { return }
-        guard let content = NSKeyedUnarchiver.unarchiveObject(with: data) as? [String : Any] else { return }
-        guard let blob = Blob(content: content) else { return }
-        Blob.notifyObservers(blob)
-        endBackgroundTaskIfRequired()
-    }
-    
-    func session(_ session: WCSession, didFinish fileTransfer: WCSessionFileTransfer, error: Error?) {
-        guard let handler = communicator?.blobTransferCompletionHandlers[fileTransfer] else { return }
-        if let error = error {
-            handler(.failure(error))
-        } else {
-            handler(.success(()))
-        }
-    }
-    
-    private func endBackgroundTaskIfRequired() {
-        #if os(watchOS)
-        guard communicator?.hasPendingDataToBeReceived == false else { return }
-        if #available(watchOSApplicationExtension 4.0, *) {
-            communicator?.task?.setTaskCompletedWithSnapshot(true)
-        } else {
-            communicator?.task?.setTaskCompleted()
-        }
-        #endif
-    }
     
 }
