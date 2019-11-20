@@ -111,7 +111,7 @@ public final class Communicator: NSObject {
     /// will be called, if there is one provided.
     /// Do not use InteractiveImmediateMessage for sending large amounts of data, transfer a Blob instead.
     ///
-    /// The current reachability must be .immediateMessaging.
+    /// The current reachability must be .immediatelyReachable.
     ///
     /// - Parameters:
     ///   - interactiveImmediateMessage: The interactive message to send immediately to the counterpart app.
