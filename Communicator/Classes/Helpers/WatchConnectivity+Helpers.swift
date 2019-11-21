@@ -24,7 +24,7 @@ extension Communicator.State {
 public extension Reachability {
     
     init(session: WCSession) {
-        guard session.activationState == .activated else {
+        guard session.activationState == .activated && session.isWatchAppInstalled else {
             self = .notReachable
             return
         }
