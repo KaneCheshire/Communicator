@@ -8,14 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		02DBE942D0F5178C405FAC65 /* Pods_Communicator_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9A415F7BAC0AE5D4E72D601 /* Pods_Communicator_Tests.framework */; };
-		19CF17B12AF7F6FCA88E776C /* Pods_WatchExample_Extension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EDF58336E8C4E5FB4812617 /* Pods_WatchExample_Extension.framework */; };
-		57C2FECF43CF9AB574263AAF /* Pods_Communicator_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC25AB1E18CB4469EE3F1295 /* Pods_Communicator_Example.framework */; };
+		3E5F56B4F2767B3C96B743A7 /* Pods_Communicator_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC25AB1E18CB4469EE3F1295 /* Pods_Communicator_Example.framework */; };
+		50BC8248BF1813AC01FDDB0F /* Pods_WatchExample_Extension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EDF58336E8C4E5FB4812617 /* Pods_WatchExample_Extension.framework */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
+		C3020E182384796C005A0CB9 /* CompDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3020E172384796C005A0CB9 /* CompDataSource.swift */; };
 		C322122E1F1FF58400110DFD /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C322122C1F1FF58400110DFD /* Interface.storyboard */; };
 		C32212301F1FF58400110DFD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C322122F1F1FF58400110DFD /* Assets.xcassets */; };
 		C32212371F1FF58400110DFD /* WatchExample Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C32212361F1FF58400110DFD /* WatchExample Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -97,6 +98,7 @@
 		90C07522EC2F217C459F6B3E /* Pods-Communicator_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Communicator_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-Communicator_Example/Pods-Communicator_Example.release.xcconfig"; sourceTree = "<group>"; };
 		9A84A2EDC2C544640906D46A /* Pods_Communicator_Example_WatchExample_Extension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Communicator_Example_WatchExample_Extension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AEBDB587AB88071D1B0D04F7 /* Pods-Communicator_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Communicator_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Communicator_Tests/Pods-Communicator_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		C3020E172384796C005A0CB9 /* CompDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompDataSource.swift; sourceTree = "<group>"; };
 		C322122A1F1FF58400110DFD /* WatchExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WatchExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C322122D1F1FF58400110DFD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
 		C322122F1F1FF58400110DFD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -123,7 +125,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				57C2FECF43CF9AB574263AAF /* Pods_Communicator_Example.framework in Frameworks */,
+				3E5F56B4F2767B3C96B743A7 /* Pods_Communicator_Example.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -139,7 +141,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				19CF17B12AF7F6FCA88E776C /* Pods_WatchExample_Extension.framework in Frameworks */,
+				50BC8248BF1813AC01FDDB0F /* Pods_WatchExample_Extension.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,8 +261,9 @@
 		C322123A1F1FF58400110DFD /* WatchExample Extension */ = {
 			isa = PBXGroup;
 			children = (
-				C322123B1F1FF58400110DFD /* InterfaceController.swift */,
 				C322123D1F1FF58400110DFD /* ExtensionDelegate.swift */,
+				C322123B1F1FF58400110DFD /* InterfaceController.swift */,
+				C3020E172384796C005A0CB9 /* CompDataSource.swift */,
 				C322123F1F1FF58400110DFD /* Assets.xcassets */,
 				C32212411F1FF58400110DFD /* Info.plist */,
 			);
@@ -278,8 +281,8 @@
 				607FACCC1AFB9204008FA782 /* Sources */,
 				607FACCD1AFB9204008FA782 /* Frameworks */,
 				607FACCE1AFB9204008FA782 /* Resources */,
-				02EA01BE3F55D1548500DB46 /* [CP] Embed Pods Frameworks */,
 				C322124C1F1FF58400110DFD /* Embed Watch Content */,
+				03F53655C35C06CF8B8B5629 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -336,7 +339,7 @@
 				C32212321F1FF58400110DFD /* Sources */,
 				C32212331F1FF58400110DFD /* Frameworks */,
 				C32212341F1FF58400110DFD /* Resources */,
-				AEE437E2327B92F727C78BEC /* [CP] Embed Pods Frameworks */,
+				D1F2496A97635B540F6BD812 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -383,10 +386,9 @@
 			};
 			buildConfigurationList = 607FACCB1AFB9204008FA782 /* Build configuration list for PBXProject "Communicator" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
 				Base,
 			);
@@ -441,7 +443,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		02EA01BE3F55D1548500DB46 /* [CP] Embed Pods Frameworks */ = {
+		03F53655C35C06CF8B8B5629 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -449,12 +451,10 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Communicator_Example/Pods-Communicator_Example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Communicator-iOS/Communicator.framework",
-				"${BUILT_PRODUCTS_DIR}/TABObserverSet-iOS/TABObserverSet.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Communicator.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TABObserverSet.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -479,7 +479,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		AEE437E2327B92F727C78BEC /* [CP] Embed Pods Frameworks */ = {
+		D1F2496A97635B540F6BD812 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -487,12 +487,10 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-WatchExample Extension/Pods-WatchExample Extension-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Communicator-watchOS/Communicator.framework",
-				"${BUILT_PRODUCTS_DIR}/TABObserverSet-watchOS/TABObserverSet.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Communicator.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TABObserverSet.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -561,6 +559,7 @@
 			files = (
 				C322123E1F1FF58400110DFD /* ExtensionDelegate.swift in Sources */,
 				C322123C1F1FF58400110DFD /* InterfaceController.swift in Sources */,
+				C3020E182384796C005A0CB9 /* CompDataSource.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -728,6 +727,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 9BCL7VAFF4;
 				INFOPLIST_FILE = Communicator/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
@@ -743,6 +743,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 9BCL7VAFF4;
 				INFOPLIST_FILE = Communicator/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
@@ -816,7 +817,7 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_VERSION = 4.1;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 3.2;
+				WATCHOS_DEPLOYMENT_TARGET = 4.0;
 			};
 			name = Debug;
 		};
@@ -837,7 +838,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.1;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 3.2;
+				WATCHOS_DEPLOYMENT_TARGET = 4.0;
 			};
 			name = Release;
 		};
@@ -860,7 +861,7 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 3.2;
+				WATCHOS_DEPLOYMENT_TARGET = 4.0;
 			};
 			name = Debug;
 		};
@@ -881,7 +882,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 3.2;
+				WATCHOS_DEPLOYMENT_TARGET = 4.0;
 			};
 			name = Release;
 		};

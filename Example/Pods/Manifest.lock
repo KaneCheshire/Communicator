@@ -1,23 +1,16 @@
 PODS:
-  - Communicator (3.2.0):
-    - TABObserverSet (~> 2)
-  - TABObserverSet (2.1.0)
+  - Communicator (3.3.0)
 
 DEPENDENCIES:
   - Communicator (from `../`)
-
-SPEC REPOS:
-  trunk:
-    - TABObserverSet
 
 EXTERNAL SOURCES:
   Communicator:
     :path: "../"
 
 SPEC CHECKSUMS:
-  Communicator: be4aeb618a521e930d8c6a9680ff96bac162eed8
-  TABObserverSet: dcdc5087b5dee54a9dcc29e155bb554394829f30
+  Communicator: 427ba04146d356004d756572d1998f18984c60b8
 
-PODFILE CHECKSUM: dbebf98ec9cb648bbafbd21cd01103ffc2976969
+PODFILE CHECKSUM: 271a8bee557fe8f2ac5e644c195e799e6dfabf12
 
 COCOAPODS: 1.8.4

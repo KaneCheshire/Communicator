@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="12121" systemVersion="16F2073" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
-    <device id="watch38" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="15505" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
+    <device id="watch38"/>
     <dependencies>
         <deployment identifier="watchOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="12029"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="15501"/>
     </dependencies>
     <scenes>
         <!--Interface Controller-->
@@ -14,9 +12,19 @@
             <objects>
                 <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="WatchExample" customModuleProvider="target">
                     <items>
-                        <button width="1" alignment="left" title="Send Message" id="mfv-4g-5wF">
+                        <button width="1" alignment="left" title="Send Immediate message" id="mfv-4g-5wF">
                             <connections>
                                 <action selector="sendMessageTapped" destination="AgC-eL-Hgc" id="4zh-K9-sS3"/>
+                            </connections>
+                        </button>
+                        <button width="1" alignment="left" title="Send interactive immediate message" id="ceW-dQ-hIe">
+                            <connections>
+                                <action selector="sendInteractiveMessageTapped" destination="AgC-eL-Hgc" id="dnh-qU-0CR"/>
+                            </connections>
+                        </button>
+                        <button width="1" alignment="left" title="Send Guaranteed message" id="vd8-y7-D0c">
+                            <connections>
+                                <action selector="sendGuaranteedMessageTapped" destination="AgC-eL-Hgc" id="aLz-ec-d8f"/>
                             </connections>
                         </button>
                         <button width="1" alignment="left" title="Transfer Blob" id="MNM-Be-K34">
@@ -32,6 +40,7 @@
                     </items>
                 </controller>
             </objects>
+            <point key="canvasLocation" x="34" y="98"/>
         </scene>
     </scenes>
 </document>

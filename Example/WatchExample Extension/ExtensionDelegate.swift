@@ -11,102 +11,62 @@ import ClockKit
 import Communicator
 
 class ExtensionDelegate: NSObject, WKExtensionDelegate {
-
-    // MARK: - Properties -
-    // MARK: Fileprivate
-    
-    fileprivate var watchConnectivityTask: WKWatchConnectivityRefreshBackgroundTask? {
-        didSet {
-            print("watchConnectivityTask set")
-            oldValue?.setTaskCompleted()
-        }
-    }
     
     // MARK: - WKExtensionDelegate -
     
     func applicationDidFinishLaunching() {
-        setupObservers()
+        NSHomeDirectory()
+        setupObservations()
     }
     
     func handle(_ backgroundTasks: Set<WKRefreshBackgroundTask>) {
         for task in backgroundTasks {
             switch task {
-            case let task as WKApplicationRefreshBackgroundTask:
-                task.setTaskCompleted()
-            case let task as WKSnapshotRefreshBackgroundTask:
-                task.setTaskCompleted(restoredDefaultState: false, estimatedSnapshotExpiration: .distantFuture, userInfo: nil)
-            case let task as WKURLSessionRefreshBackgroundTask:
-                task.setTaskCompleted()
-            case let task as WKWatchConnectivityRefreshBackgroundTask:
-                watchConnectivityTask = task
-            default:
-                assertionFailure("Unhandled task!")
-                task.setTaskCompleted()
+                case let task as WKWatchConnectivityRefreshBackgroundTask:
+                    Communicator.shared.task = task // Let Communicator handle the task!
+                default: task.setTaskCompletedWithSnapshot(false)
             }
         }
     }
-
+    
 }
 
 private extension ExtensionDelegate {
     
-    func setupObservers() {
-        setupActivationStateChangedObservers()
-        setupReachabilityChangedObservers()
-        setupMessageReceivedObservers()
-        setupBlobReceivedObservers()
-        setupContextUpdatedObservers()
-        setupComplicationInfoObservers()
-    }
-    private func setupActivationStateChangedObservers() {
-        Communicator.shared.activationStateChangedObservers.add { state in
+    func setupObservations() {
+        Communicator.State.observe { state in
             print("Activation state changed: ", state)
         }
-    }
-    
-    private func setupReachabilityChangedObservers() {
-        Communicator.shared.reachabilityChangedObservers.add { reachability in
+        Reachability.observe { reachability in
             print("Reachability changed:", reachability)
         }
-    }
-    
-    private func setupMessageReceivedObservers() {
-        Communicator.shared.immediateMessageReceivedObservers.add { message in
-            print("Received message: ", message.identifier)
-            message.replyHandler?(["Replied!" : "Message"])
-            self.endWatchConnectivityBackgroundTaskIfNecessary()
+        InteractiveImmediateMessage.observe { interactiveMessage in
+            print("Received interactive message: ", interactiveMessage)
+            let reply = ImmediateMessage(identifier: "reply")
+            interactiveMessage.reply(reply)
         }
-    }
-    
-    private func setupBlobReceivedObservers() {
-        Communicator.shared.blobReceivedObservers.add { blob in
-            print("Received blob: ", blob.identifier)
-            self.endWatchConnectivityBackgroundTaskIfNecessary()
+        ImmediateMessage.observe { immediateMessage in
+            print("Received immediate message: ", immediateMessage)
         }
-    }
-    
-    private func setupContextUpdatedObservers() {
-        Communicator.shared.contextUpdatedObservers.add { context in
+        GuaranteedMessage.observe { guaranteedMessage in
+            print("Received guaranteed message: ", guaranteedMessage)
+        }
+        Blob.observe { blob in
+            print("Received blob: ", blob)
+        }
+        Context.observe { context in
             print("Received context: ", context)
-            self.endWatchConnectivityBackgroundTaskIfNecessary()
         }
-    }
-    
-    private func setupComplicationInfoObservers() {
-        Communicator.shared.complicationInfoReceivedObservers.add { complicationInfo in
+        ComplicationInfo.observe { complicationInfo in
             print("Received complication info: ", complicationInfo)
-            CLKComplicationServer.sharedInstance().activeComplications?.forEach {
-                CLKComplicationServer.sharedInstance().reloadTimeline(for: $0)
-            }
-            self.endWatchConnectivityBackgroundTaskIfNecessary()
+            self.reloadAllComplications()
         }
     }
     
-    private func endWatchConnectivityBackgroundTaskIfNecessary() {
-        // First check we're not expecting more data
-        guard !Communicator.shared.hasPendingDataToBeReceived else { return }
-        // And then end the task (if there is one!)
-        self.watchConnectivityTask?.setTaskCompleted()
+    private func reloadAllComplications() {
+        CLKComplicationServer.sharedInstance().activeComplications?.forEach {
+            CLKComplicationServer.sharedInstance().reloadTimeline(for: $0)
+        }
     }
     
 }

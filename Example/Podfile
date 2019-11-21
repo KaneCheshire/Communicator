@@ -5,11 +5,7 @@ target 'Communicator_Example' do
 
   target 'Communicator_Tests' do
     inherit! :search_paths
-
-    
   end
-  
-
 end
 
 target 'WatchExample Extension' do

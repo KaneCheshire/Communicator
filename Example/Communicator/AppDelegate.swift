@@ -15,7 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        setupObservers()
+        setupObservations()
         return true
     }
 
@@ -23,48 +23,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 private extension AppDelegate {
     
-    func setupObservers() {
-        setupActivationStateChangedObservers()
-        setupWatchStateChangedObservers()
-        setupReachabilityChangedObservers()
-        setupMessageReceivedObservers()
-        setupBlobReceivedObservers()
-        setupContextUpdatedObservers()
-    }
-    
-    private func setupActivationStateChangedObservers() {
-        Communicator.shared.activationStateChangedObservers.add { state in
+    func setupObservations() {
+        Communicator.State.observe { state in
             print("Activation state changed: ", state)
         }
-    }
-    
-    private func setupWatchStateChangedObservers() {
-        Communicator.shared.watchStateUpdatedObservers.add { watchState in
-           print("Watch state changed: ", watchState)
+        WatchState.observe { watchState in
+            print("Watch state changed: ", watchState)
         }
-    }
-    
-    private func setupReachabilityChangedObservers() {
-        Communicator.shared.reachabilityChangedObservers.add { reachability in
-            print("Reachability changed: ", reachability)
+        Reachability.observe { reachability in
+            print("Reachability changed:", reachability)
         }
-    }
-    
-    private func setupMessageReceivedObservers() {
-        Communicator.shared.immediateMessageReceivedObservers.add { message in
-            print("Received message: ", message.identifier)
-            message.replyHandler?(["Reply" : "Message"])
+        InteractiveImmediateMessage.observe { interactiveMessage in
+            print("Received interactive message: ", interactiveMessage)
+            let reply = ImmediateMessage(identifier: "reply")
+            interactiveMessage.reply(reply)
         }
-    }
-    
-    private func setupBlobReceivedObservers() {
-        Communicator.shared.blobReceivedObservers.add { blob in
-            print("Received blob: ", blob.identifier)
+        ImmediateMessage.observe { immediateMessage in
+            print("Received immediate message: ", immediateMessage)
         }
-    }
-    
-    private func setupContextUpdatedObservers() {
-        Communicator.shared.contextUpdatedObservers.add { context in
+        GuaranteedMessage.observe { guaranteedMessage in
+            print("Received guaranteed message: ", guaranteedMessage)
+        }
+        Blob.observe { blob in
+            print("Received blob: ", blob)
+        }
+        Context.observe { context in
             print("Received context: ", context)
         }
     }

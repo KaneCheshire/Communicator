@@ -12,28 +12,46 @@ import Communicator
 class InterfaceController: WKInterfaceController {
     
     @IBAction func sendMessageTapped() {
-        let message = ImmediateMessage(identifier: "message", content: ["hello" : "world"], replyHandler: { replyJSON in
-            print("Received reply from message: \(replyJSON)")
-        })
-        try? Communicator.shared.send(immediateMessage: message)
+        let message = ImmediateMessage(identifier: "message", content: ["hello": "world"])
+        Communicator.shared.send(message)
+    }
+    
+    @IBAction func sendInteractiveMessageTapped() {
+        let message = InteractiveImmediateMessage(identifier: "interactive_message", content: ["hello": "world"]) { reply in
+            print("Received reply from message: \(reply)")
+        }
+        Communicator.shared.send(message)
+    }
+    
+    @IBAction func sendGuaranteedMessageTapped() {
+        let message = GuaranteedMessage(identifier: "guaranteed_message", content: ["hello": "world"])
+        Communicator.shared.send(message) { result in
+           switch result {
+                case .failure(let error):
+                    print("Error transferring blob: \(error.localizedDescription)")
+                case .success:
+                    print("Successfully transferred guaranteed message to phone")
+            }
+        }
     }
     
     @IBAction func transferBlobTapped() {
-        let data = "hello world".data(using: .utf8) ?? Data()
-        let blob = Blob(identifier: "blob", content: data, completionHandler: { error in
-            if let error = error {
-                print("Error transferring blob: \(error.localizedDescription)")
-            } else {
-                print("Successfully transferred blob to phone")
+        let data = Data("hello world".utf8)
+        let blob = Blob(identifier: "blob", content: data)
+        Communicator.shared.transfer(blob) { result in
+            switch result {
+                case .failure(let error):
+                    print("Error transferring blob: \(error.localizedDescription)")
+                case .success:
+                    print("Successfully transferred blob to phone")
             }
-        })
-        try? Communicator.shared.transfer(blob: blob)
+        }
     }
     
     @IBAction func syncContextTapped() {
         let context = Context(content: ["hello" : "world"])
         do {
-            try Communicator.shared.sync(context: context)
+            try Communicator.shared.sync(context)
             print("Synced context to phone")
         } catch let error {
             print("Error syncing context to phone: \(error.localizedDescription)")
