@@ -15,6 +15,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     // MARK: - WKExtensionDelegate -
     
     func applicationDidFinishLaunching() {
+        NSHomeDirectory()
         setupObservations()
     }
     

@@ -17,9 +17,20 @@ import WatchConnectivity
 /// You can observe changes to `WatchState`s by calling `WatchState.observe {}`
 public enum WatchState {
     
-    /// Represnts the state of your watch app on the user's watch.
+    /// The user has a paired Apple Watch. This case also provides the `AppState`, which will tell you if your watch app and any complications are installed.
+    case paired(AppState)
+    /// The user has no paired Apple Watch.
+    case notPaired
+    
+    /// Represents the state of your watch app on the user's watch.
     /// i.e. either installed or not installed.
     public enum AppState {
+        
+        /// Your watch app is installed on the active watch. This case also provides the complication state and a watch specific URL.
+        /// The `WatchSpecificURL` may be nil if the session state is inactive.
+        case installed(ComplicationState, WatchSpecificLocalURL?)
+        /// Your watch app is not installed on the active watch.
+        case notInstalled
         
         /// Represents the state of your complications on the users current watch face.
         /// i.e.  enabled or not enabled. This can change as the user changes watch faces.
@@ -42,18 +53,7 @@ public enum WatchState {
         /// so you know when to send initial content for any new paired watches.
         public typealias WatchSpecificLocalURL = URL
         
-        /// Your watch app is installed on the active watch. This case also provides the complication state and a watch specific URL.
-        /// The WatchSpecificURL may be nil if the session state is inactive.
-        case installed(ComplicationState, WatchSpecificLocalURL?)
-        /// Your watch app is not installed on the active watch.
-        case notInstalled
-        
     }
-    
-    /// The user has a paired Apple Watch. This case also provides the AppState, which will tell you if your watch app and any complications are installed.
-    case paired(AppState)
-    /// The user has no paired Apple Watch.
-    case notPaired
     
 }
 
