@@ -12,8 +12,12 @@
 - Moved completion handler from `Blob` init to `Communicator.transfer(Blob)`.
 - Moved the error handler from `ImmediateMessage` to `Communicator.send(ImmediateMessage)`
 - Added completion handlers when sending `GuaranteedMessage`s and `ComplicationInfo`s.
+- Added new `InteractiveImmediateMessage` which has a reply handler, removing the optional reply handler from `ImmediateMessage` all together.
+- Replies in interactive messages now expect an `ImmediateMessage` rather than just a JSON file.
+- Support for sending messages with just an identifier and empty content, with default values for their inits.
+- Support for cancelling `GuaranteedMessage`s, `ComplicationInfo`s and `Blobs`s.
 - Renamed `JSONDictionary` to `Content`.
-- Removed `sessionIsNotActive` error.
+- Removed `sessionIsNotActive` error, reachability is used instead now.
 - Removed `throws` from most functions, now errors are reported more consistently in the completion handler where possible.
 - Added support for automatically ending `WKWatchConnectivityRefreshBackgroundTask`s.
 - `Reachability` is now reported at more opportunities, like when the user switches watches.
@@ -21,10 +25,6 @@
 - Fixed `Communicator` from trying to re-activate the session immediately after it activated, which caused `WatchConnectivity` to log an error.
 - To observe changes, you now call `observe` on the type you want to observe, i.e. `GuaranteedMessage.observe { message in }`
 - Removed dependency on `TABObserverSet`.
-- Added new `InteractiveImmediateMessage` which has a reply handler, removing the optional reply handler from `ImmediateMessage` all together.
-- Replies in interactive messages now expect an `ImmediateMessage` rather than just a JSON file.
-- Support for sending messages with just an identifier and empty content, with default values for their inits.
-- Support for cancelling `GuaranteedMessage`s, `ComplicationInfo`s and `Blobs`s.
 - `WatchState` is now an enum rather than a struct.
 - When observing changes you can now choose which `DispatchQueue` the handler is called on, which defaults to a special `communicator` queue off the main thread.
 
