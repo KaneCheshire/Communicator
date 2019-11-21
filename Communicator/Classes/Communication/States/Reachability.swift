@@ -7,7 +7,9 @@
 
 import Foundation
 
-/// Represents the current reachability of the counteroart app..
+/// Represents the current reachability of the counteroart app.
+///
+/// You can observe changes to `Reachability`s by calling `Reachability.observe {}`
 ///
 /// - notReachable: The counterpart app is not reachable at all.
 /// - backgroundOnly: The counterpart app is reachable but only for background messaging types. (i.e Blobs, GuaranteedMessages, Contexts and ComplicationInfos)

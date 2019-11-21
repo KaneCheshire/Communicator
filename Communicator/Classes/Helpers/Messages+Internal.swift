@@ -58,3 +58,15 @@ extension ImmediateMessage {
 }
 
 extension ImmediateMessage: ContentPackagable {}
+
+extension InteractiveImmediateMessage {
+    
+    init?(content: Content, reply: @escaping Reply) {
+        guard let identifier = content["identifier"] as? String else { return nil }
+        guard let content = content["content"] as? Content else { return nil }
+        self.init(identifier: identifier, content: content, reply: reply)
+    }
+    
+}
+
+extension InteractiveImmediateMessage: ContentPackagable {}

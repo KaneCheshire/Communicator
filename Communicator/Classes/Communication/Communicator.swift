@@ -35,28 +35,47 @@ public final class Communicator: NSObject {
     /// The shared communicaator object.
     public static let shared = Communicator()
     
+    /// The current `State` of `Communicator`, i.e. active or inactive.
+    /// After becoming active, can change when a user unpairs their
+    /// watch or switch watches.
+    ///
+    /// Generally you will care more about the `currentReachability` rather than the state.
+    ///
+    /// You can observe changes to the `State` by calling `Communicator.State.observe {}`
     public var currentState: State {
         return State(session: session.activationState)
     }
     
+    /// The current `Reachability` of `Communicator`.
+    /// The current reachability determines what type of communication can
+    /// occur, i.e. immediate messaging or background messaging only.
+    ///
+    /// You can observe changes to the `Reachability` by calling `Reachability.observe {}`
     public var currentReachability: Reachability {
         return Reachability(session: session)
     }
     
-    /// This can be queried for the latest Context that has been received on this device.
-    /// The Context may have empty content if no Context has been received from 
+    /// This can be queried for the latest `Context` that has been _received_ on this device.
+    /// The `Context` may have empty content if no Context has been received from
     /// the counterpart.
+    ///
+    /// You can observe `Context` updates by calling `Context.observe {}`
+    ///
+    /// You can also query the most recently _sent_ context.
     public var mostRecentlyReceievedContext: Context {
         return Context(content: session.receivedApplicationContext)
     }
     
-    /// This can be queried for the latest Context that has been sent by this device.
-    /// The Context may have empty content if no Context has been sent from this device.
+    /// This can be queried for the latest `Context` that has been _sent_ by this device.
+    /// The Context may have empty content if no `Context` has been sent from this device.
+    ///
+    /// You can also query the most recently _received_ context.``
     public var mostRecentlySentContext: Context {
         return Context(content: session.applicationContext)
     }
     
     /// Whether the underlying session still has data to send you.
+    /// This could be true if the underlying session still has pending `Blob`s, `GuaranteedMessage`s, `Context`s or `ComplicationInfo`s.
     public var hasPendingDataToBeReceived: Bool {
         return session.hasContentPending
     }
@@ -64,6 +83,8 @@ public final class Communicator: NSObject {
     #if os(iOS)
     
     /// Can be queried to return the current watch state, i.e. whether it's paired etc.
+    ///
+    /// You can observe changes to the `WatchState` by calling `WatchState.observe {}`
     public var currentWatchState: WatchState {
         return WatchState(session: session)
     }
@@ -72,8 +93,9 @@ public final class Communicator: NSObject {
     
     #if os(watchOS)
     
-    /// If set, this task will automatically be ended when any background data has finished been received.
-    /// You must set this from your ExtensionDelegate when you receive one from the system.
+    /// If set, `Communicator` will automatically end this task when all background data has finished being received.
+    /// You _must_ set this from your `ExtensionDelegate` when you receive one from the system, `Communicator` cannot
+    /// automaticdally detect them.
     public var task: WKWatchConnectivityRefreshBackgroundTask?
     
     #endif
@@ -89,11 +111,13 @@ public final class Communicator: NSObject {
     
     /// Sends a message immediately to the counterpart app.
     ///
-    /// If an error occurs after the ImmediateMessage transfer is attempted, the error handler
-    /// will be called, if there is one provided.
-    /// Do not use ImmediateMessage for sending large amounts of data, transfer a Blob instead.
+    /// If an error occurs after the `ImmediateMessage` transfer is attempted, the error handler
+    /// will be called.
+    /// Do not use `ImmediateMessage` for sending large amounts of data, transfer a `Blob` instead.
     ///
-    /// The current reachability must be .immediatelyReachable.
+    /// The current reachability _must_ be `.mmediatelyReachable.`
+    ///
+    /// You can observe received `ImmediateMessage`s by calling `ImmediateMessage.observe {}`
     ///
     /// - Parameter immediateMessage: The message to send immediately to the counterpart app.
     /// - Parameter errorHandler: An optional error handler that is called upon failure for any reason.
@@ -105,13 +129,15 @@ public final class Communicator: NSObject {
         session.sendMessage(immediateMessage.jsonRepresentation(), replyHandler: nil, errorHandler: errorHandler)
     }
     
-    /// Sends an interactive message immediately. Interactive messages have a reply handler that is executed on the receiving end.
+    /// Sends an interactive message immediately. Interactive messages have a reply handler that must be executed on the receiving end.
     ///
-    /// If an error occurs after the InteractiveImmediateMessage transfer is attempted, the error handler
-    /// will be called, if there is one provided.
-    /// Do not use InteractiveImmediateMessage for sending large amounts of data, transfer a Blob instead.
+    /// If an error occurs after the `InteractiveImmediateMessage` transfer is attempted, the error handler
+    /// will be called.
+    /// Do not use `InteractiveImmediateMessage` for sending large amounts of data, transfer a `Blob` instead.
     ///
-    /// The current reachability must be .immediatelyReachable.
+    /// The current reachability _must_ be `.immediatelyReachable.`
+    ///
+    /// You can observe received `InteractiveImmediateMessage`s by calling `InteractiveImmediateMessage.observe {}`
     ///
     /// - Parameters:
     ///   - interactiveImmediateMessage: The interactive message to send immediately to the counterpart app.
@@ -128,18 +154,19 @@ public final class Communicator: NSObject {
     }
     
     /// Sends a guaranteed message to the counterpart app.
-    /// GuaranteedMessages do not require the counterpart app to be reachable, as the system sends them at an "opportune" time.
-    /// GuaranteedMessages are queued and delivered to the counterpart in the order they were
-    /// queued.
-    /// This means that you may get a stream of these messages after your app is launched.
+    /// `GuaranteedMessages` do _not_ require the counterpart app to be immediately reachable, as the system sends them at an "opportune" time.
+    /// `GuaranteedMessages` are queued and delivered to the counterpart in the order they were
+    /// queued. This means that you may get a stream of these messages after your app is launched.
     ///
-    /// Do not use GuaranteedMessages for sending large amounts of data, transfer a Blob instead.
+    /// Do not use `GuaranteedMessage` for sending large amounts of data, transfer a `Blob` instead.
     ///
-    /// The current reachability must not be .notReachable.
+    /// The current reachability _must not_ be `.notReachable.`
     ///
-    /// This function returns a cancellable object that you can use to cancel the transfer before it is complete.
+    /// This function returns a `Cancellable` object that you can use to cancel the transfer before it is complete.
     ///
-    /// - Parameter guaranteedMessage: The GuaranteedMessages to queue and send to the counterpart app.
+    /// You can observe received `GuaranteedMessage`s by calling `GuaranteedMessage.observe {}`
+    ///
+    /// - Parameter guaranteedMessage: The `GuaranteedMessage` to queue and send to the counterpart app.
     /// - Parameter completion: An optional completion handler that is executed when the transfer fails or succeeds.
     @discardableResult
     public func send(_ guaranteedMessage: GuaranteedMessage, completion: GuaranteedMessage.Completion? = nil) -> Cancellable? {
@@ -152,19 +179,21 @@ public final class Communicator: NSObject {
         return transfer
     }
     
-    /// Transfers a Blob to the counterpart app.
-    /// Blobs are better suited for sending large amounts of data.
-    /// The system will continue to send this data after the sending device exits if
+    /// Transfers a `Blob` to the counterpart app.
+    /// `Blob`s are better suited for sending large amounts of data.
+    /// The system will continue to send this data after the app on the sending device exits if
     /// necessary.
     ///
-    /// The system can throttle Blob transfers if needed, so transfer speeds
+    /// The system can throttle `Blob` transfers if needed, so transfer speeds
     /// are not guaranteed.
     ///
-    /// The current reachability must not be .notReachable.
+    /// The current reachability _must not_ be `.notReachable.`
     ///
-    /// This function returns a cancellable object that you can use to cancel the transfer before it is complete.
+    /// This function returns a `Cancellable` object that you can use to cancel the transfer before it is complete.
     ///
-    /// - Parameter blob: The Blob to transfer.
+    /// You can observe received `Blob`s by calling `Blob.observe {}`
+    ///
+    /// - Parameter blob: The `Blob` to transfer.
     /// - Parameter completion: An optional handler that is called when the transfer completes or fails.
     @discardableResult
     public func transfer(_ blob: Blob, completion: Blob.Completion? = nil) -> Cancellable? {
@@ -186,15 +215,18 @@ public final class Communicator: NSObject {
         }
     }
     
-    /// Syncs a Context with the counterpart app. Contexts are lightweight and should not be used for messaging
+    /// Syncs a `Context` with the counterpart app. Contexts are lightweight and should _not_ be used for messaging
     /// or transferring large amounts of data.
-    /// Contexts are perfect for syncing things like preferences. You can query the latest Context at any time
-    /// with the`mostRecentlyReceievedContext` and `mostRecentlySentContext` properties of the shared
-    /// Communicator object.
     ///
-    /// If an error occurs before syncing the context, this function will throw an error.
+    /// `Context`s are perfect for syncing things like preferences. You can query the latest `Context` at any time
+    /// with the`mostRecentlyReceievedContext` and `mostRecentlySentContext` properties of the `shared`
+    /// `Communicator` object in each app.
     ///
-    /// The current reachability must not be .notReachable.
+    /// If an error occurs before syncing the `Context`, this function will `throw` an error.
+    ///
+    /// The current reachability _must not_ be `.notReachable.`
+    ///
+    /// You can observe received `Context`s by calling `Context.observe {}`
     ///
     /// - Parameter context: The Context to sync with the counterpart app.
     public func sync(_ context: Context) throws {
@@ -206,20 +238,25 @@ public final class Communicator: NSObject {
     
     #if os(iOS)
     
-    /// Starts the transfer of a ComplicationInfo to a watchOS app. If the watchOS app is reachable
-    /// and the per-day limit of sending ComplicationInfo has not been reached, this method wakes
-    /// up your watchOS app in the background to process it. 
+    /// Starts the transfer of a `ComplicationInfo` to the watchOS app.
     ///
-    /// If the limit for sending ComplicationInfo updates has been reached, the system queues the transfer
-    /// and will deliver it when the app is next brought into the foreground or when the per-day count
+    /// If the watchOS app is reachable and the per-day limit of sending `ComplicationInfo` has not been reached,
+    /// this method wakes up your watchOS app in the background to process it.
+    ///
+    /// At least one complication must be added to the active watch face to be able to wake up your watchOS app in the background.
+    ///
+    /// If the daily limit for sending `ComplicationInfo` updates has been reached, the system queues the transfer
+    /// and will deliver it when the app is next able to process it, or when the per-day count
     /// gets reset.
     ///
     /// You can query the remaining number of transfers available for the day by
-    /// checking the currentWatchState property.
+    /// checking the `currentWatchState` property.
     ///
-    /// The current reachability must not be .notReachable.
+    /// The current reachability _must not_ be `.notReachable.`
     ///
-    /// This function returns a cancellable object that you can use to cancel the transfer before it is complete.
+    /// This function returns a `Cancellable` object that you can use to cancel the transfer before it is complete.
+    ///
+    /// You can observe received `ComplicationInfo`s by calling `ComplicationInfo.observe {}` anywhere in your watchOS app.
     ///
     /// - Parameter complicationInfo: The ComplicationInfo to transfer.
     /// - Parameter completion: An optional handler that is called when the transfer completes or fails. If the transfer succeeds, you are passed the number of updates remaining for today as an `Int`.

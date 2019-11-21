@@ -13,6 +13,8 @@ import WatchConnectivity
 
 /// Represents the current state of the user's Apple Watch (or multiple Apple Watches if they have more than one paired).
 /// i.e. paired or not paired.
+///
+/// You can observe changes to `WatchState`s by calling `WatchState.observe {}`
 public enum WatchState {
     
     /// Represnts the state of your watch app on the user's watch.
