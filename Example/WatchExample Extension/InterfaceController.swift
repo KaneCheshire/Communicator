@@ -12,14 +12,19 @@ import Communicator
 class InterfaceController: WKInterfaceController {
     
     @IBAction func sendMessageTapped() {
-        let message = InteractiveImmediateMessage(identifier: "message") { reply in
+        let message = ImmediateMessage(identifier: "message", content: ["hello": "world"])
+        Communicator.shared.send(message)
+    }
+    
+    @IBAction func sendInteractiveMessageTapped() {
+        let message = InteractiveImmediateMessage(identifier: "interactive_message", content: ["hello": "world"]) { reply in
             print("Received reply from message: \(reply)")
         }
         Communicator.shared.send(message)
     }
     
     @IBAction func sendGuaranteedMessageTapped() {
-        let message = GuaranteedMessage(identifier: "guaranteed message")
+        let message = GuaranteedMessage(identifier: "guaranteed_message", content: ["hello": "world"])
         Communicator.shared.send(message) { result in
            switch result {
                 case .failure(let error):

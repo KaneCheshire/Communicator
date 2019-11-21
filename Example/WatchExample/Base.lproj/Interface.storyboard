@@ -17,6 +17,11 @@
                                 <action selector="sendMessageTapped" destination="AgC-eL-Hgc" id="4zh-K9-sS3"/>
                             </connections>
                         </button>
+                        <button width="1" alignment="left" title="Send interactive immediate message" id="ceW-dQ-hIe">
+                            <connections>
+                                <action selector="sendInteractiveMessageTapped" destination="AgC-eL-Hgc" id="dnh-qU-0CR"/>
+                            </connections>
+                        </button>
                         <button width="1" alignment="left" title="Send Guaranteed message" id="vd8-y7-D0c">
                             <connections>
                                 <action selector="sendGuaranteedMessageTapped" destination="AgC-eL-Hgc" id="aLz-ec-d8f"/>

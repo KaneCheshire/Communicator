@@ -20,38 +20,45 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="9Fe-9A-TGD">
-                                <rect key="frame" x="96" y="210.5" width="183" height="246"/>
+                                <rect key="frame" x="61.5" y="183.5" width="252" height="300"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g4p-c4-JhH">
-                                        <rect key="frame" x="3" y="0.0" width="177" height="30"/>
+                                        <rect key="frame" x="37.5" y="0.0" width="177" height="30"/>
                                         <state key="normal" title="Send immediate message"/>
                                         <connections>
                                             <action selector="sendMessageTapped" destination="vXZ-lx-hvc" eventType="touchUpInside" id="cMD-8l-p8E"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZBB-93-1g5">
+                                        <rect key="frame" x="0.0" y="54" width="252" height="30"/>
+                                        <state key="normal" title="Send interactive immediate message"/>
+                                        <connections>
+                                            <action selector="sendInteractiveMessageTapped" destination="vXZ-lx-hvc" eventType="touchUpInside" id="LDz-WX-BIl"/>
+                                        </connections>
+                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6BQ-io-zaD">
-                                        <rect key="frame" x="0.0" y="54" width="183" height="30"/>
+                                        <rect key="frame" x="34.5" y="108" width="183" height="30"/>
                                         <state key="normal" title="Send guaranteed message"/>
                                         <connections>
                                             <action selector="sendGuaranteedMessageTapped" destination="vXZ-lx-hvc" eventType="touchUpInside" id="6vw-nj-Ep7"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Nf-Ge-lD1">
-                                        <rect key="frame" x="46" y="108" width="91" height="30"/>
+                                        <rect key="frame" x="80.5" y="162" width="91" height="30"/>
                                         <state key="normal" title="Transfer blob"/>
                                         <connections>
                                             <action selector="transferBlobTapped" destination="vXZ-lx-hvc" eventType="touchUpInside" id="CTv-eQ-a3b"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zop-3c-FNF">
-                                        <rect key="frame" x="46.5" y="162" width="90" height="30"/>
+                                        <rect key="frame" x="81" y="216" width="90" height="30"/>
                                         <state key="normal" title="Sync context"/>
                                         <connections>
                                             <action selector="syncContextTapped" destination="vXZ-lx-hvc" eventType="touchUpInside" id="pt8-tX-Eib"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tj7-H2-Bl7">
-                                        <rect key="frame" x="2.5" y="216" width="178" height="30"/>
+                                        <rect key="frame" x="37" y="270" width="178" height="30"/>
                                         <state key="normal" title="Transfer complication info"/>
                                         <connections>
                                             <action selector="transferComplicationInfoTapped" destination="vXZ-lx-hvc" eventType="touchUpInside" id="OQt-5a-7J9"/>
