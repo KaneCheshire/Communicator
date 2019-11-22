@@ -93,6 +93,13 @@ public final class Communicator: NSObject {
     
     #if os(watchOS)
     
+    /// Can be queried to return the current watch state, i.e. whether it's paired etc.
+    ///
+    /// You can observe changes to the `WatchState` by calling `WatchState.observe {}`
+    public var currentPHoneState: PhoneState {
+        return PhoneState(session: session)
+    }
+    
     /// If set, `Communicator` will automatically end this task when all background data has finished being received.
     /// You _must_ set this from your `ExtensionDelegate` when you receive one from the system, `Communicator` cannot
     /// automaticdally detect them.

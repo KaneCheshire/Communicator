@@ -114,4 +114,10 @@ extension ComplicationInfo: Observable {
     
 }
 
+extension PhoneState: Observable {
+    
+    public static var observations: Observations<(Self) -> Void>  = .init()
+    
+}
+
 #endif
