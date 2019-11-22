@@ -12,10 +12,10 @@ extension Communicator.State {
     
     init(session: WCSessionActivationState) {
         switch session {
-        case .notActivated: self = .notActivated
-        case .inactive: self = .inactive
-        case .activated: self = .activated
-        @unknown default: self = .inactive
+            case .notActivated: self = .notActivated
+            case .inactive: self = .inactive
+            case .activated: self = .activated
+            @unknown default: self = .inactive
         }
     }
     
@@ -24,10 +24,25 @@ extension Communicator.State {
 public extension Reachability {
     
     init(session: WCSession) {
-        guard session.activationState == .activated && session.isWatchAppInstalled else {
+        guard session.activationState == .activated else {
             self = .notReachable
             return
         }
+        #if os(iOS)
+        guard session.isWatchAppInstalled else {
+            self = .notReachable
+            return
+        }
+        #endif
+        #if os(watchOS)
+        if #available(watchOSApplicationExtension 6.0, *) {
+            guard session.isCompanionAppInstalled else {
+                self = .notReachable
+                return
+            }
+        }
+        #endif
+        
         if session.isReachable {
             self = .immediatelyReachable
         } else {
@@ -70,6 +85,35 @@ extension WatchState.AppState.ComplicationState {
             self = .enabled(numberOfUpdatesAvailableToday: session.remainingComplicationUserInfoTransfers)
         } else {
             self = .notEnabled
+        }
+    }
+    
+}
+
+#endif
+
+#if os(watchOS)
+
+
+extension PhoneState {
+    
+    init(session: WCSession) {
+        self = .paired(.init(session: session))
+    }
+    
+}
+
+extension PhoneState.AppState {
+    
+    init(session: WCSession) {
+        guard #available(watchOSApplicationExtension 6.0, *) else {
+            self = .installed
+            return
+        }
+        if session.isCompanionAppInstalled {
+            self = .installed
+        } else {
+            self = .notInstalled
         }
     }
     
