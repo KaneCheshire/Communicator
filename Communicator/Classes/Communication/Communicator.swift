@@ -35,6 +35,15 @@ public final class Communicator: NSObject {
     /// The shared communicaator object.
     public static let shared = Communicator()
     
+    /// The current `Reachability` of `Communicator`.
+    /// The current reachability determines what type of communication can
+    /// occur, i.e. immediate messaging or background messaging only.
+    ///
+    /// You can observe changes to the `Reachability` by calling `Reachability.observe {}`
+    public var currentReachability: Reachability {
+        return Reachability(session: session)
+    }
+    
     /// The current `State` of `Communicator`, i.e. active or inactive.
     /// After becoming active, can change when a user unpairs their
     /// watch or switch watches.
@@ -44,15 +53,6 @@ public final class Communicator: NSObject {
     /// You can observe changes to the `State` by calling `Communicator.State.observe {}`
     public var currentState: State {
         return State(session: session.activationState)
-    }
-    
-    /// The current `Reachability` of `Communicator`.
-    /// The current reachability determines what type of communication can
-    /// occur, i.e. immediate messaging or background messaging only.
-    ///
-    /// You can observe changes to the `Reachability` by calling `Reachability.observe {}`
-    public var currentReachability: Reachability {
-        return Reachability(session: session)
     }
     
     /// This can be queried for the latest `Context` that has been _received_ on this device.
@@ -96,7 +96,7 @@ public final class Communicator: NSObject {
     /// Can be queried to return the current watch state, i.e. whether it's paired etc.
     ///
     /// You can observe changes to the `WatchState` by calling `WatchState.observe {}`
-    public var currentPHoneState: PhoneState {
+    public var currentPhoneState: PhoneState {
         return PhoneState(session: session)
     }
     

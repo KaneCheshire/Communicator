@@ -27,6 +27,9 @@
 - Removed dependency on `TABObserverSet`.
 - `WatchState` is now an enum rather than a struct.
 - When observing changes you can now choose which `DispatchQueue` the handler is called on, which defaults to a special `communicator` queue off the main thread.
+- Added `PhoneState` that can be observed and queried from the watch
+- Reachability now properly takes into account if the companion app is installed.
+
 
 
 ## 3.3.0
