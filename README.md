@@ -6,7 +6,7 @@
 [![Platform](https://img.shields.io/cocoapods/p/Communicator.svg?style=flat)](http://cocoapods.org/pods/Communicator)
 
 - [Introduction](#introduction)
-- [Introduction](#quick-start)
+- [Quick start](#quick-start)
 - [Usage](#usage)
   - [`Communicator`](#communicator-1)
   - [`ImmediateMessage`](#immediatemessage)
