@@ -1,5 +1,5 @@
 PODS:
-  - Communicator (3.3.0)
+  - Communicator (4.0.0)
 
 DEPENDENCIES:
   - Communicator (from `../`)
@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  Communicator: 427ba04146d356004d756572d1998f18984c60b8
+  Communicator: 06992f950dabd538ae56e674d631ec2084c8e1a9
 
 PODFILE CHECKSUM: 271a8bee557fe8f2ac5e644c195e799e6dfabf12
 

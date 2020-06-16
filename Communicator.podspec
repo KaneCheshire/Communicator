@@ -56,7 +56,7 @@ Pod::Spec.new do |s|
   s.source           = { :git => 'https://github.com/KaneCheshire/Communicator.git', :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/kanecheshire'
   s.platforms = { :ios => "10.0", :watchos => "3.0" }
-  s.source_files = 'Communicator/Classes/**/*'
+  s.source_files = 'Sources/**/*'
   s.frameworks = 'WatchConnectivity'
   s.swift_version = '5.0'
 end
