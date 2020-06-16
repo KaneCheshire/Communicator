@@ -20,6 +20,8 @@
 - [Example](#example)
 - [Requirements](#requirements)
 - [Installation](#installation)
+  - [SPM](#swift-package-manager)
+  - [Cocoapods](#cocoapods)
 - [Author](#author)
 - [License](#license)
 
@@ -465,8 +467,13 @@ Communicator requires iOS 10.0 and newer and watchOS 3.0 and newer.
 
 ## Installation
 
-Communicator is available through [CocoaPods](http://cocoapods.org). To install
-it, simply add the following line to your Podfile and then run `pod install` in Terminal:
+### Swift Package Manager
+
+Communicator supports SPM, simply add HapticGenerator as a package dependency in Xcode 11 or newer.
+
+### Cocoapods
+
+Add the following line to your Podfile and then run `pod install` in Terminal:
 
 ```ruby
 pod "Communicator"
@@ -474,7 +481,7 @@ pod "Communicator"
 
 ## Author
 
-Kane Cheshire, @kanecheshire
+Kane Cheshire, [@kanecheshire](https://twitter.com/kanecheshire)
 
 ## License
 
