@@ -469,7 +469,7 @@ Communicator requires iOS 10.0 and newer and watchOS 3.0 and newer.
 
 ### Swift Package Manager
 
-Communicator supports SPM, simply add HapticGenerator as a package dependency in Xcode 11 or newer.
+Communicator supports SPM, simply add Communicator as a package dependency in Xcode 11 or newer.
 
 ### Cocoapods
 
