@@ -2,6 +2,10 @@
 
 ## Pending
 
+## 4.1.0
+
+- Supports sending metadata along with a `Blob`.
+
 ---
 
 ## 4.0.0

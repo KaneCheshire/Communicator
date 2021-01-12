@@ -115,7 +115,7 @@ final class SessionDelegate: NSObject, WCSessionDelegate {
     func session(_ session: WCSession, didReceive file: WCSessionFile) {
         guard let data = try? Data(contentsOf: file.fileURL) else { return }
         guard let content = NSKeyedUnarchiver.unarchiveObject(with: data) as? [String : Any] else { return }
-        guard let blob = Blob(content: content) else { return }
+        guard let blob = Blob(content: content, metadata: file.metadata) else { return }
         Blob.notifyObservers(blob)
         endBackgroundTaskIfRequired()
     }
