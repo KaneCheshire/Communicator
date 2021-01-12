@@ -22,6 +22,8 @@ public struct Blob {
     public let identifier: String
     /// The content of the `Blob` as pure `Data`.
     public let content: Data
+    /// Optional metadata associated with this `Blob`.
+    public let metadata: Content?
     
     /// Creates a new instance configured with an `identifier`, some data as `content`.
     ///
@@ -29,9 +31,11 @@ public struct Blob {
     ///   - identifier: The identifier of the `Blob`. Your app is responsible
     ///                 for creating and knowing these identifiers.
     ///   - content: The content of the `Blob` as `Data`.
-    public init(identifier: String, content: Data) {
+    ///   - metadata: Optional metadata to transfer along with the raw data.
+    public init(identifier: String, content: Data, metadata: Content? = nil) {
         self.identifier = identifier
         self.content = content
+        self.metadata = metadata
     }
     
 }

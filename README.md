@@ -337,6 +337,21 @@ Blob.observe { blob in
 }
 ```
 
+Additionally, you can also attach some metadata to a `Blob`, by passing in a dictionary of plist values when creating the `Blob`:
+
+```swift
+let metadata = ["DateGenerated": Date()]
+let blobWithMetadata = Blob(identifier: "JourneyHistory", content: data, metadata: metadata)
+```
+
+And then on the receiving device you can query the metadata on the received `Blob`:
+
+```swift
+Blob.observe { blob in
+    print(blob.metadata)
+}
+```
+
 > **NOTE:** On watchOS, receiving a `Blob` while in the background can cause the system to generate a `WKWatchConnectivityRefreshBackgroundTask`. If you assign this to the `Communicator`'s `task` property, `Communicator` will automatically handle ending the task for you at the right time.
 
 The value of `Communicator.currentReachability` must not be `.notReachable` otherwise an error will occur.

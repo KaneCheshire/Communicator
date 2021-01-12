@@ -7,6 +7,7 @@
 //
 
 import WatchKit
+import ClockKit
 
 final class CompDataSource: NSObject, CLKComplicationDataSource {
     func getSupportedTimeTravelDirections(for complication: CLKComplication, withHandler handler: @escaping (CLKComplicationTimeTravelDirections) -> Void) {
