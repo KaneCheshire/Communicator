@@ -9,10 +9,10 @@ import Foundation
 
 extension Blob {
     
-    init?(content: Content) {
+    init?(content: Content, metadata: Content?) {
         guard let identifier = content["identifier"] as? String else { return nil }
         guard let content = content["content"] as? Data else { return nil }
-        self.init(identifier: identifier, content: content)
+        self.init(identifier: identifier, content: content, metadata: metadata)
     }
     
     func dataRepresentation() -> Data {
