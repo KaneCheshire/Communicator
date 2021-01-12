@@ -2,11 +2,11 @@
 
 ## Pending
 
+---
+
 ## 4.1.0
 
 - Supports sending metadata along with a `Blob`.
-
----
 
 ## 4.0.0
 
@@ -33,8 +33,6 @@
 - When observing changes you can now choose which `DispatchQueue` the handler is called on, which defaults to a special `communicator` queue off the main thread.
 - Added `PhoneState` that can be observed and queried from the watch
 - Reachability now properly takes into account if the companion app is installed.
-
-
 
 ## 3.3.0
 
