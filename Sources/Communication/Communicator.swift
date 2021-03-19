@@ -21,18 +21,16 @@ public final class Communicator: NSObject {
         case sessionIsNotReachable(minimumReachability: Reachability, actual: Reachability)
     }
     
-    /// Represents the current state of the communcation session.
+    /// Represents the current state of the communication session.
     ///
     /// - notActivated: The communication has not been activated yet.
     /// - inactive: The communication has been activated but is currently inactive.
     /// - activated: The communication session is activated and usable.
     public enum State {
-        case notActivated
-        case inactive
-        case activated
+        case notActivated, inactive, activated
     }
     
-    /// The shared communicaator object.
+    /// The shared communicator object.
     public static let shared = Communicator()
     
     /// The current `Reachability` of `Communicator`.
@@ -62,7 +60,7 @@ public final class Communicator: NSObject {
     /// You can observe `Context` updates by calling `Context.observe {}`
     ///
     /// You can also query the most recently _sent_ context.
-    public var mostRecentlyReceievedContext: Context {
+    public var mostRecentlyReceivedContext: Context {
         return Context(content: session.receivedApplicationContext)
     }
     
@@ -102,7 +100,7 @@ public final class Communicator: NSObject {
     
     /// If set, `Communicator` will automatically end this task when all background data has finished being received.
     /// You _must_ set this from your `ExtensionDelegate` when you receive one from the system, `Communicator` cannot
-    /// automaticdally detect them.
+    /// automatically detect them.
     public var task: WKWatchConnectivityRefreshBackgroundTask?
     
     #endif
@@ -226,7 +224,7 @@ public final class Communicator: NSObject {
     /// or transferring large amounts of data.
     ///
     /// `Context`s are perfect for syncing things like preferences. You can query the latest `Context` at any time
-    /// with the`mostRecentlyReceievedContext` and `mostRecentlySentContext` properties of the `shared`
+    /// with the`mostRecentlyReceivedContext` and `mostRecentlySentContext` properties of the `shared`
     /// `Communicator` object in each app.
     ///
     /// If an error occurs before syncing the `Context`, this function will `throw` an error.
@@ -279,5 +277,4 @@ public final class Communicator: NSObject {
     }
     
     #endif
-    
 }

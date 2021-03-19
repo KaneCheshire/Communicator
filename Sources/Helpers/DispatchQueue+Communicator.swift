@@ -9,7 +9,6 @@ import Foundation
 
 public extension DispatchQueue {
     
-    static let communicator = DispatchQueue(label: "com.kanecheshire.Communictor", qos: .userInteractive)
-    
+    static let communicator = DispatchQueue(label: "com.kanecheshire.Communicator", qos: .userInteractive)
 }
 
