@@ -11,35 +11,33 @@ public struct Observation: Hashable {
     
     let uuid = UUID()
     let queue: DispatchQueue
-    
 }
 
 public struct Observations<H> {
     
     var store: [Observation: H] = [:]
-    
 }
 
 public protocol Observable {
     
     static var observations: Observations<(Self) -> Void> { get set }
-    
 }
 
 public extension Observable {
     
     @discardableResult
     static func observe(queue: DispatchQueue = .communicator, handler: @escaping (Self) -> Void) -> Observation {
-        _ = Communicator.shared
-        let observeration = Observation(queue: queue)
-        observations.store[observeration] = handler
-        return observeration
+        DispatchQueue.main.async {
+            _ = Communicator.shared
+        }
+        let observation = Observation(queue: queue)
+        observations.store[observation] = handler
+        return observation
     }
     
-    static func unobserve(_ observeration: Observation) {
-        observations.store[observeration] = nil
+    static func unobserve(_ observation: Observation) {
+        observations.store[observation] = nil
     }
-    
 }
 
 extension Observable {
@@ -51,7 +49,6 @@ extension Observable {
             }
         }
     }
-    
 }
 
 extension GuaranteedMessage: Observable {
