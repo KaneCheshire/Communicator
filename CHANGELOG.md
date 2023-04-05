@@ -4,6 +4,10 @@
 
 ---
 
+## 4.1.1
+
+- Fixes #41 (@FelixLisczyk).
+
 ## 4.1.0
 
 - Supports sending metadata along with a `Blob`.
