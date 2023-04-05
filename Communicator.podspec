@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'Communicator'
-  s.version          = '4.1.0'
+  s.version          = '4.1.1'
   s.summary          = 'Communication between iOS and watchOS apps just got a whole lot better.'
 
   s.description      = <<-DESC
