@@ -35,7 +35,7 @@ public extension Reachability {
         }
         #endif
         #if os(watchOS)
-        if #available(watchOSApplicationExtension 6.0, *) {
+        if #available(watchOS 6.0, *) {
             guard session.isCompanionAppInstalled else {
                 self = .notReachable
                 return
@@ -106,7 +106,7 @@ extension PhoneState {
 extension PhoneState.AppState {
     
     init(session: WCSession) {
-        guard #available(watchOSApplicationExtension 6.0, *) else {
+        guard #available(watchOS 6.0, *) else {
             self = .installed
             return
         }

@@ -17,7 +17,7 @@ extension Blob {
     
     func dataRepresentation() -> Data {
         return NSKeyedArchiver.archivedData(withRootObject: ["identifier" : identifier,
-                                                             "content" : content])
+                                                             "content" : content] as [String: Any])
     }
     
 }
