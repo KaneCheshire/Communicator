@@ -376,7 +376,7 @@ let context = Communicator.shared.mostRecentlySentContext
 On the receiving device you listen for new `Context`s:
 
 ```swift
-Content.observe { context in
+Context.observe { context in
   if let shouldShowTotalDistance = context.content["ShowTotalDistance"] as? Bool {
     print("Show total distance setting changed: \(shouldShowTotalDistance)")
   }
