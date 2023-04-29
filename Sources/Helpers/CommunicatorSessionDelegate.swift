@@ -7,7 +7,9 @@
 
 import WatchConnectivity
 
-/// Serves as the WCSessionDelegate to obfuscate the delegate methods.
+/// Serves as the WCSessionDelegate to obfuscate the delegate methods. Added @objc(...) attribute to update the Obj-C interface in a generated ...-Swift.h file and avoid the names conflict.
+
+@objc(CommunicatorSessionDelegate)
 final class SessionDelegate: NSObject, WCSessionDelegate {
     
     let communicator: Communicator
