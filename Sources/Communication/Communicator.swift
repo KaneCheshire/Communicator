@@ -209,12 +209,19 @@ public final class Communicator: NSObject {
             return nil
         }
         let documentsDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-        let urlString = documentsDirectory.appending("/blob.data")
+        let urlString = documentsDirectory.appending("/blob-\(blob.identifier).data")
         let fileURL = URL(fileURLWithPath: urlString)
         do {
             try blob.dataRepresentation().write(to: fileURL)
             let transfer = session.transferFile(fileURL, metadata: blob.metadata)
-            sessionDelegate.blobTransferCompletionHandlers[transfer] = completion
+            sessionDelegate.blobTransferCompletionHandlers[transfer] = { result in
+                do {
+                    try FileManager.default.removeItem(at: fileURL)
+                } catch {
+                    print("deleting \(fileURL.lastPathComponent) failed \(error.localizedDescription)")
+                }
+                completion?(result)
+            }
             return transfer
         } catch {
             completion?(.failure(error))
