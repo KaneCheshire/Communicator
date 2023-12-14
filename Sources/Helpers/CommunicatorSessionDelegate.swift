@@ -132,7 +132,7 @@ final class SessionDelegate: NSObject, WCSessionDelegate {
     private func endBackgroundTaskIfRequired() {
         #if os(watchOS)
         guard !communicator.hasPendingDataToBeReceived else { return }
-        if #available(watchOSApplicationExtension 4.0, *) {
+        if #available(watchOS 4.0, *) {
             communicator.task?.setTaskCompletedWithSnapshot(true)
         } else {
             communicator.task?.setTaskCompleted()
